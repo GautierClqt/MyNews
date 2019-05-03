@@ -53,7 +53,6 @@ public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Liste
 //    }
 
     private void executeHttpRequest() {
-        //new NetworkAsyncTask(this).execute("https://api.github.com/repos/octocat/Hello-World");
         new NetworkAsyncTask(this).execute("https://api.nytimes.com/svc/topstories/v2/science.json?api-key=WftprIljSPh7y8Le0ZmsFjAZAUA9fkkz");
     }
 
@@ -77,7 +76,6 @@ public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Liste
     }
 
     private void updateUIWhenStopingHTTPRequest(String response) {
-        //this.textView.setText("test");
         this.textView.setText(response);
     }
 
