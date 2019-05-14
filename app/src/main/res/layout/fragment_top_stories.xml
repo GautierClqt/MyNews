@@ -9,20 +9,10 @@
     android:orientation="vertical"
     android:background="#EDD9CF">
 
-    <TextView
-        android:id="@+id/fragment_favorite_textview"
-        android:scrollbars="vertical"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_top_stories_recycler"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:text="text"
-        android:textAlignment="center"/>
-
-
-    <Button
-        android:id="@+id/fragment_top_stories_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Clique!" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

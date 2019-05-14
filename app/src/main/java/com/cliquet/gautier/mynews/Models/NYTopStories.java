@@ -7,12 +7,6 @@ import java.util.List;
 
 public class NYTopStories {
 
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("copyright")
-    @Expose
-    private String copyright;
     @SerializedName("section")
     @Expose
     private String section;
@@ -26,21 +20,6 @@ public class NYTopStories {
     @Expose
     private List<Result> results = null;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
 
     public String getSection() {
         return section;
