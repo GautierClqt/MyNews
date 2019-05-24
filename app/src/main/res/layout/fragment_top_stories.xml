@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".controllers.Fragments.TopStoriesFragment"
     android:orientation="vertical"
-    android:background="#EDD9CF">
+    android:background="#CCCCCC">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_top_stories_recycler"

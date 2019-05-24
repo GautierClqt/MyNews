@@ -1,6 +1,7 @@
 package com.cliquet.gautier.mynews.controllers.Fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +14,18 @@ import android.widget.TextView;
 import com.cliquet.gautier.mynews.Models.Multimedium;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.Utils.Utils;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
     private Context mContext;
     private List<Result> mResults;
+    Utils util = new Utils();
 
     RecyclerViewAdapter(Context context, List<Result> results) {
         this.mContext = context;
@@ -38,18 +44,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         String mSection = mResults.get(i).getSection();
         String mSubsection = mResults.get(i).getSubsection();
-        String mDate = mResults.get(i).getPublishedDate();
-        String mTitle = mResults.get(i).getTitle();
-        List<Multimedium> mMultimedium = mResults.get(i).getMultimedia();
-        String multimedium = mMultimedium.get(0).getUrl();
-
         if(!mSubsection.isEmpty()) {
             mSection = mSection + " > " + mSubsection;
         }
+
+        String mDate = mResults.get(i).getPublishedDate();
+        try {
+            mDate = util.simplifyDateFormat(mDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String mTitle = mResults.get(i).getTitle();
+
+        List<Multimedium> mMultimedium = mResults.get(i).getMultimedia();
+        String multimedium;
+        if(mMultimedium.size() != 0) {
+            multimedium = mMultimedium.get(0).getUrl();
+            viewHolder.urlImage.loadUrl(multimedium);
+        }
+        else {
+            viewHolder.urlImage.setVisibility(View.GONE);
+        }
+        
         viewHolder.section.setText(mSection);
         viewHolder.date.setText(mDate);
         viewHolder.title.setText(mTitle);
-        viewHolder.url.loadUrl(multimedium);
+
     }
 
     @Override
@@ -63,7 +84,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView section;
         TextView date;
         TextView title;
-        WebView url;
+        WebView urlImage;
+        WebView urlArticle;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,7 +94,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             section = itemView.findViewById(R.id.layout_item_section_textview);
             date = itemView.findViewById(R.id.layout_item_date_textview);
             title = itemView.findViewById(R.id.layout_item_title_textview);
-            url = itemView.findViewById(R.id.layout_item_image_webview);
+            urlImage = itemView.findViewById(R.id.layout_item_image_webview);
+            urlArticle = itemView.findViewById(R.id.layout_item_article_webview);
         }
     }
 }
