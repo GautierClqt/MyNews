@@ -19,9 +19,9 @@ public class Result {
     @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("published_date")
+    @SerializedName("updated_date")
     @Expose
-    private String publishedDate;
+    private String updatedDate;
     @SerializedName("multimedia")
     @Expose
     private List<Multimedium> multimedia = null;
@@ -55,11 +55,11 @@ public class Result {
         this.url = url;
     }
 
-    public String getPublishedDate() {
-        return publishedDate;
+    public String getUpdatedDate() {
+        return updatedDate;
     }
-    public void setPublishedDate(String publishedDate) {
-        this.publishedDate = publishedDate;
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public List<Multimedium> getMultimedia() {

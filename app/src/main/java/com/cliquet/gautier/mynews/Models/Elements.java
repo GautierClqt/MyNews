@@ -36,7 +36,7 @@ public class Elements {
             sections.add(mResults.get(i).getSection());
             subsections.add(mResults.get(i).getSubsection());
             titles.add(mResults.get(i).getTitle());
-            dates.add(mResults.get(i).getPublishedDate());
+            dates.add(mResults.get(i).getUpdatedDate());
             url.add(mResults.get(i).getUrl());
         }
     }

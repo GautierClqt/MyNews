@@ -1,6 +1,8 @@
 package com.cliquet.gautier.mynews.controllers.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +17,10 @@ import com.cliquet.gautier.mynews.Models.Multimedium;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.Utils;
+import com.cliquet.gautier.mynews.controllers.Activites.ArticlesDisplayActivity;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
-
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
@@ -40,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
         String mSection = mResults.get(i).getSection();
         String mSubsection = mResults.get(i).getSubsection();
@@ -48,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mSection = mSection + " > " + mSubsection;
         }
 
-        String mDate = mResults.get(i).getPublishedDate();
+        String mDate = mResults.get(i).getUpdatedDate();
         try {
             mDate = util.simplifyDateFormat(mDate);
         } catch (ParseException e) {
@@ -71,6 +72,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.date.setText(mDate);
         viewHolder.title.setText(mTitle);
 
+        //When User click on an article a WebView centered activity is called with the article url sent to it
+        final String strUrlArticle = mResults.get(i).getUrl();
+        viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), ArticlesDisplayActivity.class);
+                articleDisplayIntent.putExtra("Url_Article", strUrlArticle);
+                mContext.startActivity(articleDisplayIntent);
+            }
+        });
     }
 
     @Override
