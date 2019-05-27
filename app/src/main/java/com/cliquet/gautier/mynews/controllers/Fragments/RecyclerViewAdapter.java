@@ -2,8 +2,6 @@ package com.cliquet.gautier.mynews.controllers.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +15,7 @@ import com.cliquet.gautier.mynews.Models.Multimedium;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.Utils;
-import com.cliquet.gautier.mynews.controllers.Activites.ArticlesDisplayActivity;
+import com.cliquet.gautier.mynews.controllers.Activities.ArticlesDisplayActivity;
 
 import java.text.ParseException;
 import java.util.List;

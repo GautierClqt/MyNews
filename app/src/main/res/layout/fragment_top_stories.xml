@@ -9,6 +9,12 @@
     android:orientation="vertical"
     android:background="#CCCCCC">
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/fragment_top_stories_search_imageview"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_top_stories_recycler"
         android:layout_width="match_parent"

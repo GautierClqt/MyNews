@@ -1,4 +1,4 @@
-package com.cliquet.gautier.mynews.controllers.Activites;
+package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.cliquet.gautier.mynews.controllers.Activites;
+package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
