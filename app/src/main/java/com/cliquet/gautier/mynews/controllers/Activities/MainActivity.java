@@ -1,14 +1,24 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.cliquet.gautier.mynews.Utils.PageAdapter;
 import com.cliquet.gautier.mynews.R;
 
+import butterknife.BindView;
+
 public class MainActivity extends AppCompatActivity {
+
+//    @BindView(R.id.menu_searchicon_item)
+//    ClipData.Item searchIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +27,23 @@ public class MainActivity extends AppCompatActivity {
 
         //3 - Configure ViewPager
         this.configureViewPagerAndTabs();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_searchicon_item:
+                Intent searchArticleIntent = new Intent(this, SearchArticles.class);
+                startActivity(searchArticleIntent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void configureViewPagerAndTabs() {

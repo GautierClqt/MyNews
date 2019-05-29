@@ -23,14 +23,15 @@ public class SearchArticles extends AppCompatActivity {
         setContentView(R.layout.activity_search_articles);
         ButterKnife.bind(this);
 
-        //usCheckbox.setText("Ok!!!");
-
         usCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (usCheckbox.isChecked()) {
                     businessCheckbox.setChecked(true);
                     usCheckbox.setText("OK!!!!");
+                }
+                else {
+                    usCheckbox.setText("U.S.");
                 }
             }
         });

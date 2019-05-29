@@ -1,6 +1,5 @@
 package com.cliquet.gautier.mynews.controllers.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.cliquet.gautier.mynews.Models.NYTopStories;
 import com.cliquet.gautier.mynews.Models.Result;
@@ -18,7 +16,6 @@ import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Models.Elements;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
-import com.cliquet.gautier.mynews.controllers.Activities.SearchArticles;
 
 import java.util.List;
 
@@ -35,10 +32,6 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     @BindView(R.id.fragment_top_stories_recycler)
     RecyclerView recyclerView;
 
-    //$$$$ -- /!\TEST -- Ne fait pas parti de l'appli final!/!\ --
-    @BindView(R.id.fragment_top_stories_search_imageview)
-    ImageView searchImageView;
-
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
     }
@@ -50,14 +43,6 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
         ButterKnife.bind(this, view);
 
         this.executeHttpRequestWithRetrofit();
-
-        searchImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent searchArticleIntent = new Intent(searchImageView.getContext(), SearchArticles.class);
-                startActivity(searchArticleIntent);
-            }
-        });
 
         return view;
     }
