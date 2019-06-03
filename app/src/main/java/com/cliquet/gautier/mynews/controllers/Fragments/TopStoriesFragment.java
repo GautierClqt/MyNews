@@ -62,7 +62,7 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
     @Override
     public void onResponse(@Nullable NYTopStories mNYTopStories) {
-        //geting all elements from the request and setting Elements object for further use
+        //getting all elements from the request and setting Elements object for further use
         if (mNYTopStories != null) {
             mResults = mNYTopStories.getResults();
             mMultimedium = result.getUrl();

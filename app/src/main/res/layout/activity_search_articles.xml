@@ -1,46 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".controllers.Activities.SearchArticles" >
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/activity_search_articles_politics_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Politics"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/activity_search_articles_US_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="U.S."/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search query term" />
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/activity_search_articles_sports_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sports"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/activity_search_articles_arts_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Arts"/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/activity_search_articles_europe_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Europe"/>
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"/>
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/activity_search_articles_business_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Business"/>
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
-</LinearLayout>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/activity_search_articles_arts_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arts" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/activity_search_articles_business_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Business" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/activity_search_articles_entrepreneurs_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrepreneurs" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/activity_search_articles_politics_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Politics" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/activity_search_articles_sports_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sports" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/activity_search_articles_travel_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Travel" />
+            </android.support.v7.widget.LinearLayoutCompat>
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SEARCH"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</RelativeLayout>

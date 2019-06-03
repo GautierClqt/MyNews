@@ -6,8 +6,8 @@
     android:layout_height="90dp"
     android:orientation="horizontal">
 
-    <WebView
-        android:id="@+id/layout_item_image_webview"
+    <ImageView
+        android:id="@+id/layout_item_image_imageview"
         android:layout_width="80dp"
         android:layout_height="80dp" />
 

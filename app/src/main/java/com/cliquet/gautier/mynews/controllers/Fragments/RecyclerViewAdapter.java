@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cliquet.gautier.mynews.Models.Multimedium;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
@@ -56,11 +58,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         String mTitle = mResults.get(i).getTitle();
 
+        //articles' pictures are fetch here then displayed with Glide
         List<Multimedium> mMultimedium = mResults.get(i).getMultimedia();
         String multimedium;
         if(mMultimedium.size() != 0) {
             multimedium = mMultimedium.get(0).getUrl();
-            viewHolder.urlImage.loadUrl(multimedium);
+            Glide.with(viewHolder.urlImage).load(multimedium).into(viewHolder.urlImage);
         }
         else {
             viewHolder.urlImage.setVisibility(View.GONE);
@@ -70,8 +73,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.date.setText(mDate);
         viewHolder.title.setText(mTitle);
 
-        //When User click on an article a WebView centered activity is called with the article url sent to it
+        //When User click on an article a WebView only activity is called with the article url sent to it
         final String strUrlArticle = mResults.get(i).getUrl();
+
         viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +97,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView section;
         TextView date;
         TextView title;
-        WebView urlImage;
+        ImageView urlImage;
         WebView urlArticle;
 
         ViewHolder(@NonNull View itemView) {
@@ -103,7 +107,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             section = itemView.findViewById(R.id.layout_item_section_textview);
             date = itemView.findViewById(R.id.layout_item_date_textview);
             title = itemView.findViewById(R.id.layout_item_title_textview);
-            urlImage = itemView.findViewById(R.id.layout_item_image_webview);
+            urlImage = itemView.findViewById(R.id.layout_item_image_imageview);
             urlArticle = itemView.findViewById(R.id.layout_item_article_webview);
         }
     }

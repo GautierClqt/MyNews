@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 
 public class SearchArticles extends AppCompatActivity {
 
-    @BindView(R.id.activity_search_articles_US_checkbox)
+    @BindView(R.id.activity_search_articles_politics_checkbox)
     CheckBox usCheckbox;
     @BindView(R.id.activity_search_articles_business_checkbox)
     CheckBox businessCheckbox;
