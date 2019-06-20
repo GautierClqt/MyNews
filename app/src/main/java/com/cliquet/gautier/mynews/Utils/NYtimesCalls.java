@@ -1,12 +1,8 @@
 package com.cliquet.gautier.mynews.Utils;
 
-import android.support.annotation.Nullable;
-
 import com.cliquet.gautier.mynews.Models.NYTopStories;
-import com.cliquet.gautier.mynews.Models.Result;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,12 +26,13 @@ public class NYtimesCalls {
         NYtimesService nYTimesService = NYtimesService.retrofit.create(NYtimesService.class);
 
         //Create the call on the New York Times API
-        Call<NYTopStories> call = nYTimesService.getFollowing(section);
+        Call<NYTopStories> call = nYTimesService.getTopStories(section);
         //start the call
         call.enqueue(new Callback<NYTopStories>() {
             @Override
             public void onResponse(Call<NYTopStories> call, Response<NYTopStories> response) {
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
+                int i =1;
             }
 
             @Override

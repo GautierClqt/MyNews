@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controllers.Activities.SearchArticles" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".controllers.Activities.SearchArticles">
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         android:layout_marginRight="10dp">
 
         <EditText
+            android:id="@+id/activity_search_articles_terms_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search query term" />
@@ -23,18 +24,27 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Spinner
+            <EditText
+                android:id="@+id/activity_search_articles_begindate_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:clickable="true"
+                android:focusable="false"
                 android:layout_marginRight="20dp"
-                android:layout_weight="1"/>
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:hint="@string/begin_date" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <EditText
+                android:id="@+id/activity_search_articles_enddate_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"/>
+                android:clickable="true"
+                android:focusable="false"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:hint="@string/end_date" />
         </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.LinearLayoutCompat
@@ -94,6 +104,7 @@
         </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.AppCompatButton
+            android:id="@+id/activity_search_articles_search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SEARCH"/>
