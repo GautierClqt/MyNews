@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cliquet.gautier.mynews.Models.NYTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Models.Elements;
@@ -61,10 +61,10 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     }
 
     @Override
-    public void onResponse(@Nullable NYTopStories mNYTopStories) {
+    public void onResponse(@Nullable PojoTopStories mPojoTopStories) {
         //getting all elements from the request and setting Elements object for further use
-        if (mNYTopStories != null) {
-            mResults = mNYTopStories.getResults();
+        if (mPojoTopStories != null) {
+            mResults = mPojoTopStories.getResults();
             mMultimedium = result.getUrl();
         }
         elements.setResults(mResults);

@@ -1,6 +1,6 @@
 package com.cliquet.gautier.mynews.Utils;
 
-import com.cliquet.gautier.mynews.Models.NYTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories;
 
 import java.io.IOException;
 
@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface NYtimesService {
     String apiKey = "WftprIljSPh7y8Le0ZmsFjAZAUA9fkkz";
@@ -39,12 +38,15 @@ public interface NYtimesService {
             .build();
 
     @GET("{section}.json")
-    Call<NYTopStories> getTopStories(@Path("section") String section);
+    Call<PojoTopStories> getTopStories(@Path("section") String section);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/topstories/v2/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
+//    @GET("{}.json")
+//    Call<PojoTopStories>
 }
 

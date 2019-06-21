@@ -24,7 +24,7 @@ public class Result {
     private String updatedDate;
     @SerializedName("multimedia")
     @Expose
-    private List<Multimedium> multimedia = null;
+    private List<Multimedia> multimedia = null;
 
 
     public String getSection() {
@@ -62,10 +62,10 @@ public class Result {
         this.updatedDate = updatedDate;
     }
 
-    public List<Multimedium> getMultimedia() {
+    public List<Multimedia> getMultimedia() {
         return multimedia;
     }
-    public void setMultimedia(List<Multimedium> multimedia) {
+    public void setMultimedia(List<Multimedia> multimedia) {
         this.multimedia = multimedia;
     }
 }

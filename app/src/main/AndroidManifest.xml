@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".controllers.Activities.SearchArticles"></activity>
+        <activity android:name=".controllers.Activities.ArticlesSearch"></activity>
+        <activity android:name=".controllers.Activities.QueriesSelection" />
         <activity android:name=".controllers.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,7 +3,7 @@ package com.cliquet.gautier.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Multimedium {
+public class Multimedia {
 
     @SerializedName("url")
     @Expose

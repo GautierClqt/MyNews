@@ -1,25 +1,24 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
+import com.cliquet.gautier.mynews.Models.Response;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchArticles extends AppCompatActivity implements View.OnClickListener {
+public class QueriesSelection extends AppCompatActivity implements View.OnClickListener {
 
     //bindview: terms edditexts
     @BindView(R.id.activity_search_articles_terms_edittext)
@@ -75,10 +74,12 @@ public class SearchArticles extends AppCompatActivity implements View.OnClickLis
     private SharedPreferences preferences;
     private String jsonCheckboxes;
 
+    private PojoArticleSearch mPojoArticleSearch = new PojoArticleSearch();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_articles);
+        setContentView(R.layout.activity_selection_queries);
         ButterKnife.bind(this);
 
         preferences = getPreferences(MODE_PRIVATE);
@@ -131,7 +132,7 @@ public class SearchArticles extends AppCompatActivity implements View.OnClickLis
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        dateDatepickerdialog = new DatePickerDialog(SearchArticles.this, new DatePickerDialog.OnDateSetListener() {
+        dateDatepickerdialog = new DatePickerDialog(QueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String strDateConcatenation;
@@ -179,7 +180,9 @@ public class SearchArticles extends AppCompatActivity implements View.OnClickLis
     private void validateSearchPreferences() {
         preferences.edit().putString("queryterms", queryParamTerms = termsEdittext.getText().toString()).apply();
         preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
-        int TESTTESTTEST = 3;
+
+        Intent searchArticleIntent = new Intent(this, ArticlesSearch.class);
+        startActivity(searchArticleIntent);
     }
 
     //get the id of the clicked checkbox

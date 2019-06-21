@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NYTopStories {
+public class PojoTopStories {
 
     @SerializedName("section")
     @Expose

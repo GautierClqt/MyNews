@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.cliquet.gautier.mynews.Models.Multimedium;
+import com.cliquet.gautier.mynews.Models.Multimedia;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.Utils;
@@ -59,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String mTitle = mResults.get(i).getTitle();
 
         //articles' pictures are fetch here then displayed with Glide
-        List<Multimedium> mMultimedium = mResults.get(i).getMultimedia();
+        List<Multimedia> mMultimedium = mResults.get(i).getMultimedia();
         String multimedium;
         if(mMultimedium.size() != 0) {
             multimedium = mMultimedium.get(0).getUrl();
