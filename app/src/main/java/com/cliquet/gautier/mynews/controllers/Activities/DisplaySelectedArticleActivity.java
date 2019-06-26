@@ -6,7 +6,7 @@ import android.webkit.WebView;
 
 import com.cliquet.gautier.mynews.R;
 
-public class ArticlesDisplayActivity extends AppCompatActivity {
+public class DisplaySelectedArticleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceActivity) {

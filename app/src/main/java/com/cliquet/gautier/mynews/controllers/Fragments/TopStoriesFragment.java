@@ -27,7 +27,7 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     Elements elements = new Elements();
     Result result = new Result();
     List<Result> mResults;
-    String mMultimedium;
+    String mMultimedia;
 
     @BindView(R.id.fragment_top_stories_recycler)
     RecyclerView recyclerView;
@@ -65,7 +65,7 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
         //getting all elements from the request and setting Elements object for further use
         if (mPojoTopStories != null) {
             mResults = mPojoTopStories.getResults();
-            mMultimedium = result.getUrl();
+            mMultimedia = result.getUrl();
         }
         elements.setResults(mResults);
 

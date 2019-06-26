@@ -1,8 +1,10 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
 import com.cliquet.gautier.mynews.Models.PojoTopStories;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,6 +15,11 @@ public class NYtimesCalls {
     //Create a callback
     public interface Callbacks {
         void onResponse(PojoTopStories body);
+        void onFailure();
+    }
+
+    public interface Callbacks2 {
+        void onResponse(PojoArticleSearch body);
         void onFailure();
     }
 
@@ -42,12 +49,26 @@ public class NYtimesCalls {
         });
     }
 
-//    public static void getSearchedArticles(Callback callbacks, Map<String, String> searchQueries) {
-//
-//        final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<>(callbacks);
-//        NYtimesService mNYtimesService = NYtimesService.retrofit.create(NYtimesService.class);
-//        Call<PojoTopStories> call = mNYtimesService.getTopStories(searchQueries);
-//
-//
-//    }
+
+    public static void getSearchedArticles(Callbacks2 callbacks, Map<String, String> searchQueries) {
+
+        final WeakReference<Callbacks2> callbacksWeakReference = new WeakReference<>(callbacks);
+        NYtimesService mNYtimesService = NYtimesService.retrofit.create(NYtimesService.class);
+        Call<PojoArticleSearch> call = mNYtimesService.getArticleSearch(searchQueries);
+
+        call.enqueue(new Callback<PojoArticleSearch>() {
+            @Override
+            public void onResponse(Call<PojoArticleSearch> call, Response<PojoArticleSearch> response) {
+                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PojoArticleSearch> call, Throwable t) {
+                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
+                t.printStackTrace();
+            }
+        });
+
+
+    }
 }

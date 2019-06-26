@@ -24,7 +24,7 @@ public class Docs {
     private List<Multimedia> multimedia = null;
     @SerializedName("headline")
     @Expose
-    private List<Headline> headline = null;
+    private Headline headline = null;
 
     public String getWebUrl() {
         return webUrl;
@@ -66,12 +66,12 @@ public class Docs {
         this.multimedia = multimedia;
     }
 
-    public List<Headline> getHeadline ()
+    public Headline getHeadline ()
     {
         return headline;
     }
 
-    public void setHeadline (List<Headline> headline)
+    public void setHeadline (Headline headline)
     {
         this.headline = headline;
     }

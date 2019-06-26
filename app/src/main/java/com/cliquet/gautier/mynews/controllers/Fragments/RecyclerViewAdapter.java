@@ -14,10 +14,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cliquet.gautier.mynews.Models.Multimedia;
+import com.cliquet.gautier.mynews.Models.Response;
 import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.Utils;
-import com.cliquet.gautier.mynews.controllers.Activities.ArticlesDisplayActivity;
+import com.cliquet.gautier.mynews.controllers.Activities.DisplaySelectedArticleActivity;
 
 import java.text.ParseException;
 import java.util.List;
@@ -25,12 +26,20 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
     private Context mContext;
+
     private List<Result> mResults;
+    private Response mResponse = new Response();
+
     Utils util = new Utils();
 
-    RecyclerViewAdapter(Context context, List<Result> results) {
+    public RecyclerViewAdapter(Context context, List<Result> results) {
         this.mContext = context;
         this.mResults = results;
+    }
+
+    public RecyclerViewAdapter(Context context, Response response){
+        this.mContext = context;
+        this.mResponse = response;
     }
 
     @NonNull
@@ -79,7 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), ArticlesDisplayActivity.class);
+                Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), DisplaySelectedArticleActivity.class);
                 articleDisplayIntent.putExtra("Url_Article", strUrlArticle);
                 mContext.startActivity(articleDisplayIntent);
             }

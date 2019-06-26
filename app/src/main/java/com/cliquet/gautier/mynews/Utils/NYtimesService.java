@@ -1,8 +1,11 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
 import com.cliquet.gautier.mynews.Models.PojoTopStories;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -15,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface NYtimesService {
     String apiKey = "WftprIljSPh7y8Le0ZmsFjAZAUA9fkkz";
@@ -37,16 +41,20 @@ public interface NYtimesService {
             })
             .build();
 
-    @GET("{section}.json")
-    Call<PojoTopStories> getTopStories(@Path("section") String section);
-
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.nytimes.com/svc/topstories/v2/")
+            .baseUrl("https://api.nytimes.com/svc/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-//    @GET("{}.json")
-//    Call<PojoTopStories>
+    //Top Stories call
+    @GET("topstories/v2/{section}.json")
+    Call<PojoTopStories> getTopStories(@Path("section") String section);
+
+    //Search Article API call
+    @GET("search/v2/articlesearch.json")
+    Call<PojoArticleSearch> getArticleSearch(@QueryMap Map<String, String> searchQueries);
+
+
 }
 

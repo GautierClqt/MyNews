@@ -13,20 +13,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
-import com.cliquet.gautier.mynews.Models.Response;
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class QueriesSelection extends AppCompatActivity implements View.OnClickListener {
+public class SearchQueriesSelection extends AppCompatActivity implements View.OnClickListener, NYtimesCalls.Callbacks2 {
 
     //bindview: terms edditexts
     @BindView(R.id.activity_search_articles_terms_edittext)
@@ -82,6 +84,7 @@ public class QueriesSelection extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_selection_queries);
         ButterKnife.bind(this);
 
+        idCheckboxes.add(3);
         preferences = getPreferences(MODE_PRIVATE);
 
         findViewById();
@@ -114,10 +117,15 @@ public class QueriesSelection extends AppCompatActivity implements View.OnClickL
         termsEdittext.setText(getPreferences(MODE_PRIVATE).getString("queryterms", ""));
         beginDateEdittext.setText(getPreferences(MODE_PRIVATE).getString("begindate", ""));
         endDateEdittext.setText(getPreferences(MODE_PRIVATE).getString("enddate", ""));
-//        preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
-        //idCheckboxes = getPreferences(MODE_PRIVATE).getInt("idcheckbox", 0);
+        preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
+//        for(int i = 0; i <= queryParamCheckboxes.size(); i++) {
+//            if (queryParamCheckboxes.get(i).equals(strCheck)) {
+//                queryParamCheckboxes.remove(i);
+//                break;
+//            }
+//        }
+//        idCheckboxes = getPreferences(MODE_PRIVATE).getInt("idcheckbox", 0);
         idCheckboxes = gson.fromJson(jsonIdCheckbox, new TypeToken<int[]>(){}.getType());
-        int TESTESTESTESTSEERASDAZEDA = 5;
 }
 
     //choose dates in Edittexts via DatePickers
@@ -132,7 +140,7 @@ public class QueriesSelection extends AppCompatActivity implements View.OnClickL
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        dateDatepickerdialog = new DatePickerDialog(QueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
+        dateDatepickerdialog = new DatePickerDialog(SearchQueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String strDateConcatenation;
@@ -178,6 +186,11 @@ public class QueriesSelection extends AppCompatActivity implements View.OnClickL
     }
 
     private void validateSearchPreferences() {
+        Map<String, String> queriesHM = new HashMap<>();
+        queriesHM.put("begin_date", beginDate);
+        queriesHM.put("end_date", endDate);
+        NYtimesCalls.getSearchedArticles(this, queriesHM);
+
         preferences.edit().putString("queryterms", queryParamTerms = termsEdittext.getText().toString()).apply();
         preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
 
@@ -192,8 +205,8 @@ public class QueriesSelection extends AppCompatActivity implements View.OnClickL
 
         //differentiate type of view to work accordingly with what is clicked on
         if (v instanceof CheckBox) {
-//            idCheckboxes.add(idView);
-//            preferences.edit().putString("idcheckboxes", jsonIdCheckbox = gson.toJson(idCheckboxes)).apply();
+
+            preferences.edit().putString("idcheckboxes", jsonIdCheckbox = gson.toJson(idCheckboxes)).apply();
             CheckBox mCheckBox = findViewById(idView);
             boolean booleanCheckbox = mCheckBox.isChecked();
             checkboxText = mCheckBox.getText().toString();
@@ -205,5 +218,15 @@ public class QueriesSelection extends AppCompatActivity implements View.OnClickL
         else if (v instanceof Button) {
             validateSearchPreferences();
         }
+    }
+
+    @Override
+    public void onResponse(PojoArticleSearch body) {
+
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 }

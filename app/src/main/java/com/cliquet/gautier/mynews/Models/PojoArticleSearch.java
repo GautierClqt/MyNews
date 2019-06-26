@@ -3,19 +3,18 @@ package com.cliquet.gautier.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
 public class PojoArticleSearch {
 
     @SerializedName("response")
     @Expose
-    private List<Response> response = null;
+    private Response response;
 
-    public List<Response> getResponse() {
+    public Response getResponse() {
         return response;
     }
 
-    public void setResponse(List<Response> response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 }

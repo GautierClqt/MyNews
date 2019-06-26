@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".controllers.Activities.ArticlesSearch"></activity>
-        <activity android:name=".controllers.Activities.QueriesSelection" />
+        <activity android:name=".controllers.Activities.SearchQueriesSelection" />
         <activity android:name=".controllers.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controllers.Activities.ArticlesDisplayActivity" />
+        <activity android:name=".controllers.Activities.DisplaySelectedArticleActivity" />
     </application>
 
 </manifest>

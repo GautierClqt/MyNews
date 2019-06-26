@@ -1,0 +1,57 @@
+package com.cliquet.gautier.mynews.Models;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ArticlesElements {
+
+    private PojoArticleSearch pojoArticleSearch = new PojoArticleSearch();
+    private List<Docs> docs;
+
+    private ArrayList<String> title = new ArrayList<>();
+    private ArrayList<String> section = new ArrayList<>();
+    private ArrayList<String> subsection = new ArrayList<>();
+    private ArrayList<String> date = new ArrayList<>();
+    private ArrayList<String> weburl = new ArrayList<>();
+    private ArrayList<String> imageurl = new ArrayList<>();
+
+    private ArrayList<ArrayList<String>> arraylists = new ArrayList<>();
+
+    public void settingListsPojoArticleSearch(Response response) {
+        for(int i = 0; i <= response.getDocs().size()-1; i++) {
+            title.add(response.getDocs().get(i).getHeadline().getMain());
+            section.add(response.getDocs().get(i).getSectionName());
+            subsection.add(response.getDocs().get(i).getSubsectionName());
+            date.add(response.getDocs().get(i).getPubDate());
+            weburl.add(response.getDocs().get(i).getWebUrl());
+            if(response.getDocs().get(i).getMultimedia().size() != 0) {
+                imageurl.add(response.getDocs().get(i).getMultimedia().get(0).getUrl());
+            }
+            else {
+                imageurl.add("");
+            }
+        }
+        creatingArraylists();
+    }
+
+    private void creatingArraylists() {
+        arraylists.add(title);
+        arraylists.add(section);
+        arraylists.add(subsection);
+        arraylists.add(date);
+        arraylists.add(weburl);
+        arraylists.add(imageurl);
+
+        setArraylists(arraylists);
+    }
+
+    private void setArraylists(ArrayList<ArrayList<String>> arraylists) {
+        this.arraylists = arraylists;
+    }
+
+    public ArrayList<ArrayList<String>> getArraylists() {
+        return arraylists;
+    }
+
+
+}

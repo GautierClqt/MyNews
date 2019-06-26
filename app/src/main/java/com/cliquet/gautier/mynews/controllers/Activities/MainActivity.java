@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_searchicon_item:
-                Intent searchArticleIntent = new Intent(this, QueriesSelection.class);
+                Intent searchArticleIntent = new Intent(this, SearchQueriesSelection.class);
                 startActivity(searchArticleIntent);
             default:
                 return super.onOptionsItemSelected(item);
