@@ -12,8 +12,8 @@ public class ArticlesElements {
     private ArrayList<String> section = new ArrayList<>();
     private ArrayList<String> subsection = new ArrayList<>();
     private ArrayList<String> date = new ArrayList<>();
-    private ArrayList<String> weburl = new ArrayList<>();
-    private ArrayList<String> imageurl = new ArrayList<>();
+    private ArrayList<String> urlArticle = new ArrayList<>();
+    private ArrayList<String> urlImage = new ArrayList<>();
 
     private ArrayList<ArrayList<String>> arraylists = new ArrayList<>();
 
@@ -23,12 +23,12 @@ public class ArticlesElements {
             section.add(response.getDocs().get(i).getSectionName());
             subsection.add(response.getDocs().get(i).getSubsectionName());
             date.add(response.getDocs().get(i).getPubDate());
-            weburl.add(response.getDocs().get(i).getWebUrl());
+            urlArticle.add(response.getDocs().get(i).getWebUrl());
             if(response.getDocs().get(i).getMultimedia().size() != 0) {
-                imageurl.add(response.getDocs().get(i).getMultimedia().get(0).getUrl());
+                urlImage.add(response.getDocs().get(i).getMultimedia().get(0).getUrl());
             }
             else {
-                imageurl.add("");
+                urlImage.add("");
             }
         }
         creatingArraylists();
@@ -39,8 +39,8 @@ public class ArticlesElements {
         arraylists.add(section);
         arraylists.add(subsection);
         arraylists.add(date);
-        arraylists.add(weburl);
-        arraylists.add(imageurl);
+        arraylists.add(urlArticle);
+        arraylists.add(urlImage);
 
         setArraylists(arraylists);
     }

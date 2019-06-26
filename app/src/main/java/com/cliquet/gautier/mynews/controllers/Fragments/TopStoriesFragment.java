@@ -55,9 +55,9 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
 
     private void initRecyclerView() {
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this.getContext(), mResults);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this.getContext(), mResults);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
     @Override

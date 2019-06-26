@@ -21,20 +21,21 @@ import com.cliquet.gautier.mynews.Utils.Utils;
 import com.cliquet.gautier.mynews.controllers.Activities.DisplaySelectedArticleActivity;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
     private Context mContext;
 
-    private List<Result> mResults;
+    private ArrayList<ArrayList<String>> arraylists;
     private Response mResponse = new Response();
 
     Utils util = new Utils();
 
-    public RecyclerViewAdapter(Context context, List<Result> results) {
+    public RecyclerViewAdapter(Context context, ArrayList<ArrayList<String>> arraylists) {
         this.mContext = context;
-        this.mResults = results;
+        this.arraylists = arraylists;
     }
 
     public RecyclerViewAdapter(Context context, Response response){
@@ -52,62 +53,98 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
-        String mSection = mResults.get(i).getSection();
-        String mSubsection = mResults.get(i).getSubsection();
-        if(!mSubsection.isEmpty()) {
+        viewHolder.title.setText(arraylists.get(0).get(i));
+        String mSection = arraylists.get(1).get(i);
+        String mSubsection = arraylists.get(2).get(i);
+        if(mSubsection != null){
             mSection = mSection + " > " + mSubsection;
         }
+        viewHolder.section.setText(mSection);
 
-        String mDate = mResults.get(i).getUpdatedDate();
+
+
+        String mDate = arraylists.get(3).get(i);
         try {
             mDate = util.simplifyDateFormat(mDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        viewHolder.date.setText(mDate);
 
-        String mTitle = mResults.get(i).getTitle();
-
-        //articles' pictures are fetch here then displayed with Glide
-        List<Multimedia> mMultimedium = mResults.get(i).getMultimedia();
-        String multimedium;
-        if(mMultimedium.size() != 0) {
-            multimedium = mMultimedium.get(0).getUrl();
-            Glide.with(viewHolder.urlImage).load(multimedium).into(viewHolder.urlImage);
+        final String urlArticle = arraylists.get(4).get(i);
+        if(!arraylists.get(5).get(0).equals("")) {
+            Glide.with(viewHolder.urlImage).load(arraylists.get(5).get(0)).into(viewHolder.urlImage);
         }
         else {
             viewHolder.urlImage.setVisibility(View.GONE);
         }
-        
-        viewHolder.section.setText(mSection);
-        viewHolder.date.setText(mDate);
-        viewHolder.title.setText(mTitle);
-
-        //When User click on an article a WebView only activity is called with the article url sent to it
-        final String strUrlArticle = mResults.get(i).getUrl();
 
         viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), DisplaySelectedArticleActivity.class);
-                articleDisplayIntent.putExtra("Url_Article", strUrlArticle);
+                articleDisplayIntent.putExtra("Url_Article", urlArticle);
                 mContext.startActivity(articleDisplayIntent);
             }
         });
+
+
+//        String mSection = mResults.get(i).getSection();
+//        String mSubsection = mResults.get(i).getSubsection();
+//        if(!mSubsection.isEmpty()) {
+//            mSection = mSection + " > " + mSubsection;
+//        }
+//
+//        String mDate = mResults.get(i).getUpdatedDate();
+//        try {
+//            mDate = util.simplifyDateFormat(mDate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        String mTitle = mResults.get(i).getTitle();
+//
+//        //articles' pictures are fetch here then displayed with Glide
+//        List<Multimedia> mMultimedium = mResults.get(i).getMultimedia();
+//        String multimedium;
+//        if(mMultimedium.size() != 0) {
+//            multimedium = mMultimedium.get(0).getUrl();
+//            Glide.with(viewHolder.urlImage).load(multimedium).into(viewHolder.urlImage);
+//        }
+//        else {
+//            viewHolder.urlImage.setVisibility(View.GONE);
+//        }
+//
+//        viewHolder.section.setText(mSection);
+//        viewHolder.date.setText(mDate);
+//        viewHolder.title.setText(mTitle);
+//
+//        //When User click on an article a WebView only activity is called with the article url sent to it
+//        final String strUrlArticle = mResults.get(i).getUrl();
+//
+//        viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), DisplaySelectedArticleActivity.class);
+//                articleDisplayIntent.putExtra("Url_Article", strUrlArticle);
+//                mContext.startActivity(articleDisplayIntent);
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return mResults.size();
+        return arraylists.get(0).size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout mainLayout;
+        TextView title;
         TextView section;
         TextView date;
-        TextView title;
-        ImageView urlImage;
         WebView urlArticle;
+        ImageView urlImage;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -46,7 +46,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.activity_articles_search_recycler);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, response);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, arraylists);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -61,7 +61,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         //elements.setResults(response);
         articlesElements.settingListsPojoArticleSearch(response);
         arraylists = articlesElements.getArraylists();
-        int test = 3;
+
         initRecyclerView();
     }
 
