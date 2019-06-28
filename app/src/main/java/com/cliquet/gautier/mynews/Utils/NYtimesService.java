@@ -54,7 +54,5 @@ public interface NYtimesService {
     //Search Article API call
     @GET("search/v2/articlesearch.json")
     Call<PojoArticleSearch> getArticleSearch(@QueryMap Map<String, String> searchQueries);
-
-
 }
 

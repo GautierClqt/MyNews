@@ -1,5 +1,6 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +15,12 @@ import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 import com.cliquet.gautier.mynews.controllers.Fragments.RecyclerViewAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks2 {
@@ -27,14 +31,21 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     Elements elements = new Elements();
     Result result = new Result();
     Response response = new Response();
-    Map<String, String> searchQueries = new HashMap<>();
+    HashMap<String, String> searchQueries = new HashMap<>();
 
     private ArrayList<ArrayList<String>> arraylists = new ArrayList<>();
+
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_articles_search);
+
+        Intent intent = getIntent();
+
+        String jsonQueriesHM = intent.getStringExtra("hashmap");
+        searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
         this.executeHttpRequestWithRetrofit();
     }

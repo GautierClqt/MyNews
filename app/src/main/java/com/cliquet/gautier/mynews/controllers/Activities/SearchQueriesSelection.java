@@ -19,9 +19,11 @@ import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -186,15 +188,18 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     }
 
     private void validateSearchPreferences() {
-        Map<String, String> queriesHM = new HashMap<>();
+        HashMap<String, String> queriesHM = new HashMap<>();
         queriesHM.put("begin_date", beginDate);
         queriesHM.put("end_date", endDate);
-        NYtimesCalls.getSearchedArticles(this, queriesHM);
+
+        String jsonQueriesHM = gson.toJson(queriesHM);
+        //NYtimesCalls.getSearchedArticles(this, queriesHM);
 
         preferences.edit().putString("queryterms", queryParamTerms = termsEdittext.getText().toString()).apply();
         preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
 
-        Intent searchArticleIntent = new Intent(this, ArticlesSearch.class);
+        Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
+                .putExtra("hashmap", jsonQueriesHM);
         startActivity(searchArticleIntent);
     }
 
