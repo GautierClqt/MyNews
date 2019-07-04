@@ -13,16 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.cliquet.gautier.mynews.Models.Multimedia;
 import com.cliquet.gautier.mynews.Models.Response;
-import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.Utils.OnBottomReachedListener;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.cliquet.gautier.mynews.controllers.Activities.DisplaySelectedArticleActivity;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
@@ -31,7 +30,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<ArrayList<String>> arraylists;
     private Response mResponse = new Response();
 
-    Utils util = new Utils();
+    private Utils util = new Utils();
+
+    private OnBottomReachedListener onBottomReachedListener;
 
     public RecyclerViewAdapter(Context context, ArrayList<ArrayList<String>> arraylists) {
         this.mContext = context;
@@ -41,6 +42,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(Context context, Response response){
         this.mContext = context;
         this.mResponse = response;
+    }
+
+    public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener) {
+        this.onBottomReachedListener = onBottomReachedListener;
     }
 
     @NonNull
@@ -60,8 +65,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mSection = mSection + " > " + mSubsection;
         }
         viewHolder.section.setText(mSection);
-
-
 
         String mDate = arraylists.get(3).get(i);
         try {
@@ -88,48 +91,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-
-//        String mSection = mResults.get(i).getSection();
-//        String mSubsection = mResults.get(i).getSubsection();
-//        if(!mSubsection.isEmpty()) {
-//            mSection = mSection + " > " + mSubsection;
-//        }
-//
-//        String mDate = mResults.get(i).getUpdatedDate();
-//        try {
-//            mDate = util.simplifyDateFormat(mDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        String mTitle = mResults.get(i).getTitle();
-//
-//        //articles' pictures are fetch here then displayed with Glide
-//        List<Multimedia> mMultimedium = mResults.get(i).getMultimedia();
-//        String multimedium;
-//        if(mMultimedium.size() != 0) {
-//            multimedium = mMultimedium.get(0).getUrl();
-//            Glide.with(viewHolder.urlImage).load(multimedium).into(viewHolder.urlImage);
-//        }
-//        else {
-//            viewHolder.urlImage.setVisibility(View.GONE);
-//        }
-//
-//        viewHolder.section.setText(mSection);
-//        viewHolder.date.setText(mDate);
-//        viewHolder.title.setText(mTitle);
-//
-//        //When User click on an article a WebView only activity is called with the article url sent to it
-//        final String strUrlArticle = mResults.get(i).getUrl();
-//
-//        viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), DisplaySelectedArticleActivity.class);
-//                articleDisplayIntent.putExtra("Url_Article", strUrlArticle);
-//                mContext.startActivity(articleDisplayIntent);
-//            }
-//        });
+        if(i == arraylists.size()-1) {
+            onBottomReachedListener.onBottomReached(i);
+        }
     }
 
     @Override

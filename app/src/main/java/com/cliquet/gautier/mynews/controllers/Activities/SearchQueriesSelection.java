@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
@@ -79,6 +80,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private String jsonCheckboxes;
 
     private PojoArticleSearch mPojoArticleSearch = new PojoArticleSearch();
+
+    private ArticlesElements articlesElements = new ArticlesElements();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,9 +191,12 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     }
 
     private void validateSearchPreferences() {
+        articlesElements.setCurrentPage(0);
+
         HashMap<String, String> queriesHM = new HashMap<>();
         queriesHM.put("begin_date", beginDate);
         queriesHM.put("end_date", endDate);
+        queriesHM.put("page", String.valueOf(articlesElements.getCurrentPage()));
 
         String jsonQueriesHM = gson.toJson(queriesHM);
         //NYtimesCalls.getSearchedArticles(this, queriesHM);

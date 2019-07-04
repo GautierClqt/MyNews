@@ -43,6 +43,7 @@ public class ArticlesElements {
                     urlImage.add("");
                 }
             }
+            this.setCurrentPage(currentPage++);
             creatingArraylists();
         }
     }
