@@ -1,18 +1,16 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
+import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.Elements;
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
 import com.cliquet.gautier.mynews.Models.Response;
-import com.cliquet.gautier.mynews.Models.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
@@ -23,10 +21,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-import butterknife.BindView;
 
 public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks2 {
 
@@ -35,7 +30,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     Response response = new Response();
     HashMap<String, String> searchQueries = new HashMap<>();
 
-    private ArrayList<ArrayList<String>> arraylists = new ArrayList<>();
+    private ArrayList<Articles> articles = new ArrayList<>();
 
     Gson gson = new Gson();
 
@@ -61,7 +56,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.activity_articles_search_recycler);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, arraylists);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, articles);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -82,8 +77,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
             response = pojoArticleSearch.getResponse();
         }
         articlesElements.settingListsPojoArticleSearch(response);
-        arraylists = articlesElements.getArraylists();
-
+        articles = articlesElements.getArticlesList();
         initRecyclerView();
     }
 

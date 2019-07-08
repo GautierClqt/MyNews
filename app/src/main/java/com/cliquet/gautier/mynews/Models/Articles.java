@@ -1,12 +1,6 @@
 package com.cliquet.gautier.mynews.Models;
 
-import java.util.ArrayList;
-
 public class Articles {
-
-    private ArrayList<ArticlesElements> articlesList = new ArrayList<>();
-    private PojoArticleSearch pojoArticleSearch = new PojoArticleSearch();
-    private Response response;
 
     private String mTitle;
     private String mSection;
@@ -15,18 +9,24 @@ public class Articles {
     private String mUrlArticle;
     private String mUrlImage;
 
-
-
-    public Articles(Response respones) {
-        this.mTitle = response.getDocs().get(0).getHeadline().getMain();
-        int troisdeuxunzero = 3210;
-        this.mSection = mSection;
-        this.mSubsection = mSubsection;
-        this.mDate = mDate;
-        this.mUrlArticle = mUrlArticle;
-        this.mUrlImage = mUrlImage;
+    public Articles(String title, String section, String subsection, String date, String urlArticle, String urlImage) {
+        this.mTitle = title;
+        this.mSection = section;
+        this.mSubsection = subsection;
+        this.mDate = date;
+        this.mUrlArticle = urlArticle;
+        this.mUrlImage = urlImage;
     }
 
+    public String getTitle() { return mTitle; }
 
+    public String getSection() { return  mSection; }
 
+    public String getSubsection() { return mSubsection; }
+
+    public String getDate() { return mDate; }
+
+    public String getUrlArticle() { return mUrlArticle; }
+
+    public String getUrlImage() { return mUrlImage; }
 }

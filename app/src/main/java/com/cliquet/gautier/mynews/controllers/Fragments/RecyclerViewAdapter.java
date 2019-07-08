@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.cliquet.gautier.mynews.Models.Response;
+import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.OnBottomReachedListener;
 import com.cliquet.gautier.mynews.Utils.Utils;
@@ -27,21 +27,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private Context mContext;
 
-    private ArrayList<ArrayList<String>> arraylists;
-    private Response mResponse = new Response();
+    private ArrayList<Articles> articles;
 
     private Utils util = new Utils();
 
     private OnBottomReachedListener onBottomReachedListener;
 
-    public RecyclerViewAdapter(Context context, ArrayList<ArrayList<String>> arraylists) {
+    public RecyclerViewAdapter(Context context, ArrayList<Articles> articles) {
         this.mContext = context;
-        this.arraylists = arraylists;
-    }
-
-    public RecyclerViewAdapter(Context context, Response response){
-        this.mContext = context;
-        this.mResponse = response;
+        this.articles = articles;
     }
 
     public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener) {
@@ -58,15 +52,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
-        viewHolder.title.setText(arraylists.get(0).get(i));
-        String mSection = arraylists.get(1).get(i);
-        String mSubsection = arraylists.get(2).get(i);
-        if(mSubsection != null){
+        viewHolder.title.setText(articles.get(i).getTitle());
+
+        String mSection = articles.get(i).getSection();
+        String mSubsection = articles.get(i).getSubsection();
+        if(!(mSubsection == null || mSubsection.equals(""))){
             mSection = mSection + " > " + mSubsection;
         }
         viewHolder.section.setText(mSection);
 
-        String mDate = arraylists.get(3).get(i);
+        String mDate = articles.get(i).getDate();
         try {
             mDate = util.simplifyDateFormat(mDate);
         } catch (ParseException e) {
@@ -74,9 +69,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         viewHolder.date.setText(mDate);
 
-        final String urlArticle = arraylists.get(4).get(i);
-        if(!arraylists.get(5).get(0).equals("")) {
-            Glide.with(viewHolder.urlImage).load(arraylists.get(5).get(0)).into(viewHolder.urlImage);
+        final String urlArticle = articles.get(i).getUrlArticle();
+
+        if(!articles.get(i).getUrlImage().equals("")) {
+            Glide.with(viewHolder.urlImage).load(articles.get(i).getUrlImage()).into(viewHolder.urlImage);
         }
         else {
             viewHolder.urlImage.setVisibility(View.GONE);
@@ -91,14 +87,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        if(i == arraylists.size()-1) {
+        if(i == articles.size()-1) {
             onBottomReachedListener.onBottomReached(i);
         }
     }
 
     @Override
     public int getItemCount() {
-        return arraylists.get(0).size();
+        return articles.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

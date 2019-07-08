@@ -5,16 +5,6 @@ import java.util.List;
 
 public class ArticlesElements {
 
-    private PojoArticleSearch pojoArticleSearch = new PojoArticleSearch();
-    private List<Docs> docs;
-    private Response response = new Response();
-
-    private int hits;
-    private int currentPage = 0;
-    private int maxPage;
-
-    private ArrayList<ArticlesElements> articlesList = new ArrayList<>();
-
     private String mTitle;
     private String mSection;
     private String mSubsection;
@@ -22,83 +12,66 @@ public class ArticlesElements {
     private String mUrlArticle;
     private String mUrlImage;
 
-    private ArrayList<String> title = new ArrayList<>();
-    private ArrayList<String> section = new ArrayList<>();
-    private ArrayList<String> subsection = new ArrayList<>();
-    private ArrayList<String> date = new ArrayList<>();
-    private ArrayList<String> urlArticle = new ArrayList<>();
-    private ArrayList<String> urlImage = new ArrayList<>();
+    private int i;
 
-    private ArrayList<ArrayList<String>> arraylists = new ArrayList<>();
+    private int currentPage = 0;
 
-    private void checkingCurrentPage() {
+    private ArrayList<Articles> articlesList = new ArrayList<>();
+
+    public void settingListsPojoTopStories(List<Result> result) {
+
+        for(i = 0; i <= result.size()-1; i++) {
+            mTitle = result.get(i).getTitle();
+            mSection = result.get(i).getSection();
+            mSubsection = result.get(i).getSubsection();
+            mDate = result.get(i).getUpdatedDate();
+            mUrlArticle = result.get(i).getUrl();
+
+            if(result.get(i).getMultimedia().size() != 0) {
+                mUrlImage = result.get(i).getMultimedia().get(0).getUrl();
+            }
+            else {
+                mUrlImage = "";
+            }
+            Articles articles = new Articles(mTitle, mSection, mSubsection, mDate, mUrlArticle, mUrlImage);
+            articlesList.add(articles);
+            this.setArticlesList(articlesList);
+        }
     }
 
-    public ArticlesElements() {
-    }
 
     public void settingListsPojoArticleSearch(Response response) {
 
-        //pojoArticleSearch.setResponse(response);
-        Articles articles = new Articles(response);
+        int mHits = Integer.parseInt(response.getMeta().getHits());
+        int mMaxPage = (mHits / 10) - 1;
 
-        int lol = 35;
-        //this.mTitle = response.getDocs().get(j).getHeadline().getMain();
-        this.mSection = mSection;
-        this.mSubsection = mSubsection;
-        this.mDate = mDate;
-        this.mUrlArticle = mUrlArticle;
-        this.mUrlImage = mUrlImage;
-
-
-        for(int i = 0; i < response.getDocs().size()-1; i++) {
-            articlesList.add(new ArticlesElements());
-            int test = 32;
-        }
-
-
-        hits = Integer.parseInt(response.getMeta().getHits());
-        maxPage = (hits/10) - 1;
-
-        if(currentPage <= maxPage) {
-            for(int i = 0; i <= response.getDocs().size()-1; i++) {
-                this.mTitle = response.getDocs().get(i).getHeadline().getMain();
-
-                title.add(response.getDocs().get(i).getHeadline().getMain());
-                section.add(response.getDocs().get(i).getSectionName());
-                subsection.add(response.getDocs().get(i).getSubsectionName());
-                date.add(response.getDocs().get(i).getPubDate());
-                urlArticle.add(response.getDocs().get(i).getWebUrl());
+        if(currentPage <= mMaxPage) {
+            for(i = 0; i <= response.getDocs().size()-1; i++) {
+                mTitle = response.getDocs().get(i).getHeadline().getMain();
+                mSection = response.getDocs().get(i).getSectionName();
+                mSubsection = response.getDocs().get(i).getSubsectionName();
+                mDate = response.getDocs().get(i).getPubDate();
+                mUrlArticle = response.getDocs().get(i).getWebUrl();
                 if(response.getDocs().get(i).getMultimedia().size() != 0) {
-                    urlImage.add(response.getDocs().get(i).getMultimedia().get(0).getUrl());
+                    mUrlImage = "https://static01.nyt.com/"+response.getDocs().get(i).getMultimedia().get(0).getUrl();
                 }
                 else {
-                    urlImage.add("");
+                    mUrlImage = "";
                 }
+                Articles articles = new Articles(mTitle, mSection, mSubsection, mDate, mUrlArticle, mUrlImage);
+                articlesList.add(articles);
             }
             this.setCurrentPage(currentPage++);
-            creatingArraylists();
+            this.setArticlesList(articlesList);
         }
     }
 
-    private void creatingArraylists() {
-        arraylists.add(title);
-        arraylists.add(section);
-        arraylists.add(subsection);
-        arraylists.add(date);
-        arraylists.add(urlArticle);
-        arraylists.add(urlImage);
 
-        setArraylists(arraylists);
+    private void setArticlesList(ArrayList<Articles> articlesList) {
+        this.articlesList = articlesList;
     }
 
-    private void setArraylists(ArrayList<ArrayList<String>> arraylists) {
-        this.arraylists = arraylists;
-    }
-
-    public ArrayList<ArrayList<String>> getArraylists() {
-        return arraylists;
-    }
+    public ArrayList<Articles> getArticlesList() { return articlesList; }
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
