@@ -1,5 +1,6 @@
-package com.cliquet.gautier.mynews.Models;
+package com.cliquet.gautier.mynews.Models.PojoTopStories;
 
+import com.cliquet.gautier.mynews.Models.PojoCommon.Multimedia;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

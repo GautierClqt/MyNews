@@ -1,7 +1,7 @@
 package com.cliquet.gautier.mynews.Utils;
 
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
-import com.cliquet.gautier.mynews.Models.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;

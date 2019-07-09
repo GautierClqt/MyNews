@@ -1,10 +1,9 @@
 package com.cliquet.gautier.mynews.Utils;
 
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
-import com.cliquet.gautier.mynews.Models.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.HttpUrl;

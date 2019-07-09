@@ -13,20 +13,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

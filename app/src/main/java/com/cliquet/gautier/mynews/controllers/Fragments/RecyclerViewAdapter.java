@@ -21,19 +21,20 @@ import com.cliquet.gautier.mynews.controllers.Activities.DisplaySelectedArticleA
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
     private Context mContext;
 
-    private ArrayList<Articles> articles;
+    private List<Articles> articles;
 
     private Utils util = new Utils();
 
     private OnBottomReachedListener onBottomReachedListener;
 
-    public RecyclerViewAdapter(Context context, ArrayList<Articles> articles) {
+    public RecyclerViewAdapter(Context context, List<Articles> articles) {
         this.mContext = context;
         this.articles = articles;
     }
@@ -95,6 +96,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return articles.size();
+    }
+
+    public void setArticles(ArrayList<Articles> articles) {
+        this.articles = articles;
+        notifyDataSetChanged(); //indique à l'adapter que les données ont été modifiées.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

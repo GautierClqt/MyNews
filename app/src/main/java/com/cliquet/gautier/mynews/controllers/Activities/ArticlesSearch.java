@@ -9,8 +9,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch;
-import com.cliquet.gautier.mynews.Models.Response;
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
+
+import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
@@ -21,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks2 {
@@ -36,6 +38,8 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     RecyclerView recyclerView;
 
+    RecyclerViewAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         String jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
+        initRecyclerView();
         this.executeHttpRequestWithRetrofit();
     }
 
@@ -56,7 +61,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.activity_articles_search_recycler);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, articles);
+        adapter = new RecyclerViewAdapter(this, articles);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -76,9 +81,9 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         if (pojoArticleSearch != null) {
             response = pojoArticleSearch.getResponse();
         }
-        articlesElements.settingListsPojoArticleSearch(response);
-        articles = articlesElements.getArticlesList();
-        initRecyclerView();
+        articles = articlesElements.settingListsPojoArticleSearch(response);
+
+        adapter.setArticles(articles);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.cliquet.gautier.mynews.Models;
+package com.cliquet.gautier.mynews.Models.PojoCommon;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

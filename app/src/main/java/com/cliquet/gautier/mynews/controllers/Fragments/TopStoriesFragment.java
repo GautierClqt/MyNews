@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoTopStories;
-import com.cliquet.gautier.mynews.Models.Result;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
+
+import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
@@ -29,10 +30,12 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     List<Result> result;
 
     ArticlesElements articlesElements = new ArticlesElements();
-    private ArrayList<Articles> articles = new ArrayList<>();
+    private List<Articles> articles = new ArrayList<>();
 
     @BindView(R.id.fragment_top_stories_recycler)
     RecyclerView recyclerView;
+
+    RecyclerViewAdapter adapter;
 
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
@@ -57,7 +60,7 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
 
     private void initRecyclerView() {
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this.getContext(), articles);
+        adapter = new RecyclerViewAdapter(this.getContext(), articles);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
@@ -68,9 +71,8 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
         if (pojoTopStories != null) {
             result = pojoTopStories.getResults();
         }
-        articlesElements.settingListsPojoTopStories(result);
+        articles = articlesElements.settingListsPojoTopStories(result);
 
-        articles = articlesElements.getArticlesList();
         initRecyclerView();
     }
 
