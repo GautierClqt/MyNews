@@ -90,8 +90,8 @@ public class ArticlesElements {
             String mUrlArticle = results.get(i).getUrl();
 
             if(results.get(i).getMedia() != null) {
-                //mUrlImage = results.get(i).getMedia().get(0).getMedia_metadata().get(0).getUrl();
-                mUrlImage = "https://static01.nyt.com/images/2019/07/04/us/00citizenship-quiz/00citizenship-quiz-thumbStandard-v2.jpg";
+                mUrlImage = results.get(i).getMedia().get(0).getMedia_metadata().get(0).getUrl();
+                //mUrlImage = "https://static01.nyt.com/images/2019/07/04/us/00citizenship-quiz/00citizenship-quiz-thumbStandard-v2.jpg";
             }
             else {
                 mUrlImage = "";
