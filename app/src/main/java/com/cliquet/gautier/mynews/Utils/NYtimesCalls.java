@@ -1,6 +1,7 @@
 package com.cliquet.gautier.mynews.Utils;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
+import com.cliquet.gautier.mynews.Models.PojoMostPopular.PojoMostPopular;
 import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
 
 import java.lang.ref.WeakReference;
@@ -23,8 +24,13 @@ public class NYtimesCalls {
         void onFailure();
     }
 
+    public interface Callbacks3 {
+        void onResponse(PojoMostPopular body);
+        void onFailure();
+    }
+
     //Create method start fetching articles
-    public static void fetchArticle(Callbacks callbacks, String section) {
+    public static void fetchTopStoriesArticles(Callbacks callbacks, String section) {
 
         //Create a weak reference to callback and avoid memory leaks
         final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<>(callbacks);
@@ -49,8 +55,7 @@ public class NYtimesCalls {
         });
     }
 
-
-    public static void getSearchedArticles(Callbacks2 callbacks, Map<String, String> searchQueries) {
+    public static void fetchSearchArticles(Callbacks2 callbacks, Map<String, String> searchQueries) {
 
         final WeakReference<Callbacks2> callbacksWeakReference = new WeakReference<>(callbacks);
         NYtimesService mNYtimesService = NYtimesService.retrofit.create(NYtimesService.class);
@@ -68,7 +73,24 @@ public class NYtimesCalls {
                 t.printStackTrace();
             }
         });
+    }
 
+    public static void fetchMostPopularArticles(Callbacks3 callbacks) {
+        final WeakReference<Callbacks3> callbacksWeakReference = new WeakReference<>(callbacks);
+        NYtimesService mNYtimesService = NYtimesService.retrofit.create(NYtimesService.class);
+        Call<PojoMostPopular> call = mNYtimesService.getMostPopular();
 
+        call.enqueue(new Callback<PojoMostPopular>() {
+            @Override
+            public void onResponse(Call<PojoMostPopular> call, Response<PojoMostPopular> response) {
+                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PojoMostPopular> call, Throwable t) {
+                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
+                t.printStackTrace();
+            }
+        });
     }
 }

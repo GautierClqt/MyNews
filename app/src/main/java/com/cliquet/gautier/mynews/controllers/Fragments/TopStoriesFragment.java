@@ -55,7 +55,7 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     //Actions
     private void executeHttpRequestWithRetrofit() {
         this.updateUiWhenStartingHttpRequest();
-        NYtimesCalls.fetchArticle(this, "home");
+        NYtimesCalls.fetchTopStoriesArticles(this, "home");
     }
 
 

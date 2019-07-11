@@ -22,7 +22,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks2 {
@@ -56,7 +55,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     //Actions
     private void executeHttpRequestWithRetrofit() {
-        NYtimesCalls.getSearchedArticles(this, searchQueries);
+        NYtimesCalls.fetchSearchArticles(this, searchQueries);
     }
 
     private void initRecyclerView() {

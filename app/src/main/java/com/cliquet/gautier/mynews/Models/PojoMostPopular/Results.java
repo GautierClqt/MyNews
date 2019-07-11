@@ -6,6 +6,8 @@ public class Results {
 
     private String section;
 
+    private String subsection;
+
     private List<Media> media;
 
     private String title;
@@ -99,4 +101,8 @@ public class Results {
     {
         this.views = views;
     }
+
+    public String getSubsection() { return subsection; }
+
+    public void setSubsection(String subsection) { this.subsection = subsection; }
 }

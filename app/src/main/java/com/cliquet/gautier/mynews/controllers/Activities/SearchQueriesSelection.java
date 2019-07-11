@@ -195,7 +195,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         queriesHM.put("page", String.valueOf(articlesElements.getCurrentPage()));
 
         String jsonQueriesHM = gson.toJson(queriesHM);
-        //NYtimesCalls.getSearchedArticles(this, queriesHM);
+        //NYtimesCalls.fetchSearchArticles(this, queriesHM);
 
         preferences.edit().putString("queryterms", queryParamTerms = termsEdittext.getText().toString()).apply();
         preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();

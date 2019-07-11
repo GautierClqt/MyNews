@@ -3,6 +3,7 @@ package com.cliquet.gautier.mynews.Models;
 import android.content.SharedPreferences;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
+import com.cliquet.gautier.mynews.Models.PojoMostPopular.Results;
 import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
 import com.google.gson.Gson;
 
@@ -77,6 +78,31 @@ public class ArticlesElements {
         return articlesSearchList;
     }
 
+    public List<Articles> settingListsMostPopular(List<Results> results) {
+
+        String mUrlImage;
+
+        for(i = 0; i <= results.size()-1; i++) {
+            String mTitle = results.get(i).getTitle();
+            String mSection = results.get(i).getSection();
+            String mSubsection = results.get(i).getSubsection();
+            String mDate = results.get(i).getPublished_date();
+            String mUrlArticle = results.get(i).getUrl();
+
+            if(results.get(i).getMedia() != null) {
+                //mUrlImage = results.get(i).getMedia().get(0).getMedia_metadata().get(0).getUrl();
+                mUrlImage = "https://static01.nyt.com/images/2019/07/04/us/00citizenship-quiz/00citizenship-quiz-thumbStandard-v2.jpg";
+            }
+            else {
+                mUrlImage = "";
+            }
+            Articles articles = new Articles(mTitle, mSection, mSubsection, mDate, mUrlArticle, mUrlImage);
+            articlesSearchList.add(articles);
+        }
+
+        return articlesSearchList;
+    }
+
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
@@ -84,6 +110,7 @@ public class ArticlesElements {
     public int getCurrentPage() {
         return currentPage;
     }
+
 
 
 }
