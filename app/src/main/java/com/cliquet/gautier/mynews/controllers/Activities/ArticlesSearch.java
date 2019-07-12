@@ -82,7 +82,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         }
         articles = articlesElements.settingListsPojoArticleSearch(response);
 
-        adapter.setArticles(articles);
+        //adapter.setArticles(articles);
     }
 
     @Override

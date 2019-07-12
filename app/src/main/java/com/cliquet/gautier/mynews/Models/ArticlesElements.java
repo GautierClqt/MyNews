@@ -30,6 +30,9 @@ public class ArticlesElements {
             String mTitle = result.get(i).getTitle();
             String mSection = result.get(i).getSection();
             String mSubsection = result.get(i).getSubsection();
+            if(!(mSubsection == null || mSubsection.equals(""))){
+                mSection = mSection + " > " + mSubsection;
+            }
             String mDate = result.get(i).getUpdatedDate();
             String mUrlArticle = result.get(i).getUrl();
 
@@ -39,7 +42,10 @@ public class ArticlesElements {
             else {
                 mUrlImage = "";
             }
-            Articles articles = new Articles(mTitle, mSection, mSubsection, mDate, mUrlArticle, mUrlImage);
+
+            String mId = mTitle+result.get(i).getCreatedDate();
+
+            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId);
             articlesList.add(articles);
         }
 
@@ -59,6 +65,9 @@ public class ArticlesElements {
                 String mTitle = response.getDocs().get(i).getHeadline().getMain();
                 String mSection = response.getDocs().get(i).getSectionName();
                 String mSubsection = response.getDocs().get(i).getSubsectionName();
+                if(!(mSubsection == null || mSubsection.equals(""))){
+                    mSection = mSection + " > " + mSubsection;
+                }
                 String mDate = response.getDocs().get(i).getPubDate();
                 String mUrlArticle = response.getDocs().get(i).getWebUrl();
                 if(response.getDocs().get(i).getMultimedia().size() != 0) {
@@ -67,7 +76,9 @@ public class ArticlesElements {
                 else {
                     mUrlImage = "";
                 }
-                Articles articles = new Articles(mTitle, mSection, mSubsection, mDate, mUrlArticle, mUrlImage);
+                String mId = response.getDocs().get(i).getId();
+
+                Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId);
                 articlesSearchList.add(articles);
             }
         }
@@ -86,17 +97,21 @@ public class ArticlesElements {
             String mTitle = results.get(i).getTitle();
             String mSection = results.get(i).getSection();
             String mSubsection = results.get(i).getSubsection();
+            if(!(mSubsection == null || mSubsection.equals(""))){
+                mSection = mSection + " > " + mSubsection;
+            }
             String mDate = results.get(i).getPublished_date();
             String mUrlArticle = results.get(i).getUrl();
 
             if(results.get(i).getMedia() != null) {
                 mUrlImage = results.get(i).getMedia().get(0).getMedia_metadata().get(0).getUrl();
-                //mUrlImage = "https://static01.nyt.com/images/2019/07/04/us/00citizenship-quiz/00citizenship-quiz-thumbStandard-v2.jpg";
             }
             else {
                 mUrlImage = "";
             }
-            Articles articles = new Articles(mTitle, mSection, mSubsection, mDate, mUrlArticle, mUrlImage);
+            String mId = results.get(i).getId();
+
+            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId);
             articlesSearchList.add(articles);
         }
 

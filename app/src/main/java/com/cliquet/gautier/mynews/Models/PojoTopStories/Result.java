@@ -23,10 +23,12 @@ public class Result {
     @SerializedName("updated_date")
     @Expose
     private String updatedDate;
+    @SerializedName("created_date")
+    @Expose
+    private String createdDate;
     @SerializedName("multimedia")
     @Expose
     private List<Multimedia> multimedia = null;
-
 
     public String getSection() {
         return section;
@@ -61,6 +63,11 @@ public class Result {
     }
     public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getCreatedDate() { return createdDate; }
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
     public List<Multimedia> getMultimedia() {

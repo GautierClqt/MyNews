@@ -27,6 +27,9 @@ public class Docs {
     @SerializedName("headline")
     @Expose
     private Headline headline = null;
+    @SerializedName("_id")
+    @Expose
+    private String id;
 
     public String getWebUrl() {
         return webUrl;
@@ -77,5 +80,9 @@ public class Docs {
     {
         this.headline = headline;
     }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
 
 }

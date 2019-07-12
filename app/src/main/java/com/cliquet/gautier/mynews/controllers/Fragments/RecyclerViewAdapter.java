@@ -2,6 +2,7 @@ package com.cliquet.gautier.mynews.controllers.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,13 @@ import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.OnBottomReachedListener;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.cliquet.gautier.mynews.controllers.Activities.DisplaySelectedArticleActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
@@ -29,6 +33,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
 
     private List<Articles> articles;
+    private ArrayList<String> clickedIdList = new ArrayList<>();
+    private Gson gson = new Gson();
+    private String jsonId;
+    private SharedPreferences preferences;
 
     private Utils util = new Utils();
 
@@ -47,6 +55,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_top_stories_item, viewGroup, false);
+        preferences = mContext.getSharedPreferences("name", 0);
+        clickedIdList = gson.fromJson(jsonId, new TypeToken<ArrayList<String>>(){}.getType());
+
         return new ViewHolder(view);
     }
 
@@ -56,10 +67,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.title.setText(articles.get(i).getTitle());
 
         String mSection = articles.get(i).getSection();
-        String mSubsection = articles.get(i).getSubsection();
-        if(!(mSubsection == null || mSubsection.equals(""))){
-            mSection = mSection + " > " + mSubsection;
-        }
         viewHolder.section.setText(mSection);
 
         String mDate = articles.get(i).getDate();
@@ -79,12 +86,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             viewHolder.urlImage.setVisibility(View.GONE);
         }
 
+        jsonId = preferences.getString("clickedIdList", null);
+
         viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), DisplaySelectedArticleActivity.class);
                 articleDisplayIntent.putExtra("Url_Article", urlArticle);
-                mContext.startActivity(articleDisplayIntent);
+
+                clickedIdList.add(articles.get(i).getId());
+                jsonId = gson.toJson(clickedIdList);
+                preferences.edit().putString("clickedIdList", jsonId).apply();
+
+                //mContext.startActivity(articleDisplayIntent);
             }
         });
 
@@ -98,10 +112,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return articles.size();
     }
 
-    public void setArticles(ArrayList<Articles> articles) {
-        this.articles = articles;
-        notifyDataSetChanged(); //indique à l'adapter que les données ont été modifiées.
-    }
+//    public void setArticles(ArrayList<Articles> articles) {
+//        this.articles = articles;
+//
+//        notifyDataSetChanged(); //indique à l'adapter que les données ont été modifiées.
+//    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
