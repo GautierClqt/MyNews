@@ -33,10 +33,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
 
     private List<Articles> articles;
-    private ArrayList<String> clickedIdList = new ArrayList<>();
+    private ArrayList<String> clickedIdList;
     private Gson gson = new Gson();
     private String jsonId;
     private SharedPreferences preferences;
+    private int currentPage = 0;
 
     private Utils util = new Utils();
 
@@ -55,8 +56,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_top_stories_item, viewGroup, false);
-        preferences = mContext.getSharedPreferences("name", 0);
+        preferences = mContext.getSharedPreferences("already_read_articles", 0);
+
         clickedIdList = gson.fromJson(jsonId, new TypeToken<ArrayList<String>>(){}.getType());
+        if(clickedIdList == null) {
+            clickedIdList = new ArrayList<>();
+        }
 
         return new ViewHolder(view);
     }
@@ -102,9 +107,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        if(i == articles.size()-1) {
+        int maxPage = articles.get(i).getMaxPage();
+        if(i == articles.size()-1 && maxPage != 0 && currentPage < maxPage) {
+            currentPage = currentPage++;
             onBottomReachedListener.onBottomReached(i);
         }
+        else {
+            currentPage = 0;
+        }
+    }
+
+    public void setArticles(ArrayList<Articles> articles) {
+        this.articles = articles;
+        notifyDataSetChanged(); //indique à l'adapter que les données ont été modifiées.
     }
 
     @Override
@@ -112,11 +127,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return articles.size();
     }
 
-//    public void setArticles(ArrayList<Articles> articles) {
-//        this.articles = articles;
-//
-//        notifyDataSetChanged(); //indique à l'adapter que les données ont été modifiées.
-//    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

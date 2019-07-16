@@ -45,7 +45,7 @@ public class ArticlesElements {
 
             String mId = mTitle+result.get(i).getCreatedDate();
 
-            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId);
+            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
             articlesList.add(articles);
         }
 
@@ -78,7 +78,7 @@ public class ArticlesElements {
                 }
                 String mId = response.getDocs().get(i).getId();
 
-                Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId);
+                Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, mMaxPage);
                 articlesSearchList.add(articles);
             }
         }
@@ -111,7 +111,7 @@ public class ArticlesElements {
             }
             String mId = results.get(i).getId();
 
-            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId);
+            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
             articlesSearchList.add(articles);
         }
 

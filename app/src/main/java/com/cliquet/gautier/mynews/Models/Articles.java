@@ -8,14 +8,16 @@ public class Articles {
     private String mUrlArticle;
     private String mUrlImage;
     private String mId;
+    private int mMaxPage;
 
-    public Articles(String title, String section, String date, String urlArticle, String urlImage, String id) {
+    public Articles(String title, String section, String date, String urlArticle, String urlImage, String id, int maxPage) {
         this.mTitle = title;
         this.mSection = section;
         this.mDate = date;
         this.mUrlArticle = urlArticle;
         this.mUrlImage = urlImage;
         this.mId = id;
+        this.mMaxPage = maxPage;
     }
 
     public String getTitle() { return mTitle; }
@@ -29,4 +31,6 @@ public class Articles {
     public String getUrlImage() { return mUrlImage; }
 
     public String getId() { return mId; }
+
+    public int getMaxPage() { return mMaxPage; }
 }
