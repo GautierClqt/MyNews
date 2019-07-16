@@ -3,6 +3,7 @@ package com.cliquet.gautier.mynews.controllers.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_top_stories_item, viewGroup, false);
         preferences = mContext.getSharedPreferences("already_read_articles", 0);
+        jsonId = preferences.getString("clickedIdList", null);
 
         clickedIdList = gson.fromJson(jsonId, new TypeToken<ArrayList<String>>(){}.getType());
         if(clickedIdList == null) {
@@ -68,6 +70,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+
+        int TESTi = i;
+        int TESTtest = 1;
 
         viewHolder.title.setText(articles.get(i).getTitle());
 
@@ -91,7 +96,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             viewHolder.urlImage.setVisibility(View.GONE);
         }
 
-        jsonId = preferences.getString("clickedIdList", null);
+        //check if article has benn read to change its background color
+        for(int j = 0; j <= clickedIdList.size()-1; j++){
+            if(articles.get(i).getId().equals(clickedIdList.get(j))) {
+                viewHolder.mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            }
+        }
 
         viewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,11 +109,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent articleDisplayIntent = new Intent(viewHolder.mainLayout.getContext(), DisplaySelectedArticleActivity.class);
                 articleDisplayIntent.putExtra("Url_Article", urlArticle);
 
-                clickedIdList.add(articles.get(i).getId());
+                //here id of clicked article is put in a list if not already, this list will be used to change layout color of previously read articles
+                int idListSize = clickedIdList.size();
+                int j = 0;
+                if(idListSize == 0) {
+                    clickedIdList.add(articles.get(i).getId());
+                }
+                else {
+                    while(j <= idListSize) {
+                        if(j == idListSize) {
+                            clickedIdList.add(articles.get(i).getId());
+                            viewHolder.mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            break;
+                        }
+                        else if(articles.get(i).getId().equals(clickedIdList.get(j))) {
+                            break;
+                        }
+                        j++;
+                    }
+                }
                 jsonId = gson.toJson(clickedIdList);
                 preferences.edit().putString("clickedIdList", jsonId).apply();
 
-                //mContext.startActivity(articleDisplayIntent);
+                mContext.startActivity(articleDisplayIntent);
             }
         });
 
