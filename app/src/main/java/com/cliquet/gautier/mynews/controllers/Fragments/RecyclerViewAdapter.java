@@ -114,6 +114,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 int j = 0;
                 if(idListSize == 0) {
                     clickedIdList.add(articles.get(i).getId());
+                    viewHolder.mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 }
                 else {
                     while(j <= idListSize) {
