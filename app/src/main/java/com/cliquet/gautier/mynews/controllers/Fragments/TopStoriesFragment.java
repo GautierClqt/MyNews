@@ -1,11 +1,11 @@
 package com.cliquet.gautier.mynews.controllers.Fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,20 +22,14 @@ import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
-    List<Result> result;
+    private List<Result> result;
 
-    ArticlesElements articlesElements = new ArticlesElements();
+    private ArticlesElements articlesElements = new ArticlesElements();
     private List<Articles> articles = new ArrayList<>();
 
-    @BindView(R.id.fragment_top_stories_recycler)
-    RecyclerView recyclerView;
-
-    RecyclerViewAdapter adapter;
+    private RecyclerView recyclerView;
 
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
@@ -45,7 +39,6 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_top_stories, container, false);
-        ButterKnife.bind(this, view);
 
         this.executeHttpRequestWithRetrofit();
 
@@ -60,8 +53,9 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
 
     private void initRecyclerView() {
-        adapter = new RecyclerViewAdapter(this.getContext(), articles);
-        recyclerView.setAdapter(adapter);
+        recyclerView.findViewById(R.id.fragment_top_stories_recycler);
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 

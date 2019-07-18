@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controllers.Activities.SearchQueriesSelection">
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:hint="Search query term" />
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -45,69 +45,69 @@
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:hint="@string/end_date" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_arts_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Arts" />
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_business_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Business" />
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_entrepreneurs_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Entrepreneurs" />
-            </android.support.v7.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_politics_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Politics" />
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_sports_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sports" />
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_travel_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Travel" />
-            </android.support.v7.widget.LinearLayoutCompat>
-        </android.support.v7.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_search_articles_search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SEARCH"/>
-    </android.support.v7.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

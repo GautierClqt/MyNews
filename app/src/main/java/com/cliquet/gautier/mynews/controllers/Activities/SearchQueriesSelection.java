@@ -3,7 +3,7 @@ package com.cliquet.gautier.mynews.controllers.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -24,39 +24,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class SearchQueriesSelection extends AppCompatActivity implements View.OnClickListener, NYtimesCalls.Callbacks2 {
 
-    //bindview: terms edditexts
-    @BindView(R.id.activity_search_articles_terms_edittext)
+    //view: terms edditexts
     EditText termsEdittext;
 
-    //bindview: dates edittexts
-    @BindView(R.id.activity_search_articles_begindate_edittext)
+    //view: dates edittexts
     EditText beginDateEdittext;
-    @BindView(R.id.activity_search_articles_enddate_edittext)
     EditText endDateEdittext;
 
     DatePickerDialog dateDatepickerdialog;
 
-    //bindview: checkboxes
-    @BindView(R.id.activity_search_articles_arts_checkbox)
+    //view: checkboxes
     CheckBox artsCheckbox;
-    @BindView(R.id.activity_search_articles_business_checkbox)
     CheckBox businessCheckbox;
-    @BindView(R.id.activity_search_articles_entrepreneurs_checkbox)
     CheckBox entrepreneursCheckbox;
-    @BindView(R.id.activity_search_articles_politics_checkbox)
     CheckBox politicsCheckbox;
-    @BindView(R.id.activity_search_articles_sports_checkbox)
     CheckBox sportsCheckbox;
-    @BindView(R.id.activity_search_articles_travel_checkbox)
     CheckBox travelCheckbox;
 
-    //bindview: search button
-    @BindView(R.id.activity_search_articles_search_button)
+    //view: search button
     Button searchButton;
 
     //variables for query parameters
@@ -83,7 +70,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_queries);
-        ButterKnife.bind(this);
+        this.initViews();
 
         idCheckboxes.add(3);
         preferences = getPreferences(MODE_PRIVATE);
@@ -225,6 +212,28 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         else if (v instanceof Button) {
             validateSearchPreferences();
         }
+    }
+
+    private void initViews() {
+        //bindview: terms edittext
+        termsEdittext.findViewById(R.id.activity_search_articles_terms_edittext);
+
+        //bindview: dates edittexts
+        beginDateEdittext.findViewById(R.id.activity_search_articles_begindate_edittext);
+        endDateEdittext.findViewById(R.id.activity_search_articles_enddate_edittext);
+
+        //bindview: checkboxes
+        artsCheckbox.findViewById(R.id.activity_search_articles_arts_checkbox);
+        businessCheckbox.findViewById(R.id.activity_search_articles_business_checkbox);
+        entrepreneursCheckbox.findViewById(R.id.activity_search_articles_entrepreneurs_checkbox);
+        politicsCheckbox.findViewById(R.id.activity_search_articles_politics_checkbox);
+        sportsCheckbox.findViewById(R.id.activity_search_articles_sports_checkbox);
+        travelCheckbox.findViewById(R.id.activity_search_articles_travel_checkbox);
+
+        //bindview: search button
+        searchButton.findViewById(R.id.activity_search_articles_search_button);
+
+
     }
 
     @Override

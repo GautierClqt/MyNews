@@ -1,7 +1,7 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.webkit.WebView;
 
 import com.cliquet.gautier.mynews.R;
