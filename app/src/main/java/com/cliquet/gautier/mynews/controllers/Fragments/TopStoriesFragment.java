@@ -42,6 +42,8 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
         this.executeHttpRequestWithRetrofit();
 
+        recyclerView = view.findViewById(R.id.fragment_top_stories_recycler);
+
         return view;
     }
 
@@ -52,13 +54,6 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     }
 
 
-    private void initRecyclerView() {
-        recyclerView.findViewById(R.id.fragment_top_stories_recycler);
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-    }
-
     @Override
     public void onResponse(@Nullable PojoTopStories pojoTopStories) {
         //getting all elements from the request and setting Elements object for further use
@@ -67,7 +62,9 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
         }
         articles = articlesElements.settingListsPojoTopStories(result);
 
-        initRecyclerView();
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
     @Override

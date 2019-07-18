@@ -27,7 +27,6 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
     private List<Results> results;
 
     private ArticlesElements articlesElements = new ArticlesElements();
-    private List<Articles> articles = new ArrayList<>();
 
     private RecyclerView recyclerView;
 
@@ -42,8 +41,9 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
 
-
         this.executeHttpRequestWithRetrofit();
+
+        recyclerView = view.findViewById(R.id.fragment_most_popular_recyclerview);
 
         return view;
     }
@@ -53,12 +53,6 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
         NYtimesCalls.fetchMostPopularArticles(this);
     }
 
-    private void initRecyclerView() {
-        recyclerView.findViewById(R.id.fragment_most_popular_recyclerview);
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-    }
 
     @Override
     public void onResponse(@Nullable PojoMostPopular pojoMostPopular) {
@@ -66,9 +60,11 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
         if (pojoMostPopular != null) {
             results = pojoMostPopular.getResults();
         }
-        articles = articlesElements.settingListsMostPopular(results);
+        List<Articles> articles = articlesElements.settingListsMostPopular(results);
 
-        initRecyclerView();
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
     @Override

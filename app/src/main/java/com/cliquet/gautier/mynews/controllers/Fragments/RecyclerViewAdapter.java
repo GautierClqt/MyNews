@@ -70,9 +70,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
-        int TESTi = i;
-        int TESTtest = 1;
-
         viewHolder.title.setText(articles.get(i).getTitle());
 
         String mSection = articles.get(i).getSection();
