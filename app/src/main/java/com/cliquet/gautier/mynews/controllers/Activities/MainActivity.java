@@ -1,9 +1,14 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.content.Intent;
+
+import com.cliquet.gautier.mynews.Utils.NotificationWorker;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,12 +16,18 @@ import android.view.MenuItem;
 import com.cliquet.gautier.mynews.Utils.PageAdapter;
 import com.cliquet.gautier.mynews.R;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PeriodicWorkRequest uploadWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 24, TimeUnit.HOURS).build();
+
+        WorkManager.getInstance().enqueue(uploadWorkRequest);
 
         //3 - Configure ViewPager
         this.configureViewPagerAndTabs();

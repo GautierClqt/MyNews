@@ -10,20 +10,17 @@
     android:background="#EDD956">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_favorite_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
     <TextView
-        android:id="@+id/fragment_favorite_textview"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:text="text"
-        android:textAlignment="center"/>
-
-
-    <Button
-        android:id="@+id/fragment_favorite_button"
-        android:layout_width="match_parent"
+        android:id="@+id/fragment_favorite_failEditText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clique!" />
+        android:layout_gravity="center"
+        android:visibility="visible"/>
 
 </LinearLayout>

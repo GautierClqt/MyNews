@@ -26,27 +26,28 @@ public class ArticlesElements {
         List<Articles> articlesList = new ArrayList<>();
         String mUrlImage;
 
-        for(i = 0; i <= result.size()-1; i++) {
-            String mTitle = result.get(i).getTitle();
-            String mSection = result.get(i).getSection();
-            String mSubsection = result.get(i).getSubsection();
-            if(!(mSubsection == null || mSubsection.equals(""))){
-                mSection = mSection + " > " + mSubsection;
-            }
-            String mDate = result.get(i).getUpdatedDate();
-            String mUrlArticle = result.get(i).getUrl();
+        if(result != null) {
+            for (i = 0; i <= result.size() - 1; i++) {
+                String mTitle = result.get(i).getTitle();
+                String mSection = result.get(i).getSection();
+                String mSubsection = result.get(i).getSubsection();
+                if (!(mSubsection == null || mSubsection.equals(""))) {
+                    mSection = mSection + " > " + mSubsection;
+                }
+                String mDate = result.get(i).getUpdatedDate();
+                String mUrlArticle = result.get(i).getUrl();
 
-            if(result.get(i).getMultimedia().size() != 0) {
-                mUrlImage = result.get(i).getMultimedia().get(0).getUrl();
-            }
-            else {
-                mUrlImage = "";
-            }
+                if (result.get(i).getMultimedia().size() != 0) {
+                    mUrlImage = result.get(i).getMultimedia().get(0).getUrl();
+                } else {
+                    mUrlImage = "";
+                }
 
-            String mId = mTitle+result.get(i).getCreatedDate();
+                String mId = mTitle + result.get(i).getCreatedDate();
 
-            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
-            articlesList.add(articles);
+                Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
+                articlesList.add(articles);
+            }
         }
 
         return articlesList;

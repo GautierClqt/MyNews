@@ -6,4 +6,7 @@
 
     <string name="begin_date">Begin Date</string>
     <string name="end_date">End Date</string>
+    <string name="failure">Oops, something went wrong! Try again later</string>
+    <string name="onPreExecute">Ongoing Request, please wait…</string>
+
 </resources>

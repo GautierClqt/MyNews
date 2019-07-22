@@ -1,6 +1,5 @@
 package com.cliquet.gautier.mynews.controllers.Fragments;
 
-
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
@@ -19,7 +19,6 @@ import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks3 {
@@ -29,6 +28,7 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
     private ArticlesElements articlesElements = new ArticlesElements();
 
     private RecyclerView recyclerView;
+    private TextView textView;
 
     public static MostPopularFragment newInstance() {
         return (new MostPopularFragment());
@@ -44,6 +44,7 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
         this.executeHttpRequestWithRetrofit();
 
         recyclerView = view.findViewById(R.id.fragment_most_popular_recyclerview);
+        textView = view.findViewById(R.id.fragment_top_stories_failEditText);
 
         return view;
     }
@@ -69,11 +70,12 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
 
     @Override
     public void onFailure() {
-
+        this.updateUiWhenStopingHttpRequest(getString(R.string.failure));
     }
 
     @Override
     public void onPreExecute() {
+        textView.setText(R.string.onPreExecute);
 
     }
 
@@ -88,8 +90,12 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
     }
 
     private void updateUiWhenStartingHttpRequest(){
+
     }
 
     private void updateUiWhenStopingHttpRequest(String response){
+        recyclerView.setVisibility(View.GONE);
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(response);
     }
 }

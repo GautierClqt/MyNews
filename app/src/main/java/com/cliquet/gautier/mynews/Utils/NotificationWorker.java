@@ -14,6 +14,9 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        return null;
+
+        //do the work here... (ie. send the request here, I guess...)
+
+        return Result.success();
     }
 }

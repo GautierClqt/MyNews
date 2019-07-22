@@ -10,9 +10,16 @@
     android:background="#CCCCCC">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_top_stories_recycler"
+        android:id="@+id/fragment_top_stories_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
+
+    <TextView
+        android:id="@+id/fragment_top_stories_failEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
 
 </LinearLayout>

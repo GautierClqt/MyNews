@@ -5,20 +5,33 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.cliquet.gautier.mynews.Models.Articles;
+import com.cliquet.gautier.mynews.Models.ArticlesElements;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 
+import java.util.List;
 
-public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Listeners, View.OnClickListener {
 
-   Button button;
-   TextView textView;
+public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
+
+    private List<Result> result;
+
+    private ArticlesElements articlesElements = new ArticlesElements();
+
+    private RecyclerView recyclerView;
+    private TextView textView;
 
     public static FavoriteFragment newInstance() {
         return (new FavoriteFragment());
@@ -29,31 +42,20 @@ public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Liste
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
-        textView = view.findViewById(R.id.fragment_favorite_textview);
-        button = view.findViewById(R.id.fragment_favorite_button);
+        this.executeHttpRequestWithRetrofit();
+
+        recyclerView = view.findViewById(R.id.fragment_favorite_recyclerview);
+        textView = view.findViewById(R.id.fragment_favorite_failEditText);
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle SavedInstanceState) {
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                executeHttpRequest();
-            }
-        });
+    private void executeHttpRequestWithRetrofit() {
+        this.updateUiWhenStartingHttpRequest();
+        NYtimesCalls.fetchTopStoriesArticles(this, "sports");
     }
 
-//    @OnClick(R.id.fragment_favorite_button)
-//    public void submit(View view){
-//        this.executeHttpRequest();
-//    }
-
-    private void executeHttpRequest() {
-        new NetworkAsyncTask(this).execute("https://api.nytimes.com/svc/topstories/v2/science.json?api-key=WftprIljSPh7y8Le0ZmsFjAZAUA9fkkz");
+    private void updateUiWhenStartingHttpRequest() {
     }
 
     @Override
@@ -72,13 +74,32 @@ public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Liste
     }
 
     private void updateUIWhenStatingHTTPRequest() {
-        this.textView.setText("Downloading...");
     }
 
     private void updateUIWhenStopingHTTPRequest(String response) {
-        this.textView.setText(response);
     }
 
     @Override
-    public void onClick(View v) {}
+    public void onResponse(@Nullable PojoTopStories pojoTopStories) {
+        //getting all elements from the request and setting Elements object for further use
+        if (pojoTopStories != null) {
+            result = pojoTopStories.getResults();
+        }
+        List<Articles> mArticles = articlesElements.settingListsPojoTopStories(result);
+
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), mArticles);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    }
+
+    @Override
+    public void onFailure() {
+        this.updateUiWhenStopingHttpRequest(getString(R.string.failure));
+    }
+
+    private void updateUiWhenStopingHttpRequest(String response) {
+        recyclerView.setVisibility(View.GONE);
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(response);
+    }
 }

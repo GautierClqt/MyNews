@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
@@ -27,9 +29,9 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     private List<Result> result;
 
     private ArticlesElements articlesElements = new ArticlesElements();
-    private List<Articles> articles = new ArrayList<>();
 
     private RecyclerView recyclerView;
+    private TextView textView;
 
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
@@ -42,7 +44,8 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
         this.executeHttpRequestWithRetrofit();
 
-        recyclerView = view.findViewById(R.id.fragment_top_stories_recycler);
+        recyclerView = view.findViewById(R.id.fragment_top_stories_recyclerview);
+        textView = view.findViewById(R.id.fragment_top_stories_failEditText);
 
         return view;
     }
@@ -60,26 +63,30 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
         if (pojoTopStories != null) {
             result = pojoTopStories.getResults();
         }
-        articles = articlesElements.settingListsPojoTopStories(result);
+        List<Articles> mArticles = articlesElements.settingListsPojoTopStories(result);
 
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), mArticles);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
     @Override
     public void onFailure() {
-        this.updateUiWhenStopingHttpRequest("ERROR");
+        this.updateUiWhenStopingHttpRequest(getString(R.string.failure));
     }
 
     private void updateUiWhenStartingHttpRequest(){
     }
 
     private void updateUiWhenStopingHttpRequest(String response){
-            }
+        recyclerView.setVisibility(View.GONE);
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(response);
+    }
 
     @Override
     public void onPreExecute() {
+        textView.setText(R.string.onPreExecute);
     }
 
     @Override
