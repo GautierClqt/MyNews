@@ -70,6 +70,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_queries);
+
         this.initViews();
 
         idCheckboxes.add(3);
@@ -216,24 +217,22 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
     private void initViews() {
         //bindview: terms edittext
-        termsEdittext.findViewById(R.id.activity_search_articles_terms_edittext);
+        termsEdittext = findViewById(R.id.activity_search_articles_terms_edittext);
 
         //bindview: dates edittexts
-        beginDateEdittext.findViewById(R.id.activity_search_articles_begindate_edittext);
-        endDateEdittext.findViewById(R.id.activity_search_articles_enddate_edittext);
+        beginDateEdittext = findViewById(R.id.activity_search_articles_begindate_edittext);
+        endDateEdittext = findViewById(R.id.activity_search_articles_enddate_edittext);
 
         //bindview: checkboxes
-        artsCheckbox.findViewById(R.id.activity_search_articles_arts_checkbox);
-        businessCheckbox.findViewById(R.id.activity_search_articles_business_checkbox);
-        entrepreneursCheckbox.findViewById(R.id.activity_search_articles_entrepreneurs_checkbox);
-        politicsCheckbox.findViewById(R.id.activity_search_articles_politics_checkbox);
-        sportsCheckbox.findViewById(R.id.activity_search_articles_sports_checkbox);
-        travelCheckbox.findViewById(R.id.activity_search_articles_travel_checkbox);
+        artsCheckbox = findViewById(R.id.activity_search_articles_arts_checkbox);
+        businessCheckbox = findViewById(R.id.activity_search_articles_business_checkbox);
+        entrepreneursCheckbox = findViewById(R.id.activity_search_articles_entrepreneurs_checkbox);
+        politicsCheckbox = findViewById(R.id.activity_search_articles_politics_checkbox);
+        sportsCheckbox = findViewById(R.id.activity_search_articles_sports_checkbox);
+        travelCheckbox = findViewById(R.id.activity_search_articles_travel_checkbox);
 
         //bindview: search button
-        searchButton.findViewById(R.id.activity_search_articles_search_button);
-
-
+        searchButton = findViewById(R.id.activity_search_articles_search_button);
     }
 
     @Override
