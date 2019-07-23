@@ -42,7 +42,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1: //Page number 2
                 return "Most Popular";
             case 2: //Page number 3
-                return "Favorites";
+                return "Sports";
             default:
                 return null;
         }
