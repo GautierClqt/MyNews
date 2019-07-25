@@ -63,5 +63,32 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(pager);
         //Design purpose. Tabs have the same width
         tabs.setTabMode(TabLayout.MODE_FIXED);
+
+        pager.setCurrentItem(2);
+        int TEXT = 32565412;
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int TEST = 5;
+                switch(position) {
+                    case 0: TEST = 0;
+                    case 1: TEST = 1;
+                    case 2: TEST = 2;
+                    //default: TEST = 5;
+                }
+                int SUPERTEST = 99;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

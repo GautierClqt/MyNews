@@ -2,7 +2,7 @@ package com.cliquet.gautier.mynews.Utils;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
 import com.cliquet.gautier.mynews.Models.PojoMostPopular.PojoMostPopular;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -15,7 +15,7 @@ public class NYtimesCalls {
 
     //Create a callback
     public interface Callbacks {
-        void onResponse(PojoTopStories body);
+        void onResponse(PojoMaster body);
         void onFailure();
     }
 
@@ -30,7 +30,7 @@ public class NYtimesCalls {
     }
 
     //Create method start fetching articles
-    public static void fetchTopStoriesArticles(Callbacks callbacks, String section) {
+    public static void fetchTopStoriesArticles(Callbacks callbacks, String section, int position) {
 
         //Create a weak reference to callback and avoid memory leaks
         final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<>(callbacks);
@@ -39,16 +39,16 @@ public class NYtimesCalls {
         NYtimesService nYTimesService = NYtimesService.retrofit.create(NYtimesService.class);
 
         //Create the call on the New York Times API
-        Call<PojoTopStories> call = nYTimesService.getTopStories(section);
+        Call<PojoMaster> call = nYTimesService.getTopStories(section);
         //start the call
-        call.enqueue(new Callback<PojoTopStories>() {
+        call.enqueue(new Callback<PojoMaster>() {
             @Override
-            public void onResponse(Call<PojoTopStories> call, Response<PojoTopStories> response) {
+            public void onResponse(Call<PojoMaster> call, Response<PojoMaster> response) {
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<PojoTopStories> call, Throwable t) {
+            public void onFailure(Call<PojoMaster> call, Throwable t) {
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
                 t.printStackTrace();
             }

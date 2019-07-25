@@ -23,7 +23,7 @@ import java.util.List;
 
 public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks3 {
 
-    private List<Results> results;
+    private List<Results> result;
 
     private ArticlesElements articlesElements = new ArticlesElements();
 
@@ -59,9 +59,9 @@ public class MostPopularFragment extends Fragment implements NetworkAsyncTask.Li
     public void onResponse(@Nullable PojoMostPopular pojoMostPopular) {
         //getting all elements from the request and setting Elements object for further use
         if (pojoMostPopular != null) {
-            results = pojoMostPopular.getResults();
+            result = pojoMostPopular.getResults();
         }
-        List<Articles> articles = articlesElements.settingListsMostPopular(results);
+        List<Articles> articles = articlesElements.settingListsMostPopular(result);
 
         RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), articles);
         recyclerView.setAdapter(mAdapter);

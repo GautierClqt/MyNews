@@ -6,35 +6,48 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
 
 import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
+
+    private int fragementPageNumber;
 
     private List<Result> result;
 
     private ArticlesElements articlesElements = new ArticlesElements();
 
     private RecyclerView recyclerView;
-    private TextView textView;
+    private TextView failTextView;
+    private ViewPager viewPager;
 
-    public static TopStoriesFragment newInstance() {
-        return (new TopStoriesFragment());
+    public static TopStoriesFragment newInstance(int fragementPageNumber) {
+        TopStoriesFragment mTopStoriesFragment = new TopStoriesFragment();
+        Bundle args = new Bundle();
+        args.putInt("fragment_page_number", fragementPageNumber);
+        mTopStoriesFragment.setArguments(args);
+        return mTopStoriesFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragementPageNumber = getArguments().getInt("fragment_page_number", 0);
     }
 
     @Override
@@ -45,20 +58,27 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
         this.executeHttpRequestWithRetrofit();
 
         recyclerView = view.findViewById(R.id.fragment_top_stories_recyclerview);
-        textView = view.findViewById(R.id.fragment_top_stories_failEditText);
+        failTextView = view.findViewById(R.id.fragment_top_stories_failEditText);
+        viewPager = view.findViewById(R.id.activity_main_viewpager);
 
         return view;
     }
 
     //Actions
     private void executeHttpRequestWithRetrofit() {
+
         this.updateUiWhenStartingHttpRequest();
-        NYtimesCalls.fetchTopStoriesArticles(this, "home");
+        switch(fragementPageNumber) {
+            case 0: NYtimesCalls.fetchTopStoriesArticles(this, "home", 0);
+            //case 1: NYtimesCalls.fetchMostPopularArticles((NYtimesCalls.Callbacks3) this);
+            case 1: NYtimesCalls.fetchTopStoriesArticles(this, "home", 0);
+            case 2: NYtimesCalls.fetchTopStoriesArticles(this, "sports", 2);
+        }
     }
 
 
     @Override
-    public void onResponse(@Nullable PojoTopStories pojoTopStories) {
+    public void onResponse(@Nullable PojoMaster pojoTopStories) {
         //getting all elements from the request and setting Elements object for further use
         if (pojoTopStories != null) {
             result = pojoTopStories.getResults();
@@ -80,13 +100,13 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
 
     private void updateUiWhenStopingHttpRequest(String response){
         recyclerView.setVisibility(View.GONE);
-        textView.setVisibility(View.VISIBLE);
-        textView.setText(response);
+        failTextView.setVisibility(View.VISIBLE);
+        failTextView.setText(response);
     }
 
     @Override
     public void onPreExecute() {
-        textView.setText(R.string.onPreExecute);
+        failTextView.setText(R.string.onPreExecute);
     }
 
     @Override

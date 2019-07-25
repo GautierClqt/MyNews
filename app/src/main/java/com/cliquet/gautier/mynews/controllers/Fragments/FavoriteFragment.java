@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
 import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
@@ -52,7 +52,7 @@ public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Liste
 
     private void executeHttpRequestWithRetrofit() {
         this.updateUiWhenStartingHttpRequest();
-        NYtimesCalls.fetchTopStoriesArticles(this, "sports");
+        NYtimesCalls.fetchTopStoriesArticles(this, "sports", 2);
     }
 
     private void updateUiWhenStartingHttpRequest() {
@@ -80,7 +80,7 @@ public class FavoriteFragment extends Fragment implements NetworkAsyncTask.Liste
     }
 
     @Override
-    public void onResponse(@Nullable PojoTopStories pojoTopStories) {
+    public void onResponse(@Nullable PojoMaster pojoTopStories) {
         //getting all elements from the request and setting Elements object for further use
         if (pojoTopStories != null) {
             result = pojoTopStories.getResults();

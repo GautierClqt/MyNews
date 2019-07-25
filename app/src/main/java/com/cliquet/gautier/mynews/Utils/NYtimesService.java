@@ -2,7 +2,7 @@ package com.cliquet.gautier.mynews.Utils;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
 import com.cliquet.gautier.mynews.Models.PojoMostPopular.PojoMostPopular;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoTopStories;
+import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
 
 import java.io.IOException;
 import java.util.Map;
@@ -49,7 +49,7 @@ public interface NYtimesService {
 
     //Top Stories call
     @GET("topstories/v2/{section}.json")
-    Call<PojoTopStories> getTopStories(@Path("section") String section);
+    Call<PojoMaster> getTopStories(@Path("section") String section);
 
     //Search Article API call
     @GET("search/v2/articlesearch.json")

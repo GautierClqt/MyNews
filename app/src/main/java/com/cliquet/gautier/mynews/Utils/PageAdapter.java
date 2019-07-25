@@ -11,8 +11,8 @@ import com.cliquet.gautier.mynews.controllers.Fragments.TopStoriesFragment;
 public class PageAdapter extends FragmentPagerAdapter {
 
     //2 - Default Constructor
-    public PageAdapter(FragmentManager mgr) {
-        super(mgr);
+    public PageAdapter(FragmentManager fragmentManager) {
+        super(fragmentManager);
     }
 
     @Override
@@ -24,13 +24,19 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: //Page number 1
-                return TopStoriesFragment.newInstance();
+                return TopStoriesFragment.newInstance(0);
             case 1: //Page number 2
-                return MostPopularFragment.newInstance();
+                return TopStoriesFragment.newInstance(1);
             case 2: //Page number 3
-                return FavoriteFragment.newInstance();
+                return TopStoriesFragment.newInstance(2);
             default:
                 return null;
+//            case 1: //Page number 2
+//                return MostPopularFragment.newInstance();
+//            case 2: //Page number 3
+//                return FavoriteFragment.newInstance();
+//            default:
+//                return null;
         }
     }
 
