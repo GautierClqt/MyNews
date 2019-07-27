@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
@@ -62,7 +61,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private SharedPreferences preferences;
     private String jsonCheckboxes;
 
-    private PojoArticleSearch mPojoArticleSearch = new PojoArticleSearch();
+    private PojoMaster mPojoMaster = new PojoMaster();
 
     private ArticlesElements articlesElements = new ArticlesElements();
 
@@ -236,7 +235,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void onResponse(PojoArticleSearch body) {
+    public void onResponse(PojoMaster body) {
 
     }
 

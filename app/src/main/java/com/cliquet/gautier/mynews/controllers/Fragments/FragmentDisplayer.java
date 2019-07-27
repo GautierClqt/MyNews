@@ -15,20 +15,20 @@ import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
 
-import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
+import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
+import com.cliquet.gautier.mynews.Models.PojoCommon.Results;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 
 import java.util.List;
 
-public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
+public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
-    private int fragementPageNumber;
+    private int fragmentPageNumber;
 
-    private List<Result> result;
+    private List<Results> results;
 
     private ArticlesElements articlesElements = new ArticlesElements();
 
@@ -36,18 +36,19 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     private TextView failTextView;
     private ViewPager viewPager;
 
-    public static TopStoriesFragment newInstance(int fragementPageNumber) {
-        TopStoriesFragment mTopStoriesFragment = new TopStoriesFragment();
+    public static FragmentDisplayer newInstance(int fragmentPageNumber) {
+        FragmentDisplayer mFragmentDisplayer = new FragmentDisplayer();
+
         Bundle args = new Bundle();
-        args.putInt("fragment_page_number", fragementPageNumber);
-        mTopStoriesFragment.setArguments(args);
-        return mTopStoriesFragment;
+        args.putInt("fragment_page_number", fragmentPageNumber);
+        mFragmentDisplayer.setArguments(args);
+        return mFragmentDisplayer;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragementPageNumber = getArguments().getInt("fragment_page_number", 0);
+        fragmentPageNumber = getArguments().getInt("fragment_page_number", 0);
     }
 
     @Override
@@ -68,27 +69,47 @@ public class TopStoriesFragment extends Fragment implements NetworkAsyncTask.Lis
     private void executeHttpRequestWithRetrofit() {
 
         this.updateUiWhenStartingHttpRequest();
-        switch(fragementPageNumber) {
-            case 0: NYtimesCalls.fetchTopStoriesArticles(this, "home", 0);
-            //case 1: NYtimesCalls.fetchMostPopularArticles((NYtimesCalls.Callbacks3) this);
-            case 1: NYtimesCalls.fetchTopStoriesArticles(this, "home", 0);
-            case 2: NYtimesCalls.fetchTopStoriesArticles(this, "sports", 2);
+        switch(fragmentPageNumber) {
+            case 0: NYtimesCalls.fetchTopStoriesArticles(this, "home",  fragmentPageNumber);
+            break;
+            case 1: NYtimesCalls.fetchTopStoriesArticles(this, "", fragmentPageNumber);
+            //case 1: NYtimesCalls.fetchTopStoriesArticles(this, "business", fragmentPageNumber);
+            break;
+            case 2: NYtimesCalls.fetchTopStoriesArticles(this, "sports", fragmentPageNumber);
+            break;
+            default: break;
         }
     }
 
 
     @Override
-    public void onResponse(@Nullable PojoMaster pojoTopStories) {
+    public void onResponse(@Nullable PojoMaster mPojoMaster) {
         //getting all elements from the request and setting Elements object for further use
-        if (pojoTopStories != null) {
-            result = pojoTopStories.getResults();
+        if (mPojoMaster != null) {
+            results = mPojoMaster.getResults();
         }
-        List<Articles> mArticles = articlesElements.settingListsPojoTopStories(result);
+
+        List<Articles> mArticles = null;
+        switch (fragmentPageNumber) {
+            case 0:
+                mArticles = articlesElements.settingListsPojoTopStories(results);
+                break;
+            case 1:
+                mArticles = articlesElements.settingListsMostPopular(results);
+//            case 1: call = nYTimesService.getTopStories(section);
+                break;
+            case 2:
+                mArticles = articlesElements.settingListsPojoTopStories(results);
+                break;
+            default:
+                break;
+        }
 
         RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(this.getContext(), mArticles);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
+
 
     @Override
     public void onFailure() {

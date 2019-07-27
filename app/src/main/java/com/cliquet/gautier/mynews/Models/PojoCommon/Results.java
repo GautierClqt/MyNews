@@ -1,12 +1,13 @@
-package com.cliquet.gautier.mynews.Models.PojoTopStories;
+package com.cliquet.gautier.mynews.Models.PojoCommon;
 
 import com.cliquet.gautier.mynews.Models.PojoCommon.Multimedia;
+import com.cliquet.gautier.mynews.Models.PojoMostPopular.Media;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Result {
+public class Results {
 
     @SerializedName("section")
     @Expose
@@ -76,5 +77,67 @@ public class Result {
     public void setMultimedia(List<Multimedia> multimedia) {
         this.multimedia = multimedia;
     }
+
+    private List<Media> media;
+
+    private String id;
+
+    private String byline;
+
+    private String published_date;
+
+    private String views;
+
+
+    public String getId ()
+    {
+        return id;
+    }
+
+    public void setId (String id)
+    {
+        this.id = id;
+    }
+
+    public String getByline ()
+    {
+        return byline;
+    }
+
+    public void setByline (String byline)
+    {
+        this.byline = byline;
+    }
+
+    public String getPublished_date ()
+    {
+        return published_date;
+    }
+
+    public void setPublished_date (String published_date)
+    {
+        this.published_date = published_date;
+    }
+
+    public String getViews ()
+    {
+        return views;
+    }
+
+    public void setViews (String views)
+    {
+        this.views = views;
+    }
+
+    public List<Media> getMedia ()
+    {
+        return media;
+    }
+
+    public void setMedia (List<Media> media)
+    {
+        this.media = media;
+    }
+
 }
 

@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
+import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks2 {
+public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
     ArticlesElements articlesElements = new ArticlesElements();
 
@@ -38,6 +38,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     RecyclerView recyclerView;
 
     RecyclerViewAdapter adapter;
+    String jsonQueriesHM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
         Intent intent = getIntent();
 
-        String jsonQueriesHM = intent.getStringExtra("hashmap");
+        jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
         initRecyclerView();
@@ -55,7 +56,8 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     //Actions
     private void executeHttpRequestWithRetrofit() {
-        NYtimesCalls.fetchSearchArticles(this, searchQueries);
+        //NYtimesCalls.fetchSearchArticles(this, searchQueries);
+        NYtimesCalls.fetchTopStoriesArticles(this, searchQueries, 3);
     }
 
     private void initRecyclerView() {
@@ -75,10 +77,10 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     }
 
     @Override
-    public void onResponse(PojoArticleSearch pojoArticleSearch) {
+    public void onResponse(PojoMaster pojoMaster) {
 
-        if (pojoArticleSearch != null) {
-            response = pojoArticleSearch.getResponse();
+        if (pojoMaster != null) {
+            response = pojoMaster.getResponse();
         }
         articles = articlesElements.settingListsPojoArticleSearch(response);
 

@@ -1,8 +1,6 @@
 package com.cliquet.gautier.mynews.Utils;
 
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
-import com.cliquet.gautier.mynews.Models.PojoMostPopular.PojoMostPopular;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
+import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -19,16 +17,6 @@ public class NYtimesCalls {
         void onFailure();
     }
 
-    public interface Callbacks2 {
-        void onResponse(PojoArticleSearch body);
-        void onFailure();
-    }
-
-    public interface Callbacks3 {
-        void onResponse(PojoMostPopular body);
-        void onFailure();
-    }
-
     //Create method start fetching articles
     public static void fetchTopStoriesArticles(Callbacks callbacks, String section, int position) {
 
@@ -38,8 +26,21 @@ public class NYtimesCalls {
         //Get a Retrofit instance and its related endpoints
         NYtimesService nYTimesService = NYtimesService.retrofit.create(NYtimesService.class);
 
-        //Create the call on the New York Times API
-        Call<PojoMaster> call = nYTimesService.getTopStories(section);
+        Call<PojoMaster> call = null;
+        switch (position) {
+            //Create the call on the New York Times API
+            case 0: call = nYTimesService.getTopStories(section);
+            break;
+            case 1: call = nYTimesService.getMostPopular();
+//            case 1: call = nYTimesService.getTopStories(section);
+            break;
+            case 2: call = nYTimesService.getTopStories(section);
+            break;
+            case 3: call = nYTimesService.getArticleSearch(searchQueries);
+            default:
+            break;
+        }
+
         //start the call
         call.enqueue(new Callback<PojoMaster>() {
             @Override
@@ -54,43 +55,5 @@ public class NYtimesCalls {
             }
         });
     }
-
-    public static void fetchSearchArticles(Callbacks2 callbacks, Map<String, String> searchQueries) {
-
-        final WeakReference<Callbacks2> callbacksWeakReference = new WeakReference<>(callbacks);
-        NYtimesService mNYtimesService = NYtimesService.retrofit.create(NYtimesService.class);
-        Call<PojoArticleSearch> call = mNYtimesService.getArticleSearch(searchQueries);
-
-        call.enqueue(new Callback<PojoArticleSearch>() {
-            @Override
-            public void onResponse(Call<PojoArticleSearch> call, Response<PojoArticleSearch> response) {
-                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<PojoArticleSearch> call, Throwable t) {
-                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
-                t.printStackTrace();
-            }
-        });
-    }
-
-    public static void fetchMostPopularArticles(Callbacks3 callbacks) {
-        final WeakReference<Callbacks3> callbacksWeakReference = new WeakReference<>(callbacks);
-        NYtimesService mNYtimesService = NYtimesService.retrofit.create(NYtimesService.class);
-        Call<PojoMostPopular> call = mNYtimesService.getMostPopular();
-
-        call.enqueue(new Callback<PojoMostPopular>() {
-            @Override
-            public void onResponse(Call<PojoMostPopular> call, Response<PojoMostPopular> response) {
-                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<PojoMostPopular> call, Throwable t) {
-                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
-                t.printStackTrace();
-            }
-        });
-    }
 }
+

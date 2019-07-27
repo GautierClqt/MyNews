@@ -1,16 +1,11 @@
 package com.cliquet.gautier.mynews.Models;
 
-import android.content.SharedPreferences;
-
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
-import com.cliquet.gautier.mynews.Models.PojoMostPopular.Results;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.Result;
+import com.cliquet.gautier.mynews.Models.PojoCommon.Results;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class ArticlesElements {
 
@@ -21,29 +16,29 @@ public class ArticlesElements {
     private Gson gson = new Gson();
     private ArrayList<Articles> articlesSearchList = new ArrayList<>();
 
-    public List<Articles> settingListsPojoTopStories(List<Result> result) {
+    public List<Articles> settingListsPojoTopStories(List<Results> results) {
 
         List<Articles> articlesList = new ArrayList<>();
         String mUrlImage;
 
-        if(result != null) {
-            for (i = 0; i <= result.size() - 1; i++) {
-                String mTitle = result.get(i).getTitle();
-                String mSection = result.get(i).getSection();
-                String mSubsection = result.get(i).getSubsection();
+        if(results != null) {
+            for (i = 0; i <= results.size() - 1; i++) {
+                String mTitle = results.get(i).getTitle();
+                String mSection = results.get(i).getSection();
+                String mSubsection = results.get(i).getSubsection();
                 if (!(mSubsection == null || mSubsection.equals(""))) {
                     mSection = mSection + " > " + mSubsection;
                 }
-                String mDate = result.get(i).getUpdatedDate();
-                String mUrlArticle = result.get(i).getUrl();
+                String mDate = results.get(i).getUpdatedDate();
+                String mUrlArticle = results.get(i).getUrl();
 
-                if (result.get(i).getMultimedia().size() != 0) {
-                    mUrlImage = result.get(i).getMultimedia().get(0).getUrl();
+                if (results.get(i).getMultimedia().size() != 0) {
+                    mUrlImage = results.get(i).getMultimedia().get(0).getUrl();
                 } else {
                     mUrlImage = "";
                 }
 
-                String mId = mTitle + result.get(i).getCreatedDate();
+                String mId = mTitle + results.get(i).getCreatedDate();
 
                 Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
                 articlesList.add(articles);

@@ -1,8 +1,6 @@
 package com.cliquet.gautier.mynews.Utils;
 
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch.PojoArticleSearch;
-import com.cliquet.gautier.mynews.Models.PojoMostPopular.PojoMostPopular;
-import com.cliquet.gautier.mynews.Models.PojoTopStories.PojoMaster;
+import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 
 import java.io.IOException;
 import java.util.Map;
@@ -53,10 +51,10 @@ public interface NYtimesService {
 
     //Search Article API call
     @GET("search/v2/articlesearch.json")
-    Call<PojoArticleSearch> getArticleSearch(@QueryMap Map<String, String> searchQueries);
+    Call<PojoMaster> getArticleSearch(@QueryMap Map<String, String> searchQueries);
 
     //Mot Popular call
     @GET("mostpopular/v2/shared/7.json")
-    Call<PojoMostPopular> getMostPopular();
+    Call<com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster> getMostPopular();
 }
 
