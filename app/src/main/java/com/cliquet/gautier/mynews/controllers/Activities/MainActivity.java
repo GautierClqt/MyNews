@@ -3,6 +3,8 @@ package com.cliquet.gautier.mynews.controllers.Activities;
 import android.content.Intent;
 import com.cliquet.gautier.mynews.Utils.NotificationWorker;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.PeriodicWorkRequest;
@@ -25,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
         WorkManager.getInstance().enqueue(uploadWorkRequest);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("notification")
+                .setContentText("xxx nouveaux articles sont disponibles")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
         //3 - Configure ViewPager
         this.configureViewPagerAndTabs();
     }
@@ -41,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_searchicon_item:
                 Intent searchArticleIntent = new Intent(this, SearchQueriesSelection.class);
+                searchArticleIntent.putExtra("actitivy_called", 0);
                 startActivity(searchArticleIntent);
             default:
                 return super.onOptionsItemSelected(item);

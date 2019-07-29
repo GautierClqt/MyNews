@@ -57,7 +57,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     //Actions
     private void executeHttpRequestWithRetrofit() {
         //NYtimesCalls.fetchSearchArticles(this, searchQueries);
-        NYtimesCalls.fetchTopStoriesArticles(this, searchQueries, 3);
+        NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
     }
 
     private void initRecyclerView() {

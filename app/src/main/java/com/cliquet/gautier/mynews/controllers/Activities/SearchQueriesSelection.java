@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
+import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class SearchQueriesSelection extends AppCompatActivity implements View.OnClickListener, NYtimesCalls.Callbacks2 {
+public class SearchQueriesSelection extends AppCompatActivity implements View.OnClickListener, NYtimesCalls.Callbacks {
 
     //view: terms edditexts
     EditText termsEdittext;
@@ -44,6 +47,10 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
     //view: search button
     Button searchButton;
+
+    //views: notification textview and switch
+    TextView switchTextView;
+    Switch switchView;
 
     //variables for query parameters
     String queryParamTerms;
@@ -72,7 +79,24 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         this.initViews();
 
-        idCheckboxes.add(3);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            int calledActivity = bundle.getInt("activity_called");
+
+            //set up views as per selected activity
+            switch (calledActivity) {
+                case 0:
+                    this.setupSearchView();
+                    break;
+                case 1:
+                    this.setupNotificationsViews();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //idCheckboxes.add(3);
         preferences = getPreferences(MODE_PRIVATE);
 
         findViewById();
@@ -99,6 +123,9 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         //Button
         searchButton.setOnClickListener(this);
+
+        //switch views
+        switchView.setOnClickListener(this);
     }
 
     private void getSearchPreferences() {
@@ -176,9 +203,12 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
+        String queryCheckboxes = "news_desk:(\"Sports\" \"Foreign\")";
+
         HashMap<String, String> queriesHM = new HashMap<>();
         queriesHM.put("begin_date", beginDate);
         queriesHM.put("end_date", endDate);
+        queriesHM.put("fq", queryCheckboxes);
         queriesHM.put("page", String.valueOf(articlesElements.getCurrentPage()));
 
         String jsonQueriesHM = gson.toJson(queriesHM);
@@ -232,6 +262,20 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         //bindview: search button
         searchButton = findViewById(R.id.activity_search_articles_search_button);
+
+        //bindview: switch
+        switchView = findViewById(R.id.activity_search_articles_switch);
+        switchTextView = findViewById(R.id.activity_search_articles_switch_textview);
+    }
+
+    private void setupSearchView() {
+        switchTextView.setVisibility(View.GONE);
+        switchView.setVisibility(View.GONE);
+    }
+
+    private void setupNotificationsViews() {
+        termsEdittext.setVisibility(View.GONE);
+        searchButton.setVisibility(View.GONE);
     }
 
     @Override

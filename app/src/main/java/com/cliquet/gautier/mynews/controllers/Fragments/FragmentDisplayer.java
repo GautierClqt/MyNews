@@ -70,12 +70,12 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
 
         this.updateUiWhenStartingHttpRequest();
         switch(fragmentPageNumber) {
-            case 0: NYtimesCalls.fetchTopStoriesArticles(this, "home",  fragmentPageNumber);
+            case 0: NYtimesCalls.fetchArticles(this, "home",  fragmentPageNumber);
             break;
-            case 1: NYtimesCalls.fetchTopStoriesArticles(this, "", fragmentPageNumber);
-            //case 1: NYtimesCalls.fetchTopStoriesArticles(this, "business", fragmentPageNumber);
+            case 1: NYtimesCalls.fetchArticles(this, "", fragmentPageNumber);
+            //case 1: NYtimesCalls.fetchArticles(this, "business", fragmentPageNumber);
             break;
-            case 2: NYtimesCalls.fetchTopStoriesArticles(this, "sports", fragmentPageNumber);
+            case 2: NYtimesCalls.fetchArticles(this, "sports", fragmentPageNumber);
             break;
             default: break;
         }
