@@ -185,6 +185,11 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         }
     }
 
+    //add the term associated with the checked checkbox in the arraylist
+    private void addCheckedCheckbox (String strCheck) {
+        queryParamCheckboxes.add(strCheck);
+    }
+
     //remove the term of the unchecked checkbox of the arraylist
     private void removeUncheckedCheckbox(String strCheck) {
         for(int i = 0; i <= queryParamCheckboxes.size(); i++) {
@@ -195,24 +200,39 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         }
     }
 
-    //add the term associated with the checked checkbox in the arraylist
-    private void addCheckedCheckbox (String strCheck) {
-        queryParamCheckboxes.add(strCheck);
-    }
-
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
-        String queryCheckboxes = "news_desk:(\"Sports\" \"Foreign\")";
+        String queryCheckboxes = "news_desk:(";
 
         HashMap<String, String> queriesHM = new HashMap<>();
-        queriesHM.put("begin_date", beginDate);
-        queriesHM.put("end_date", endDate);
-        queriesHM.put("fq", queryCheckboxes);
+        queryParamTerms = String.valueOf(termsEdittext.getText());
+
+        //put each setted queries in queriesHM.
+        if(!queryParamTerms.equals("")){
+            queriesHM.put("q", String.valueOf(termsEdittext.getText()));
+        }
+        if(!beginDate.equals("")) {
+            queriesHM.put("begin_date", beginDate);
+        }
+        if(!endDate.equals("")) {
+            queriesHM.put("end_date", endDate);
+        }
+        if(queryParamCheckboxes.size() > 0) {
+            for (int i = 0; i < queryParamCheckboxes.size(); i++) {
+                if (i == 0) {
+                    queryCheckboxes = queryCheckboxes + "\"" + queryParamCheckboxes.get(i) + "\"";
+                } else {
+                    queryCheckboxes = queryCheckboxes + " \"" + queryParamCheckboxes.get(i) + "\"";
+                }
+            }
+            queryCheckboxes = queryCheckboxes + ")";
+            queriesHM.put("fq", queryCheckboxes);
+        }
+
         queriesHM.put("page", String.valueOf(articlesElements.getCurrentPage()));
 
         String jsonQueriesHM = gson.toJson(queriesHM);
-        //NYtimesCalls.fetchSearchArticles(this, queriesHM);
 
         preferences.edit().putString("queryterms", queryParamTerms = termsEdittext.getText().toString()).apply();
         preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
@@ -220,6 +240,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
                 .putExtra("hashmap", jsonQueriesHM);
         startActivity(searchArticleIntent);
+
     }
 
     //get the id of the clicked checkbox

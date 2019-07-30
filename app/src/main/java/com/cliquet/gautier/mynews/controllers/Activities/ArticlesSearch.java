@@ -71,6 +71,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
             public void onBottomReached(int position) {
                 articlesElements.setCurrentPage(articlesElements.getCurrentPage()+1);
                 searchQueries.put("page", String.valueOf(articlesElements.getCurrentPage()));
+                jsonQueriesHM = gson.toJson(searchQueries);
                 executeHttpRequestWithRetrofit();
             }
         });
@@ -82,7 +83,12 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         if (pojoMaster != null) {
             response = pojoMaster.getResponse();
         }
-        articles = articlesElements.settingListsPojoArticleSearch(response);
+        if(articles.size() == 0){
+            this.onFailure();
+        }
+        else {
+            articles = articlesElements.settingListsPojoArticleSearch(response);
+        }
 
         adapter.setArticles(articles);
     }
