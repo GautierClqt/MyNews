@@ -240,7 +240,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
                 .putExtra("hashmap", jsonQueriesHM);
         startActivity(searchArticleIntent);
-
     }
 
     //get the id of the clicked checkbox
@@ -257,11 +256,16 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             checkboxText = mCheckBox.getText().toString();
             verifyCheckboxState(booleanCheckbox, checkboxText);
         }
-        else if(v instanceof EditText && !(v.getId() == termsEdittext.getId())) {
+        else if(v instanceof EditText && !(idView == termsEdittext.getId())) {
             setDateInEdittext(v);
         }
         else if (v instanceof Button) {
-            validateSearchPreferences();
+            if (idView == searchButton.getId()) {
+                validateSearchPreferences();
+            }
+            else if (idView == switchView.getId()) {
+                //démarrer un Alarm manager
+            }
         }
     }
 
@@ -292,9 +296,13 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void setupSearchView() {
         switchTextView.setVisibility(View.GONE);
         switchView.setVisibility(View.GONE);
+        termsEdittext.setVisibility(View.VISIBLE);
+        searchButton.setVisibility(View.VISIBLE);
     }
 
     private void setupNotificationsViews() {
+        switchTextView.setVisibility(View.VISIBLE);
+        switchView.setVisibility(View.VISIBLE);
         termsEdittext.setVisibility(View.GONE);
         searchButton.setVisibility(View.GONE);
     }

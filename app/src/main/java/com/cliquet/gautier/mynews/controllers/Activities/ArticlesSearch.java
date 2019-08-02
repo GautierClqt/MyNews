@@ -4,6 +4,9 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +26,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.view.View.GONE;
+
 
 public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
@@ -36,6 +41,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     Gson gson = new Gson();
 
     RecyclerView recyclerView;
+    TextView failTextView;
 
     RecyclerViewAdapter adapter;
     String jsonQueriesHM;
@@ -47,6 +53,8 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
         Intent intent = getIntent();
 
+        failTextView = findViewById(R.id.activity_articles_search_failEditText);
+
         jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
@@ -56,7 +64,6 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     //Actions
     private void executeHttpRequestWithRetrofit() {
-        //NYtimesCalls.fetchSearchArticles(this, searchQueries);
         NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
     }
 
@@ -77,25 +84,33 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         });
     }
 
+    private void updateUiWhenStopingHttpRequest(String response){
+        recyclerView.setVisibility(GONE);
+        failTextView.setVisibility(View.VISIBLE);
+        failTextView.setText(response);
+    }
+
     @Override
     public void onResponse(PojoMaster pojoMaster) {
 
         if (pojoMaster != null) {
             response = pojoMaster.getResponse();
         }
-        if(articles.size() == 0){
+        if(response.getDocs().size() == 0){
             this.onFailure();
         }
         else {
             articles = articlesElements.settingListsPojoArticleSearch(response);
         }
+        recyclerView.setVisibility(View.VISIBLE);
+        failTextView.setVisibility(View.GONE);
 
         adapter.setArticles(articles);
     }
 
     @Override
     public void onFailure() {
-
+        this.updateUiWhenStopingHttpRequest(getString(R.string.failure));
     }
 
     @Override

@@ -10,4 +10,15 @@
         android:title=""
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/menu_Notifications_menu"
+        android:actionLayout="@layout/toolbar"
+        android:title="@string/notifications" />
+    <item
+        android:id="@+id/menu_help_item"
+        android:title="@string/help"/>
+    <item
+        android:id="@+id/menu_about_item"
+        android:title="@string/about"/>
+
 </menu>
