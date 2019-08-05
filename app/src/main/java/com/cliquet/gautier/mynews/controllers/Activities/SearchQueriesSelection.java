@@ -1,6 +1,10 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +17,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.Utils.AlarmReceiver;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
@@ -57,31 +63,31 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     String beginDate = "";
     String endDate = "";
     ArrayList<String> queryParamCheckboxes = new ArrayList<>();
-    ArrayList<Integer> idCheckboxes = new ArrayList<>();
-    String jsonIdCheckbox;
 
     String checkboxText;
-    long minDate;
 
     Utils utils = new Utils();
     private Gson gson = new Gson();
-    private SharedPreferences preferences;
-    private String jsonCheckboxes;
-
-    private PojoMaster mPojoMaster = new PojoMaster();
 
     private ArticlesElements articlesElements = new ArticlesElements();
+
+    Bundle bundle = new Bundle();
+    int calledActivity;
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_queries);
 
+        preferences = getPreferences(MODE_PRIVATE);
+
         this.initViews();
 
-        Bundle bundle = getIntent().getExtras();
+        bundle =getIntent().getExtras();
         if (bundle != null) {
-            int calledActivity = bundle.getInt("activity_called");
+            calledActivity = bundle.getInt("activity_called");
 
             //set up views as per selected activity
             switch (calledActivity) {
@@ -96,11 +102,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             }
         }
 
-        //idCheckboxes.add(3);
-        preferences = getPreferences(MODE_PRIVATE);
-
         findViewById();
-        getSearchPreferences();
     }
 
     private void findViewById() {
@@ -128,20 +130,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         switchView.setOnClickListener(this);
     }
 
-    private void getSearchPreferences() {
-        termsEdittext.setText(getPreferences(MODE_PRIVATE).getString("queryterms", ""));
-        beginDateEdittext.setText(getPreferences(MODE_PRIVATE).getString("begindate", ""));
-        endDateEdittext.setText(getPreferences(MODE_PRIVATE).getString("enddate", ""));
-        preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
-//        for(int i = 0; i <= queryParamCheckboxes.size(); i++) {
-//            if (queryParamCheckboxes.get(i).equals(strCheck)) {
-//                queryParamCheckboxes.remove(i);
-//                break;
-//            }
-//        }
-//        idCheckboxes = getPreferences(MODE_PRIVATE).getInt("idcheckbox", 0);
-        idCheckboxes = gson.fromJson(jsonIdCheckbox, new TypeToken<int[]>(){}.getType());
-}
 
     //choose dates in Edittexts via DatePickers
     private void setDateInEdittext(final View v) {
@@ -162,12 +150,10 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
                 if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
                     beginDate = utils.dateStringParamFormat(year, month, dayOfMonth);
-                    preferences.edit().putString("begindate", strDateConcatenation).apply();
                     //minDate = utils.setMinDate(calendar);
                 }
                 else {
                     endDate = utils.dateStringParamFormat(year, month, dayOfMonth);
-                    preferences.edit().putString("enddate", strDateConcatenation).apply();
                 }
                 dateEditText.setText(strDateConcatenation);
             }
@@ -234,12 +220,16 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         String jsonQueriesHM = gson.toJson(queriesHM);
 
-        preferences.edit().putString("queryterms", queryParamTerms = termsEdittext.getText().toString()).apply();
-        preferences.edit().putString("checkboxes", jsonCheckboxes = gson.toJson(queryParamCheckboxes)).apply();
-
-        Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
-                .putExtra("hashmap", jsonQueriesHM);
-        startActivity(searchArticleIntent);
+        switch(calledActivity) {
+            case 0: Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
+                    .putExtra("hashmap", jsonQueriesHM);
+            startActivity(searchArticleIntent);
+                    break;
+            case 1: preferences.edit().putString("notifications", jsonQueriesHM).apply();
+                    break;
+            default:
+                    break;
+        }
     }
 
     //get the id of the clicked checkbox
@@ -250,7 +240,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         //differentiate type of view to work accordingly with what is clicked on
         if (v instanceof CheckBox) {
 
-            preferences.edit().putString("idcheckboxes", jsonIdCheckbox = gson.toJson(idCheckboxes)).apply();
             CheckBox mCheckBox = findViewById(idView);
             boolean booleanCheckbox = mCheckBox.isChecked();
             checkboxText = mCheckBox.getText().toString();
@@ -264,7 +253,27 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 validateSearchPreferences();
             }
             else if (idView == switchView.getId()) {
-                //démarrer un Alarm manager
+                boolean boolSwitch = switchView.isChecked();
+
+                if(boolSwitch) {
+
+                    AlarmManager alarmManager;
+                    PendingIntent alarmIntent;
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+
+                    //calendar.set(Calendar.HOUR_OF_DAY, 18);
+                    calendar.set(Calendar.HOUR_OF_DAY, 19);
+                    calendar.set(Calendar.MINUTE, 47);
+
+
+                    alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+                    Intent intent = new Intent(this, AlarmReceiver.class);
+                    alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+                    alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+                }
             }
         }
     }

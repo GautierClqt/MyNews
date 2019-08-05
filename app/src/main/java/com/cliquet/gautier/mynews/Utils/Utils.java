@@ -1,5 +1,14 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.cliquet.gautier.mynews.controllers.Activities.SearchQueriesSelection;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,4 +76,22 @@ public class Utils {
 
         return minDate;
     }
+
+    private void startAlarm(Calendar calendar) {
+        //Toast.makeText(SearchQueriesSelection.class, "Salut", Toast.LENGTH_LONG).show();
+
+//        AlarmManager alarmManager;
+//        PendingIntent alarmIntent;
+//
+//        calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.HOUR_OF_DAY, 18);
+//
+//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+//
+//        startAlarm(calendar);
+//
+//        alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+    }
+
 }
