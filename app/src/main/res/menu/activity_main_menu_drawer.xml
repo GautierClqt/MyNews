@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ShowIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/activity_main_drawer_topstories"
+            android:icon="@drawable/icon_topstories"
+            android:title="Top Stories" />
+
+        <item
+            android:id="@+id/activity_main_drawer_mostpopular"
+            android:icon="@drawable/icon_mostpopular"
+            android:title="Most Popular" />
+
+        <item
+            android:id="@+id/activity_main_drawer_favorite"
+            android:icon="@drawable/icon_favorite"
+            android:title="Favorite" />
+
+        <item
+            android:id="@+id/activity_main_drawer_articlesearch"
+            android:icon="@drawable/icon_articlesearch"
+            android:title="articlesearch" />
+    </group>
+
+</menu>

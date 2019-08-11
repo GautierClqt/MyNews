@@ -2,16 +2,22 @@ package com.cliquet.gautier.mynews.controllers.Activities;
 
 import android.content.Intent;
 import com.cliquet.gautier.mynews.Utils.NotificationWorker;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +28,16 @@ import com.cliquet.gautier.mynews.Utils.PageAdapter;
 import com.cliquet.gautier.mynews.R;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener {
+
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         PeriodicWorkRequest uploadWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 24, TimeUnit.HOURS).build();
 
@@ -44,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         //3 - Configure ViewPager
         this.configureViewPagerAndTabs();
+        this.configureToolbar();
+        this.configureDrawerLayout();
+        this.configureNavigationView();
     }
 
     @Override
@@ -70,10 +80,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showPopup() {
-        PopupMenu popupMenu;
-
-    }
 
 
     private void configureViewPagerAndTabs() {
@@ -106,6 +112,54 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        switch(id){
+            case R.id.activity_main_drawer_topstories :
+                break;
+            case R.id.activity_main_drawer_mostpopular :
+                break;
+            case R.id.activity_main_drawer_favorite :
+                break;
+            case R.id.activity_main_drawer_articlesearch :
+                break;
+        }
+
+        this.drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    private void configureToolbar() {
+        this.toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void configureDrawerLayout() {
+        this.drawerLayout = findViewById(R.id.activity_main_drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void configureNavigationView() {
+        this.navigationView = findViewById(R.id.activity_main_nav_view);
+
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }
 

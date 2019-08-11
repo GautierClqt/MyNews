@@ -8,11 +8,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cliquet.gautier.mynews.controllers.Activities.SearchQueriesSelection;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
 
@@ -92,6 +96,18 @@ public class Utils {
 //        startAlarm(calendar);
 //
 //        alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+    }
+
+    public String hashMapPagination(String jsonQueries) {
+        Gson gson = new Gson();
+        HashMap<String, String> searchQueries;
+
+        searchQueries = gson.fromJson(jsonQueries, new TypeToken<HashMap<String, String>>(){}.getType());
+
+        searchQueries.put("page", searchQueries.get("page")+1);
+        jsonQueries = gson.toJson(searchQueries);
+
+        return jsonQueries;
     }
 
 }

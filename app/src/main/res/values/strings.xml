@@ -9,6 +9,10 @@
     <string name="help">Help</string>
     <string name="about">About</string>
 
+    <!-- Navigation drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="begin_date">Begin Date</string>
     <string name="end_date">End Date</string>
     <string name="failure">Oops, something went wrong! Try again later</string>
