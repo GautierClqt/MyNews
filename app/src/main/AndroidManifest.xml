@@ -24,9 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="$controllers.Activities.DisplaySelectedArticleActivity" />
+        <activity android:name=".controllers.Activities.DisplaySelectedArticleActivity" />
 
-        <receiver android:name="$Utils.AlarmReceiver"/>
+        <receiver android:name=".Utils.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.NOTIFY" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

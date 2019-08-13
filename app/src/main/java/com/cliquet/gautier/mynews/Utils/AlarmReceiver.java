@@ -1,9 +1,11 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cliquet.gautier.mynews.Models.Articles;
@@ -12,6 +14,7 @@ import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Callbacks {
@@ -24,11 +27,10 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
 
     String notifString;
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        jsonQueriesHM = preferences.getString("notifications", "");
+        //jsonQueriesHM = preferences.getString("notifications", "");
 
 //        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notification")
 //                .setSmallIcon(R.drawable.ic_launcher_background)
@@ -38,8 +40,10 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
 //
 //        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 //        notificationManager.notify(0, builder.build());
-        this.executeHttpRequestWithRetrofit();
 
+
+        //this.executeHttpRequestWithRetrofit();
+        Log.d("OnReceive", "TEST");
         Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
     }
 

@@ -11,7 +11,7 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_Notifications_menu"
+        android:id="@+id/menu_notifications_menu"
         android:actionLayout="@layout/toolbar"
         android:title="@string/notifications" />
     <item

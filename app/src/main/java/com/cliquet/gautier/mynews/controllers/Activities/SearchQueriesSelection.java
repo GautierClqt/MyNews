@@ -85,9 +85,9 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         this.initViews();
 
-        bundle =getIntent().getExtras();
+        bundle = getIntent().getExtras();
         if (bundle != null) {
-            calledActivity = bundle.getInt("activity_called");
+            calledActivity = bundle.getInt("actitivy_called");
 
             //set up views as per selected activity
             switch (calledActivity) {
@@ -264,15 +264,20 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                     calendar.setTimeInMillis(System.currentTimeMillis());
 
                     //calendar.set(Calendar.HOUR_OF_DAY, 18);
-                    calendar.set(Calendar.HOUR_OF_DAY, 19);
-                    calendar.set(Calendar.MINUTE, 47);
+                    //calendar.set(Calendar.HOUR_OF_DAY, 19);
 
+                    calendar.add(Calendar.SECOND, 20);
 
-                    alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+                    alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
                     Intent intent = new Intent(this, AlarmReceiver.class);
-                    alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); //TEST
+                    alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60, pendingIntent); //TEST
 
-                    alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+
+                    //alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+                    //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
                 }
             }
         }

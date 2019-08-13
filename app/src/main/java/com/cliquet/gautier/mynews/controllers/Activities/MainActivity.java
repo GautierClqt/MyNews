@@ -7,9 +7,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -17,12 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.cliquet.gautier.mynews.Utils.PageAdapter;
 import com.cliquet.gautier.mynews.R;
@@ -33,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,26 +60,27 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     //call correct menu activity according to the selected menu item
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent searchArticleIntent = new Intent(this, SearchQueriesSelection.class);
+
         switch (item.getItemId()) {
-            case R.id.menu_searchicon_item:
-                searchArticleIntent.putExtra("actitivy_called", 0);
-                startActivity(searchArticleIntent);
+            case R.id.menu_searchicon_item: launchActivity(0);
                 return true;
-            case R.id.menu_Notifications_menu:
-                searchArticleIntent.putExtra("activity_called", 1);
-                startActivity(searchArticleIntent);
+            case R.id.menu_notifications_menu: launchActivity(1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void launchActivity(int activitynbr) {
+        Intent intent = new Intent(this, SearchQueriesSelection.class);
+        intent.putExtra("actitivy_called", activitynbr);
+        startActivity(intent);
+    }
 
 
     private void configureViewPagerAndTabs() {
         //1 - Get ViewPager from layout
-        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        pager = findViewById(R.id.activity_main_viewpager);
         //2 - Set Adapter PageAdapter and glue it together
         pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
 
@@ -129,13 +125,15 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         int id = menuItem.getItemId();
 
         switch(id){
-            case R.id.activity_main_drawer_topstories :
+            case R.id.activity_main_drawer_topstories : pager.setCurrentItem(0);
                 break;
-            case R.id.activity_main_drawer_mostpopular :
+            case R.id.activity_main_drawer_mostpopular : pager.setCurrentItem(1);
                 break;
-            case R.id.activity_main_drawer_favorite :
+            case R.id.activity_main_drawer_favorite : pager.setCurrentItem(2);
                 break;
-            case R.id.activity_main_drawer_articlesearch :
+            case R.id.activity_main_drawer_articlesearch : launchActivity(0);
+                break;
+            case R.id.activity_main_drawer_notifications : launchActivity(1);
                 break;
         }
 

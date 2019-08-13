@@ -7,22 +7,27 @@
         <item
             android:id="@+id/activity_main_drawer_topstories"
             android:icon="@drawable/icon_topstories"
-            android:title="Top Stories" />
+            android:title="@string/top_stories" />
 
         <item
             android:id="@+id/activity_main_drawer_mostpopular"
             android:icon="@drawable/icon_mostpopular"
-            android:title="Most Popular" />
+            android:title="@string/most_popular" />
 
         <item
             android:id="@+id/activity_main_drawer_favorite"
             android:icon="@drawable/icon_favorite"
-            android:title="Favorite" />
+            android:title="@string/favorites" />
 
         <item
             android:id="@+id/activity_main_drawer_articlesearch"
             android:icon="@drawable/icon_articlesearch"
-            android:title="articlesearch" />
+            android:title="@string/search_articles" />
+
+        <item
+            android:id="@+id/activity_main_drawer_notifications"
+            android:icon="@drawable/icon_notification"
+            android:title="@string/notifications" />
     </group>
 
 </menu>
