@@ -38,13 +38,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
         WorkManager.getInstance().enqueue(uploadWorkRequest);
 
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.drawable.ic_launcher_background)
-//                .setContentTitle("notification")
-//                .setContentText("xxx nouveaux articles sont disponibles")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        //3 - Configure ViewPager
         this.configureViewPagerAndTabs();
         this.configureToolbar();
         this.configureDrawerLayout();

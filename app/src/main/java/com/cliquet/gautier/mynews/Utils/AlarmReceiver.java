@@ -1,6 +1,9 @@
 package com.cliquet.gautier.mynews.Utils;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +11,19 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.cliquet.gautier.mynews.Models.Articles;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
+import com.cliquet.gautier.mynews.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.cliquet.gautier.mynews.MyNewsNotificationChannel.CHANNEL_NEW_ARTICLES;
 
 
 public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Callbacks {
@@ -25,6 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
     String jsonQueriesHM;
     SharedPreferences preferences;
 
+    NotificationManagerCompat notificationManager;
     String notifString;
 
     @Override
@@ -32,14 +42,16 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
 
         //jsonQueriesHM = preferences.getString("notifications", "");
 
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notification")
-//                .setSmallIcon(R.drawable.ic_launcher_background)
-//                .setContentTitle("MyNews")
-//                .setContentText("There are x new articles, read them!")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-//        notificationManager.notify(0, builder.build());
+        notificationManager = NotificationManagerCompat.from(context);
+
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_NEW_ARTICLES)
+                .setSmallIcon(R.drawable.ic_nytlogo)
+                .setContentTitle("MyNews")
+                .setContentText("There are x new articles, read them!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+
+        notificationManager.notify(0, notification);
 
 
         //this.executeHttpRequestWithRetrofit();

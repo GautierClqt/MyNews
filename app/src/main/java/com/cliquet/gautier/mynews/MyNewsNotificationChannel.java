@@ -25,8 +25,8 @@ public class MyNewsNotificationChannel extends Application {
             );
             channel.setDescription("Notice if new articles are available");
 
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }
