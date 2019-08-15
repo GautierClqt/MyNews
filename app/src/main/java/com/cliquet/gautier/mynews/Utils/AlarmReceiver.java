@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,14 +20,19 @@ import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.cliquet.gautier.mynews.MyNewsNotificationChannel.CHANNEL_NEW_ARTICLES;
 
 
 public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Callbacks {
+
+    Context context;
 
     ArticlesElements articlesElements = new ArticlesElements();
     Response response = new Response();
@@ -37,29 +43,37 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
     NotificationManagerCompat notificationManager;
     String notifString;
 
+    Gson gson = new Gson();
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        this.context = context;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        //preferences = context.getSharedPreferences("preferences", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         //jsonQueriesHM = preferences.getString("notifications", "");
+
+
 
         notificationManager = NotificationManagerCompat.from(context);
 
-        Notification notification = new NotificationCompat.Builder(context, CHANNEL_NEW_ARTICLES)
-                .setSmallIcon(R.drawable.ic_nytlogo)
-                .setContentTitle("MyNews")
-                .setContentText("There are x new articles, read them!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .build();
-
-        notificationManager.notify(0, notification);
+        this.executeHttpRequestWithRetrofit();
 
 
-        //this.executeHttpRequestWithRetrofit();
+
         Log.d("OnReceive", "TEST");
         Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
     }
 
     private void executeHttpRequestWithRetrofit() {
+        //-------FOR TEST!!!!!
+        int TEST = 151515151;
+        HashMap<String, String> queriesHM = new HashMap<>();
+        queriesHM.put("begin_date", "politics");
+        String jsonQueriesHM = gson.toJson(queriesHM);
+        //END TEST!!!!!-----------
         NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
     }
 
@@ -100,14 +114,17 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
         else if(response.getDocs().size() == 0){
             this.onFailure();
         }
+        int TEST = 0;
 //        else {
 //            ArrayList<Articles> mArticles = articlesElements.settingListsPojoArticleSearch(response);
 //        }
+        sendingNotification();
     }
 
     @Override
     public void onFailure() {
         notifString = "Sorry, there was an error, we can't tell you about new articles right now...";
+        sendingNotification();
     }
 
     private void firstTimeUse(Response response) {
@@ -129,6 +146,18 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
         else if(newArticles > 1) {
             notifString = "There are" + newArticles + "new articles, check them!";
         }
+    }
+
+    private void sendingNotification() {
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_NEW_ARTICLES)
+                .setSmallIcon(R.drawable.ic_nytlogo)
+                .setContentTitle("MyNews")
+                //.setContentText("There are x new articles, read them!")
+                .setContentText(notifString)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+
+        notificationManager.notify(0, notification);
     }
 
 }

@@ -230,6 +230,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             default:
                     break;
         }
+        int TEST = 123456789;
     }
 
     //get the id of the clicked checkbox
@@ -274,6 +275,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); //TEST
                     alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60, pendingIntent); //TEST
 
+                    validateSearchPreferences();
 
                     //alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
