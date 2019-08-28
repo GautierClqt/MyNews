@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Utils {
 
@@ -53,7 +54,7 @@ public class Utils {
         return dateLayoutFormat;
     }
 
-    public String dateStringParamFormat(int year, int month, int dayOfMonth) {
+    public String dateStringFormat(int year, int month, int dayOfMonth) {
         String dateLayoutFormat;
 
         dateLayoutFormat = (year+"");
@@ -74,6 +75,41 @@ public class Utils {
 
         return dateLayoutFormat;
     }
+
+    public String notificationBeginDate() {
+        String beginDate;
+        Calendar calendar = Calendar.getInstance();
+
+        beginDate = createNotificationDate(calendar);
+
+        return beginDate;
+    }
+
+    public String notificationEndDate() {
+        String endDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+
+        endDate = createNotificationDate(calendar);
+
+        return endDate;
+    }
+
+    public String createNotificationDate(Calendar calendar) {
+        String date;
+        int year;
+        int month;
+        int dayOfMonth;
+
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        date = this.dateStringFormat(year, month+1, dayOfMonth);
+
+        return date;
+    }
+
 
     public long setMinDate(Calendar calendar) {
         long minDate = calendar.getTimeInMillis();
@@ -98,13 +134,17 @@ public class Utils {
 //        alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
     }
 
-    public String hashMapPagination(String jsonQueries) {
+    String hashMapPagination(String jsonQueries) {
         Gson gson = new Gson();
         HashMap<String, String> searchQueries;
 
         searchQueries = gson.fromJson(jsonQueries, new TypeToken<HashMap<String, String>>(){}.getType());
 
-        searchQueries.put("page", searchQueries.get("page")+1);
+        if(searchQueries.get("page") != null) {
+            int page = Integer.parseInt(searchQueries.get("page"));
+            page++;
+            searchQueries.put("page", String.valueOf(page));
+        }
         jsonQueries = gson.toJson(searchQueries);
 
         return jsonQueries;

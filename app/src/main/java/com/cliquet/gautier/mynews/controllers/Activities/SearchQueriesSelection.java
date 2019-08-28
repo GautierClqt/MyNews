@@ -3,7 +3,6 @@ package com.cliquet.gautier.mynews.controllers.Activities;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +16,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
@@ -26,7 +24,6 @@ import com.cliquet.gautier.mynews.Utils.AlarmReceiver;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,7 +78,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_queries);
 
-        preferences = getPreferences(MODE_PRIVATE);
+        preferences = getSharedPreferences("MyNewsPreferences", MODE_PRIVATE);
 
         this.initViews();
 
@@ -149,11 +146,11 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 String strDateConcatenation;
                 strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
                 if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
-                    beginDate = utils.dateStringParamFormat(year, month, dayOfMonth);
+                    beginDate = utils.dateStringFormat(year, month, dayOfMonth);
                     //minDate = utils.setMinDate(calendar);
                 }
                 else {
-                    endDate = utils.dateStringParamFormat(year, month, dayOfMonth);
+                    endDate = utils.dateStringFormat(year, month, dayOfMonth);
                 }
                 dateEditText.setText(strDateConcatenation);
             }
@@ -221,16 +218,17 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         String jsonQueriesHM = gson.toJson(queriesHM);
 
         switch(calledActivity) {
-            case 0: Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
-                    .putExtra("hashmap", jsonQueriesHM);
-            startActivity(searchArticleIntent);
-                    break;
-            case 1: preferences.edit().putString("notifications", jsonQueriesHM).apply();
-                    break;
+            case 0:
+                Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
+                        .putExtra("hashmap", jsonQueriesHM);
+                startActivity(searchArticleIntent);
+                break;
+            case 1:
+                preferences.edit().putString("notifications", jsonQueriesHM).apply();
+                break;
             default:
-                    break;
+                break;
         }
-        int TEST = 123456789;
     }
 
     //get the id of the clicked checkbox
@@ -257,12 +255,19 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 boolean boolSwitch = switchView.isChecked();
 
                 if(boolSwitch) {
+                    Calendar calendar = Calendar.getInstance();
+//                    beginDate = utils.notificationBeginDate();
+//                    endDate = utils.notificationEndDate();
+                    endDate = utils.createNotificationDate(calendar);
+                    calendar.add(Calendar.DATE, -1);
+                    beginDate = utils.createNotificationDate(calendar);
 
                     AlarmManager alarmManager;
                     PendingIntent alarmIntent;
 
-                    Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());
+
+
 
                     //calendar.set(Calendar.HOUR_OF_DAY, 18);
                     //calendar.set(Calendar.HOUR_OF_DAY, 19);
@@ -314,13 +319,17 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         switchView.setVisibility(View.GONE);
         termsEdittext.setVisibility(View.VISIBLE);
         searchButton.setVisibility(View.VISIBLE);
+        beginDateEdittext.setVisibility(View.VISIBLE);
+        endDateEdittext.setVisibility(View.VISIBLE);
     }
 
     private void setupNotificationsViews() {
         switchTextView.setVisibility(View.VISIBLE);
         switchView.setVisibility(View.VISIBLE);
-        termsEdittext.setVisibility(View.GONE);
+        termsEdittext.setVisibility(View.VISIBLE);
         searchButton.setVisibility(View.GONE);
+        beginDateEdittext.setVisibility(View.GONE);
+        endDateEdittext.setVisibility(View.GONE);
     }
 
     @Override

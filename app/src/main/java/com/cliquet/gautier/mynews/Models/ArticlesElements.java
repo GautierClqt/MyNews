@@ -10,10 +10,8 @@ import java.util.List;
 public class ArticlesElements {
 
     private int i;
-
     private int currentPage;
 
-    private Gson gson = new Gson();
     private ArrayList<Articles> articlesSearchList = new ArrayList<>();
 
     public List<Articles> settingListsPojoTopStories(List<Results> results) {
@@ -54,9 +52,12 @@ public class ArticlesElements {
         String mUrlImage;
 
         int mHits = Integer.parseInt(response.getMeta().getHits());
+
+        //mHits represents the number of Articles in the response, if mHits is less than 10 then mMaxPage will equals to -1
         int mMaxPage = (mHits / 10) - 1;
 
-        if(currentPage <= mMaxPage) {
+        //mMaxPage could be less than 0 if there is less than 10 articles in the response
+        if(currentPage <= mMaxPage || mHits <= 10) {
             for(i = 0; i <= response.getDocs().size()-1; i++) {
                 String mTitle = response.getDocs().get(i).getHeadline().getMain();
                 String mSection = response.getDocs().get(i).getSectionName();
@@ -89,26 +90,27 @@ public class ArticlesElements {
 
         String mUrlImage;
 
-        for(i = 0; i <= results.size()-1; i++) {
-            String mTitle = results.get(i).getTitle();
-            String mSection = results.get(i).getSection();
-            String mSubsection = results.get(i).getSubsection();
-            if(!(mSubsection == null || mSubsection.equals(""))){
-                mSection = mSection + " > " + mSubsection;
-            }
-            String mDate = results.get(i).getPublished_date();
-            String mUrlArticle = results.get(i).getUrl();
+        if(results != null) {
+            for (i = 0; i <= results.size() - 1; i++) {
+                String mTitle = results.get(i).getTitle();
+                String mSection = results.get(i).getSection();
+                String mSubsection = results.get(i).getSubsection();
+                if (!(mSubsection == null || mSubsection.equals(""))) {
+                    mSection = mSection + " > " + mSubsection;
+                }
+                String mDate = results.get(i).getPublished_date();
+                String mUrlArticle = results.get(i).getUrl();
 
-            if(results.get(i).getMedia() != null) {
-                mUrlImage = results.get(i).getMedia().get(0).getMedia_metadata().get(0).getUrl();
-            }
-            else {
-                mUrlImage = "";
-            }
-            String mId = results.get(i).getId();
+                if (results.get(i).getMedia() != null) {
+                    mUrlImage = results.get(i).getMedia().get(0).getMedia_metadata().get(0).getUrl();
+                } else {
+                    mUrlImage = "";
+                }
+                String mId = results.get(i).getId();
 
-            Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
-            articlesSearchList.add(articles);
+                Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, 0);
+                articlesSearchList.add(articles);
+            }
         }
 
         return articlesSearchList;
