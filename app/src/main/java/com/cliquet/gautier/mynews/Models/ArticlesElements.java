@@ -2,6 +2,7 @@ package com.cliquet.gautier.mynews.Models;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.Results;
+import com.cliquet.gautier.mynews.R;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

@@ -38,7 +38,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     EditText beginDateEdittext;
     EditText endDateEdittext;
 
-    DatePickerDialog dateDatepickerdialog;
+    DatePickerDialog datePicker;
 
     //view: checkboxes
     CheckBox artsCheckbox;
@@ -139,15 +139,13 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         int month = calendar.get(Calendar.MONTH) + 1;
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-
-        dateDatepickerdialog = new DatePickerDialog(SearchQueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
+        datePicker = new DatePickerDialog(SearchQueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String strDateConcatenation;
                 strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
                 if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
                     beginDate = utils.dateStringFormat(year, month, dayOfMonth);
-                    //minDate = utils.setMinDate(calendar);
                 }
                 else {
                     endDate = utils.dateStringFormat(year, month, dayOfMonth);
@@ -155,8 +153,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 dateEditText.setText(strDateConcatenation);
             }
         }, year, month, dayOfMonth);
-        dateDatepickerdialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-        dateDatepickerdialog.show();
+        datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        datePicker.show();
     }
 
     //verify if a checkbox is check or uncheck
@@ -254,30 +252,27 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             else if (idView == switchView.getId()) {
                 boolean boolSwitch = switchView.isChecked();
 
+                AlarmManager alarmManager;
+                alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(this, AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); //TEST
+
                 if(boolSwitch) {
+                    trueBoolSwitch();
+
                     Calendar calendar = Calendar.getInstance();
-//                    beginDate = utils.notificationBeginDate();
-//                    endDate = utils.notificationEndDate();
+//
                     endDate = utils.createNotificationDate(calendar);
                     calendar.add(Calendar.DATE, -1);
                     beginDate = utils.createNotificationDate(calendar);
 
-                    AlarmManager alarmManager;
-                    PendingIntent alarmIntent;
-
                     calendar.setTimeInMillis(System.currentTimeMillis());
-
-
 
                     //calendar.set(Calendar.HOUR_OF_DAY, 18);
                     //calendar.set(Calendar.HOUR_OF_DAY, 19);
 
                     calendar.add(Calendar.SECOND, 20);
 
-                    alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-
-                    Intent intent = new Intent(this, AlarmReceiver.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); //TEST
                     alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60, pendingIntent); //TEST
 
                     validateSearchPreferences();
@@ -285,6 +280,10 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                     //alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
                     //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+                }
+                else {
+                    falseBoolSwitch();
+                    alarmManager.cancel(pendingIntent);
                 }
             }
         }
@@ -330,6 +329,28 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         searchButton.setVisibility(View.GONE);
         beginDateEdittext.setVisibility(View.GONE);
         endDateEdittext.setVisibility(View.GONE);
+    }
+
+    private void trueBoolSwitch() {
+        //if switch is true then disable every other views
+        termsEdittext.setEnabled(false);
+        artsCheckbox.setEnabled(false);
+        businessCheckbox.setEnabled(false);
+        entrepreneursCheckbox.setEnabled(false);
+        politicsCheckbox.setEnabled(false);
+        sportsCheckbox.setEnabled(false);
+        travelCheckbox.setEnabled(false);
+    }
+
+    private void falseBoolSwitch() {
+        //if switch is true then disable every other views
+        termsEdittext.setEnabled(true);
+        artsCheckbox.setEnabled(true);
+        businessCheckbox.setEnabled(true);
+        entrepreneursCheckbox.setEnabled(true);
+        politicsCheckbox.setEnabled(true);
+        sportsCheckbox.setEnabled(true);
+        travelCheckbox.setEnabled(true);
     }
 
     @Override

@@ -4,6 +4,27 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- items strings -->
+    <string name="item_title">title</string>
+    <string name="item_date">date</string>
+    <string name="item_section">section</string>
+
+    <!-- Queries selection activity strings -->
+    <string name="searching_terms">Searching terms</string>
+
+    <string name="begin_date">Begin Date</string>
+    <string name="end_date">End Date</string>
+
+    <string name="checkbox_politics">Politics</string>
+    <string name="checkbox_sports">Sports</string>
+    <string name="checkbox_arts">Arts</string>
+    <string name="checkbox_travel">Travel</string>
+    <string name="checkbox_business">Business</string>
+    <string name="checkbox_entrepreneurs">Entrepreneurs</string>
+
+    <string name="search_button">SEARCH</string>
+    <string name="search_switch_text">Enable notifications(Once per day)</string>
+
     <!-- popup menu string name and navigation drawer -->
     <string name="notifications">Notifications</string>
     <string name="help">Help</string>
@@ -18,11 +39,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="begin_date">Begin Date</string>
-    <string name="end_date">End Date</string>
-    <string name="failure">Oops, something went wrong! Try again later</string>
-    <string name="onPreExecute">Ongoing Request, please wait…</string>
-
-
+    <!-- Request status messages -->
+    <string name="waiting_request">Ongoing Request, please wait…</string>
+    <string name="error_no_article">There is no article to display at the moment</string>
+    <string name="error_failure">Oops, something went wrong! Try again later…</string>
+    <string name="error_bad_request">The request return no article, check again later.</string>
 
 </resources>

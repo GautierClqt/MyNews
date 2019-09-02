@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ public class Utils {
     public String simplifyDateFormat(String rawDate) throws ParseException {
         Date simpleDate;
         if(rawDate != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
             SimpleDateFormat sdfOut = new SimpleDateFormat("dd-MM-yyyy");
             simpleDate = sdf.parse(rawDate);
             rawDate = sdfOut.format(simpleDate);

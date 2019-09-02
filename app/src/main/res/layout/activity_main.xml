@@ -24,7 +24,7 @@
             android:id="@+id/activity_main_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#B6C9F1"
+            android:background="@color/colorSecondary"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabSelectedTextColor="#fff"
             app:tabTextColor="#D4E0F8" />
@@ -32,7 +32,8 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/activity_main_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/lightColorSecondary"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

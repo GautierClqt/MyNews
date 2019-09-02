@@ -26,7 +26,7 @@ public class UtilsTest {
         assertEquals("20190307", date);
 
         //all is 10 or more
-        date = utils.dateStringFormat(2019,12, 25);
+        date = utils.dateStringFormat(2019,12,25);
         assertEquals("20191225", date);
     }
 }

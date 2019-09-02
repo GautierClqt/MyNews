@@ -62,7 +62,7 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
         if(Integer.parseInt(pojoMaster.getResponse().getMeta().getHits()) != 0) {
             Utils utils = new Utils();
             Notif notif = new Notif();
-            
+
             int iteration = 0;
             boolean boolArticles = false;
 

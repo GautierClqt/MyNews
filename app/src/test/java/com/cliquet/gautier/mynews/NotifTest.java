@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 public class NotifTest {
 
     @Test
-    public void checkDocsSize() throws Exception {
+    public void checkDocsSize() {
     }
 
     @Test
-    public void generateNotificationFirstTimeUse() throws Exception {
+    public void generateNotificationFirstTimeUse() {
         Notif notif = new Notif();
         String notifString;
 
@@ -30,7 +30,7 @@ public class NotifTest {
     }
 
     @Test
-    public void generateNotificationDailyUse() throws Exception {
+    public void generateNotificationDailyUse() {
         Notif notif = new Notif();
         String notifString;
 
@@ -40,12 +40,12 @@ public class NotifTest {
         notifString = notif.dailyUse(1);
         assertEquals("There is 1 new article, check it!", notifString);
 
-        notifString =  notif.dailyUse(16);
+        notifString = notif.dailyUse(16);
         assertEquals("There are 16 new articles, check them!", notifString);
     }
 
     @Test
-    public void calcNbrArticles() throws Exception {
+    public void calcNbrArticles() {
         Notif notif = new Notif();
         int nbrArticles;
 
@@ -54,9 +54,5 @@ public class NotifTest {
 
         nbrArticles = notif.countingNewArticles(4, 0);
         assertEquals(4, nbrArticles);
-    }
-
-    @Test
-    public void Given_FirstNewDateEqualsLastDate_When_CheckingForNewArticles_Then_GenerateCorrectNotification() {
     }
 }

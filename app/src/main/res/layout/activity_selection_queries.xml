@@ -16,7 +16,7 @@
             android:id="@+id/activity_search_articles_terms_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search query term" />
+            android:hint="@string/searching_terms" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -61,19 +61,19 @@
                     android:id="@+id/activity_search_articles_arts_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Arts" />
+                    android:text="@string/checkbox_arts" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_business_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Business" />
+                    android:text="@string/checkbox_business" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_entrepreneurs_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Entrepreneurs" />
+                    android:text="@string/checkbox_entrepreneurs" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -86,19 +86,19 @@
                     android:id="@+id/activity_search_articles_politics_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Politics" />
+                    android:text="@string/checkbox_politics" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_sports_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sports" />
+                    android:text="@string/checkbox_sports" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/activity_search_articles_travel_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Travel" />
+                    android:text="@string/checkbox_travel" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -106,7 +106,7 @@
             android:id="@+id/activity_search_articles_search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SEARCH" />
+            android:text="@string/search_button" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:text="Enable notif(Once per day)" />
+                android:text="@string/search_switch_text" />
 
             <Switch
                 android:id="@+id/activity_search_articles_switch"

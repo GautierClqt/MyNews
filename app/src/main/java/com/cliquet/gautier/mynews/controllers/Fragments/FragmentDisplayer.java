@@ -54,14 +54,13 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_top_stories, container, false);
-
-        this.executeHttpRequestWithRetrofit();
+        View view =  inflater.inflate(R.layout.fragment_recycler, container, false);
 
         recyclerView = view.findViewById(R.id.fragment_top_stories_recyclerview);
         failTextView = view.findViewById(R.id.fragment_top_stories_failEditText);
         viewPager = view.findViewById(R.id.activity_main_viewpager);
 
+        this.executeHttpRequestWithRetrofit();
         return view;
     }
 
@@ -85,8 +84,14 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     @Override
     public void onResponse(@Nullable PojoMaster mPojoMaster) {
         //getting all elements from the request and setting Elements object for further use
+        int size = 0;
         if (mPojoMaster != null) {
             results = mPojoMaster.getResults();
+            size = results.size();
+        }
+
+        if(size == 0) {
+            this.updateUiWhenStopingHttpRequest(getString(R.string.error_no_article));
         }
 
         List<Articles> mArticles = null;
@@ -96,7 +101,6 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
                 break;
             case 1:
                 mArticles = articlesElements.settingListsMostPopular(results);
-//            case 1: call = nYTimesService.getTopStories(section);
                 break;
             case 2:
                 mArticles = articlesElements.settingListsPojoTopStories(results);
@@ -113,21 +117,22 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
 
     @Override
     public void onFailure() {
-        this.updateUiWhenStopingHttpRequest(getString(R.string.failure));
+        this.updateUiWhenStopingHttpRequest(getString(R.string.error_failure));
     }
 
     private void updateUiWhenStartingHttpRequest(){
+        failTextView.setText(R.string.waiting_request);
     }
 
-    private void updateUiWhenStopingHttpRequest(String response){
+    private void updateUiWhenStopingHttpRequest(String message){
         recyclerView.setVisibility(View.GONE);
         failTextView.setVisibility(View.VISIBLE);
-        failTextView.setText(response);
+        failTextView.setText(message);
     }
 
     @Override
     public void onPreExecute() {
-        failTextView.setText(R.string.onPreExecute);
+        failTextView.setText(R.string.waiting_request);
     }
 
     @Override

@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/fragment_top_stories_rootview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_articles_search_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCCCC"
+    tools:context=".controllers.Fragments.FragmentDisplayer"
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
-    tools:context=".controllers.Activities.ArticlesSearch">
+    android:background="@color/darkSecondaryColor">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_articles_search_recycler"
+        android:id="@+id/fragment_top_stories_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
     <TextView
-        android:id="@+id/activity_articles_search_failEditText"
+        android:id="@+id/fragment_top_stories_failEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="@string/failure"/>
+        android:visibility="visible"
+        tools:text="@string/error_failure" />
 
 </LinearLayout>

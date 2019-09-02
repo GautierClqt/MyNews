@@ -49,7 +49,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_articles_search);
+        setContentView(R.layout.activity_search_recycler);
 
         Intent intent = getIntent();
 
@@ -64,6 +64,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     //Actions
     private void executeHttpRequestWithRetrofit() {
+        this.updateUiWhenStartingHttpRequest();
         NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
     }
 
@@ -84,10 +85,9 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         });
     }
 
-    private void updateUiWhenStopingHttpRequest(String response){
-        recyclerView.setVisibility(GONE);
+    private void updateUiWhenStartingHttpRequest(){
         failTextView.setVisibility(View.VISIBLE);
-        failTextView.setText(response);
+        failTextView.setText(R.string.waiting_request);
     }
 
     @Override
@@ -97,20 +97,26 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
             response = pojoMaster.getResponse();
         }
         if(response.getDocs().size() == 0){
-            this.onFailure();
+            this.updateUiWhenStopingHttpRequest(getString(R.string.error_bad_request));
+
         }
         else {
             articles = articlesElements.settingListsPojoArticleSearch(response);
+            recyclerView.setVisibility(View.VISIBLE);
+            failTextView.setVisibility(View.GONE);
+            adapter.setArticles(articles);
         }
-        recyclerView.setVisibility(View.VISIBLE);
-        failTextView.setVisibility(View.GONE);
-
-        adapter.setArticles(articles);
     }
 
     @Override
     public void onFailure() {
-        this.updateUiWhenStopingHttpRequest(getString(R.string.failure));
+        this.updateUiWhenStopingHttpRequest(getString(R.string.error_failure));
+    }
+
+    private void updateUiWhenStopingHttpRequest(String message){
+        recyclerView.setVisibility(GONE);
+        failTextView.setVisibility(View.VISIBLE);
+        failTextView.setText(message);
     }
 
     @Override

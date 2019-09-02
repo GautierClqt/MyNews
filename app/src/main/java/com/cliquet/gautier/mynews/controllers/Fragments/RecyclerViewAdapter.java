@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,13 +92,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Glide.with(viewHolder.urlImage).load(articles.get(i).getUrlImage()).into(viewHolder.urlImage);
         }
         else {
-            viewHolder.urlImage.setVisibility(View.GONE);
+            //load a default image if no images were provided by the api
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                viewHolder.urlImage.setImageDrawable(mContext.getDrawable(R.drawable.icon_nopicture));
+            }
         }
 
-        //check if article has benn read to change its background color
+        //check if article has been read to change its background color
         for(int j = 0; j <= clickedIdList.size()-1; j++){
             if(articles.get(i).getId().equals(clickedIdList.get(j))) {
-                viewHolder.mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.readArticles));
             }
         }
 
@@ -110,13 +116,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 int j = 0;
                 if(idListSize == 0) {
                     clickedIdList.add(articles.get(i).getId());
-                    viewHolder.mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.readArticles));
                 }
                 else {
                     while(j <= idListSize) {
                         if(j == idListSize) {
                             clickedIdList.add(articles.get(i).getId());
-                            viewHolder.mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.readArticles));
                             break;
                         }
                         else if(articles.get(i).getId().equals(clickedIdList.get(j))) {

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#757575</color>
+    <color name="colorPrimaryDark">#494949</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="primaryLightColor">#a4a4a4</color>
+    <color name="colorSecondary">#546e7a</color>
+    <color name="lightColorSecondary">#819ca9</color>
+    <color name="darkSecondaryColor">#29434e</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="unreadArticles">#FFFFFF</color>
+    <color name="readArticles">#FFECB3</color>
 
     <!-- Array of colors that will be used by ViewPager as background colors -->
     <array name="colorPagesViewPager">
