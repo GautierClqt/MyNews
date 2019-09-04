@@ -73,6 +73,14 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
     SharedPreferences preferences;
 
+    int minYear;
+    int minMonth;
+    int minDay;
+    int maxYear;
+    int maxMonth;
+    int maxDay;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,12 +139,16 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     //choose dates in Edittexts via DatePickers
     private void setDateInEdittext(final View v) {
 
+
+        int test = 0;
+
+
         //get the correct Edittext
         int idEdittext = v.getId();
         final EditText dateEditText = findViewById(idEdittext);
-        final Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         datePicker = new DatePickerDialog(SearchQueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
@@ -146,14 +158,51 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
                 if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
                     beginDate = utils.dateStringFormat(year, month, dayOfMonth);
+                    minYear = year;
+                    minMonth = month;
+                    minDay = dayOfMonth;
                 }
                 else {
                     endDate = utils.dateStringFormat(year, month, dayOfMonth);
+                    maxYear = year;
+                    maxMonth = month;
+                    maxDay = dayOfMonth;
                 }
                 dateEditText.setText(strDateConcatenation);
             }
         }, year, month, dayOfMonth);
+
+        if(!beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
+            calendar.set(Calendar.YEAR, minYear);
+            calendar.set(Calendar.MONTH, minMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, minDay);
+            datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
+            calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+            datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            test = 1;
+        }
+        else if (beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
+            Calendar.getInstance();
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+            datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            test = 3;
+        }
+
+        if(!endDate.equals("") && !(v == findViewById(R.id.activity_search_articles_enddate_edittext))) {
+            calendar.set(Calendar.YEAR, maxYear);
+            calendar.set(Calendar.MONTH, maxMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, maxDay);
+            datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            test = 2;
+        }
+
         datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
         datePicker.show();
     }
 

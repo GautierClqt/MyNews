@@ -39,10 +39,10 @@ public class Utils {
         dateLayoutFormat = (year+"");
 
         if(month < 10) {
-            dateLayoutFormat = (dateLayoutFormat+"/0"+month);
+            dateLayoutFormat = (dateLayoutFormat+"/0"+(month+1));
         }
         else {
-            dateLayoutFormat = (dateLayoutFormat+"/"+month);
+            dateLayoutFormat = (dateLayoutFormat+"/"+(month+1));
         }
 
         if(dayOfMonth < 10) {
@@ -61,10 +61,10 @@ public class Utils {
         dateLayoutFormat = (year+"");
 
         if(month < 10) {
-            dateLayoutFormat = (dateLayoutFormat+"0"+month);
+            dateLayoutFormat = (dateLayoutFormat+"0"+(month+1));
         }
         else {
-            dateLayoutFormat = (dateLayoutFormat+month);
+            dateLayoutFormat = (dateLayoutFormat+(month+1));
         }
 
         if(dayOfMonth < 10) {
