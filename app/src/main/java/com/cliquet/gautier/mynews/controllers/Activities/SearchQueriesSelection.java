@@ -139,10 +139,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     //choose dates in Edittexts via DatePickers
     private void setDateInEdittext(final View v) {
 
-
-        int test = 0;
-
-
         //get the correct Edittext
         int idEdittext = v.getId();
         final EditText dateEditText = findViewById(idEdittext);
@@ -151,6 +147,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
+        //select begin and end dates
         datePicker = new DatePickerDialog(SearchQueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -172,37 +169,26 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             }
         }, year, month, dayOfMonth);
 
+        //Conditions that prevent users to select a begin date higher than end date and vice versa
         if(!beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
-            calendar.set(Calendar.YEAR, minYear);
-            calendar.set(Calendar.MONTH, minMonth);
-            calendar.set(Calendar.DAY_OF_MONTH, minDay);
+            calendar = utils.setMinMaxDate(minYear, minMonth, minDay);
             datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
             calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+            calendar = utils.setMinMaxDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-            test = 1;
         }
         else if (beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
             Calendar.getInstance();
-            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+            calendar = utils.setMinMaxDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-            test = 3;
         }
 
         if(!endDate.equals("") && !(v == findViewById(R.id.activity_search_articles_enddate_edittext))) {
-            calendar.set(Calendar.YEAR, maxYear);
-            calendar.set(Calendar.MONTH, maxMonth);
-            calendar.set(Calendar.DAY_OF_MONTH, maxDay);
+
+            calendar = utils.setMinMaxDate(maxYear, maxMonth, maxDay);
             datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-            test = 2;
         }
-
         datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-
         datePicker.show();
     }
 
@@ -233,32 +219,34 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
-        String queryCheckboxes = "news_desk:(";
+//        String queryCheckboxes = "news_desk:(";
 
-        HashMap<String, String> queriesHM = new HashMap<>();
-        queryParamTerms = String.valueOf(termsEdittext.getText());
+        HashMap<String, String> queriesHM;
+        queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), beginDate, endDate, queryParamCheckboxes);
 
-        //put each setted queries in queriesHM.
-        if(!queryParamTerms.equals("")){
-            queriesHM.put("q", String.valueOf(termsEdittext.getText()));
-        }
-        if(!beginDate.equals("")) {
-            queriesHM.put("begin_date", beginDate);
-        }
-        if(!endDate.equals("")) {
-            queriesHM.put("end_date", endDate);
-        }
-        if(queryParamCheckboxes.size() > 0) {
-            for (int i = 0; i < queryParamCheckboxes.size(); i++) {
-                if (i == 0) {
-                    queryCheckboxes = queryCheckboxes + "\"" + queryParamCheckboxes.get(i) + "\"";
-                } else {
-                    queryCheckboxes = queryCheckboxes + " \"" + queryParamCheckboxes.get(i) + "\"";
-                }
-            }
-            queryCheckboxes = queryCheckboxes + ")";
-            queriesHM.put("fq", queryCheckboxes);
-        }
+//        queryParamTerms = String.valueOf(termsEdittext.getText());
+//
+//        //put each setted queries in queriesHM.
+//        if(!queryParamTerms.equals("")){
+//            queriesHM.put("q", queryParamTerms);
+//        }
+//        if(!beginDate.equals("")) {
+//            queriesHM.put("begin_date", beginDate);
+//        }
+//        if(!endDate.equals("")) {
+//            queriesHM.put("end_date", endDate);
+//        }
+//        if(queryParamCheckboxes.size() > 0) {
+//            for (int i = 0; i < queryParamCheckboxes.size(); i++) {
+//                if (i == 0) {
+//                    queryCheckboxes = queryCheckboxes + "\"" + queryParamCheckboxes.get(i) + "\"";
+//                } else {
+//                    queryCheckboxes = queryCheckboxes + " \"" + queryParamCheckboxes.get(i) + "\"";
+//                }
+//            }
+//            queryCheckboxes = queryCheckboxes + ")";
+//            queriesHM.put("fq", queryCheckboxes);
+//        }
 
         queriesHM.put("page", String.valueOf(articlesElements.getCurrentPage()));
 

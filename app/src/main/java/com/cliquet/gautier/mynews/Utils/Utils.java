@@ -13,9 +13,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -111,11 +113,46 @@ public class Utils {
         return date;
     }
 
+    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<String> queryParamCheckboxes) {
+        HashMap<String, String> queriesHashMap = new HashMap<>();
 
-    public long setMinDate(Calendar calendar) {
-        long minDate = calendar.getTimeInMillis();
+        //put each setted queries in queriesHM.
+        String queryCheckboxes = "news_desk:(";
 
-        return minDate;
+        if(!termsEdittext.equals("")){
+            queriesHashMap.put("q", termsEdittext);
+        }
+        if(!beginDate.equals("")) {
+            queriesHashMap.put("begin_date", beginDate);
+        }
+        if(!endDate.equals("")) {
+            queriesHashMap.put("end_date", endDate);
+        }
+        if(queryParamCheckboxes.size() > 0) {
+            for (int i = 0; i < queryParamCheckboxes.size(); i++) {
+                if (i == 0) {
+                    queryCheckboxes = queryCheckboxes + "\"" + queryParamCheckboxes.get(i) + "\"";
+                } else {
+                    queryCheckboxes = queryCheckboxes + " \"" + queryParamCheckboxes.get(i) + "\"";
+                }
+            }
+            queryCheckboxes = queryCheckboxes + ")";
+            queriesHashMap.put("fq", queryCheckboxes);
+        }
+
+        return queriesHashMap;
+    }
+
+
+    public Calendar setMinMaxDate(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.getTimeInMillis();
+
+        return calendar;
     }
 
     private void startAlarm(Calendar calendar) {
