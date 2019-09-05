@@ -3,46 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkSecondaryColor"
     tools:context=".controllers.Activities.SearchQueriesSelection">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/activity_search_articles_terms_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:clickable="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:hint="@string/searching_terms" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/activity_search_articles_begindate_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="false"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
                 android:hint="@string/begin_date" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/activity_search_articles_enddate_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="false"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
                 android:hint="@string/end_date" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -55,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/cardview_light_background"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatCheckBox
@@ -80,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/cardview_light_background"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatCheckBox
@@ -102,15 +108,29 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activity_search_articles_search_button"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search_button" />
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@color/cardview_light_background">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/activity_search_articles_search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorPrimary"
+                android:text="@string/search_button" />
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingVertical="20dp">
 
             <TextView

@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     RecyclerView recyclerView;
     TextView failTextView;
+    ImageView logoImageView;
 
     RecyclerViewAdapter adapter;
     String jsonQueriesHM;
@@ -54,6 +56,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         Intent intent = getIntent();
 
         failTextView = findViewById(R.id.activity_articles_search_failEditText);
+        logoImageView = findViewById(R.id.activity_articles_search_imagelogo);
 
         jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
@@ -103,6 +106,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         else {
             articles = articlesElements.settingListsPojoArticleSearch(response);
             recyclerView.setVisibility(View.VISIBLE);
+            logoImageView.setVisibility(GONE);
             failTextView.setVisibility(View.GONE);
             adapter.setArticles(articles);
         }

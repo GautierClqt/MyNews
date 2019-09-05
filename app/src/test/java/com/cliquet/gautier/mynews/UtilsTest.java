@@ -60,14 +60,15 @@ public class UtilsTest {
         list.add("arts");
         list.add("politics");
         list.add("business");
-        
+
         HashMap<String, String> testHashMap = new HashMap<>();
         testHashMap.put("q", "hello");
         testHashMap.put("begin_date", "20190512");
         testHashMap.put("end_date", "20191002");
         testHashMap.put("fq", "news_desk:(\"arts\" \"politics\" \"business\")");
+        testHashMap.put("page", "3");
 
-        HashMap = utils.creatHashMapQueries("hello", "20190512", "20191002", list);
+        HashMap = utils.creatHashMapQueries("hello", "20190512", "20191002", list, 3);
         assertEquals(testHashMap, HashMap);
     }
 }

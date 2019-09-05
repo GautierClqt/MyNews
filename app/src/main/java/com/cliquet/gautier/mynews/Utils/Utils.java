@@ -113,7 +113,7 @@ public class Utils {
         return date;
     }
 
-    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<String> queryParamCheckboxes) {
+    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<String> queryParamCheckboxes, int page) {
         HashMap<String, String> queriesHashMap = new HashMap<>();
 
         //put each setted queries in queriesHM.
@@ -139,6 +139,8 @@ public class Utils {
             queryCheckboxes = queryCheckboxes + ")";
             queriesHashMap.put("fq", queryCheckboxes);
         }
+
+        queriesHashMap.put("page", String.valueOf(page));
 
         return queriesHashMap;
     }

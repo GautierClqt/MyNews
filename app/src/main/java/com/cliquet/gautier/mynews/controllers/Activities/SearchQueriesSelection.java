@@ -219,36 +219,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
-//        String queryCheckboxes = "news_desk:(";
-
         HashMap<String, String> queriesHM;
-        queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), beginDate, endDate, queryParamCheckboxes);
-
-//        queryParamTerms = String.valueOf(termsEdittext.getText());
-//
-//        //put each setted queries in queriesHM.
-//        if(!queryParamTerms.equals("")){
-//            queriesHM.put("q", queryParamTerms);
-//        }
-//        if(!beginDate.equals("")) {
-//            queriesHM.put("begin_date", beginDate);
-//        }
-//        if(!endDate.equals("")) {
-//            queriesHM.put("end_date", endDate);
-//        }
-//        if(queryParamCheckboxes.size() > 0) {
-//            for (int i = 0; i < queryParamCheckboxes.size(); i++) {
-//                if (i == 0) {
-//                    queryCheckboxes = queryCheckboxes + "\"" + queryParamCheckboxes.get(i) + "\"";
-//                } else {
-//                    queryCheckboxes = queryCheckboxes + " \"" + queryParamCheckboxes.get(i) + "\"";
-//                }
-//            }
-//            queryCheckboxes = queryCheckboxes + ")";
-//            queriesHM.put("fq", queryCheckboxes);
-//        }
-
-        queriesHM.put("page", String.valueOf(articlesElements.getCurrentPage()));
+        queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), beginDate, endDate, queryParamCheckboxes, articlesElements.getCurrentPage());
 
         String jsonQueriesHM = gson.toJson(queriesHM);
 

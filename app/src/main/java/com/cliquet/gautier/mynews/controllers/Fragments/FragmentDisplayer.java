@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
@@ -24,6 +25,8 @@ import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
     private int fragmentPageNumber;
@@ -34,6 +37,7 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
 
     private RecyclerView recyclerView;
     private TextView failTextView;
+    private ImageView logoImageView;
     private ViewPager viewPager;
 
     public static FragmentDisplayer newInstance(int fragmentPageNumber) {
@@ -58,6 +62,7 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
 
         recyclerView = view.findViewById(R.id.fragment_top_stories_recyclerview);
         failTextView = view.findViewById(R.id.fragment_top_stories_failEditText);
+        logoImageView = view.findViewById(R.id.activity_articles_search_imagelogo);
         viewPager = view.findViewById(R.id.activity_main_viewpager);
 
         this.executeHttpRequestWithRetrofit();
@@ -83,6 +88,8 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
 
     @Override
     public void onResponse(@Nullable PojoMaster mPojoMaster) {
+
+
         //getting all elements from the request and setting Elements object for further use
         int size = 0;
         if (mPojoMaster != null) {
@@ -125,7 +132,8 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     }
 
     private void updateUiWhenStopingHttpRequest(String message){
-        recyclerView.setVisibility(View.GONE);
+        logoImageView.setVisibility(GONE);
+        recyclerView.setVisibility(GONE);
         failTextView.setVisibility(View.VISIBLE);
         failTextView.setText(message);
     }
