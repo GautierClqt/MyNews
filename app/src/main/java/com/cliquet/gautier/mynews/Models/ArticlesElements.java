@@ -2,8 +2,6 @@ package com.cliquet.gautier.mynews.Models;
 
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.Results;
-import com.cliquet.gautier.mynews.R;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +10,7 @@ public class ArticlesElements {
 
     private int i;
     private int currentPage;
+    private boolean stopRequest = false;
 
     private ArrayList<Articles> articlesSearchList = new ArrayList<>();
 
@@ -55,10 +54,10 @@ public class ArticlesElements {
         int mHits = Integer.parseInt(response.getMeta().getHits());
 
         //mHits represents the number of Articles in the response, if mHits is less than 10 then mMaxPage will equals to -1
-        int mMaxPage = (mHits / 10) - 1;
+        int mMaxPage = (mHits / 10);
 
         //mMaxPage could be less than 0 if there is less than 10 articles in the response
-        if(currentPage <= mMaxPage || mHits <= 10) {
+        if(stopRequest || currentPage <= mMaxPage || mHits <= 10) {
             for(i = 0; i <= response.getDocs().size()-1; i++) {
                 String mTitle = response.getDocs().get(i).getHeadline().getMain();
                 String mSection = response.getDocs().get(i).getSectionName();
@@ -78,12 +77,21 @@ public class ArticlesElements {
 
                 Articles articles = new Articles(mTitle, mSection, mDate, mUrlArticle, mUrlImage, mId, mMaxPage);
                 articlesSearchList.add(articles);
+                if(articlesSearchList.size() == mHits-1) {
+                    stopRequest = true;
+                    int test = 1232135456;
+                }
             }
         }
-        else {
-            currentPage = mMaxPage;
-            articlesSearchList.clear();
-        }
+//        else {
+//            currentPage = mMaxPage;
+//            stopRequest = true;
+//            //articlesSearchList.clear();
+//        }
+//        if(articlesSearchList.size() == mHits) {
+//            stopRequest = true;
+//            int test = 1232135456;
+//        }
         return articlesSearchList;
     }
 
@@ -113,7 +121,6 @@ public class ArticlesElements {
                 articlesSearchList.add(articles);
             }
         }
-
         return articlesSearchList;
     }
 
@@ -125,6 +132,7 @@ public class ArticlesElements {
         return currentPage;
     }
 
-
-
+    public boolean getStopRequest() {
+        return stopRequest;
+    }
 }

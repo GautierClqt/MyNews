@@ -48,6 +48,8 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     RecyclerViewAdapter adapter;
     String jsonQueriesHM;
 
+    boolean stopRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +63,18 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
+        boolean stopRequest = articlesElements.getStopRequest();
+
         initRecyclerView();
-        this.executeHttpRequestWithRetrofit();
+
+        executeHttpRequestWithRetrofit();
     }
 
     //Actions
     private void executeHttpRequestWithRetrofit() {
-        this.updateUiWhenStartingHttpRequest();
+        if(articlesElements.getCurrentPage() == 0) {
+            updateUiWhenStartingHttpRequest();
+        }
         NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
     }
 
@@ -77,13 +84,18 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+
         adapter.setOnBottomReachedListener(new OnBottomReachedListener() {
             @Override
             public void onBottomReached(int position) {
-                articlesElements.setCurrentPage(articlesElements.getCurrentPage()+1);
-                searchQueries.put("page", String.valueOf(articlesElements.getCurrentPage()));
-                jsonQueriesHM = gson.toJson(searchQueries);
-                executeHttpRequestWithRetrofit();
+                stopRequest = articlesElements.getStopRequest();
+                if(!stopRequest) {
+                    articlesElements.setCurrentPage(articlesElements.getCurrentPage() + 1);
+                    searchQueries.put("page", String.valueOf(articlesElements.getCurrentPage()));
+                    jsonQueriesHM = gson.toJson(searchQueries);
+                    executeHttpRequestWithRetrofit();
+                }
             }
         });
     }
@@ -106,7 +118,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         else {
             articles = articlesElements.settingListsPojoArticleSearch(response);
             recyclerView.setVisibility(View.VISIBLE);
-            logoImageView.setVisibility(GONE);
+            logoImageView.setVisibility(View.GONE);
             failTextView.setVisibility(View.GONE);
             adapter.setArticles(articles);
         }
@@ -118,7 +130,8 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
     }
 
     private void updateUiWhenStopingHttpRequest(String message){
-        recyclerView.setVisibility(GONE);
+        recyclerView.setVisibility(View.GONE);
+        logoImageView.setVisibility(View.VISIBLE);
         failTextView.setVisibility(View.VISIBLE);
         failTextView.setText(message);
     }

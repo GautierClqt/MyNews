@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cliquet.gautier.mynews.Models.Articles;
+import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.OnBottomReachedListener;
 import com.cliquet.gautier.mynews.Utils.Utils;
@@ -43,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int currentPage = 0;
 
     private Utils util = new Utils();
+    private ArticlesElements articlesElements = new ArticlesElements();
 
     private OnBottomReachedListener onBottomReachedListener;
 
@@ -139,11 +141,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
         int maxPage = articles.get(i).getMaxPage();
-        if(i == articles.size()-1 && maxPage != 0 && currentPage < maxPage) {
+        boolean stopRequest = articlesElements.getStopRequest();
+        if(!stopRequest && i == articles.size()-1) {
             currentPage = currentPage++;
             onBottomReachedListener.onBottomReached(i);
         }
-        else {
+        else if(stopRequest) {
             currentPage = 0;
         }
     }

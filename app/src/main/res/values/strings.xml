@@ -4,6 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="logo_description">New York Times logo</string>
+
     <!-- items strings -->
     <string name="item_title">title</string>
     <string name="item_date">date</string>

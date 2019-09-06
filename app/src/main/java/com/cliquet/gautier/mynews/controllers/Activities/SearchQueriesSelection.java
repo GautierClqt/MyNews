@@ -88,7 +88,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         preferences = getSharedPreferences("MyNewsPreferences", MODE_PRIVATE);
 
-        this.initViews();
+        initViews();
+        emptyViews();
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -320,6 +321,19 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         //bindview: switch
         switchView = findViewById(R.id.activity_search_articles_switch);
         switchTextView = findViewById(R.id.activity_search_articles_switch_textview);
+    }
+
+    //empty all views to wipe previews search
+    private void emptyViews() {
+        termsEdittext.setText("");
+        beginDateEdittext.setText("");
+        endDateEdittext.setText("");
+        artsCheckbox.setChecked(false);
+        businessCheckbox.setChecked(false);
+        entrepreneursCheckbox.setChecked(false);
+        politicsCheckbox.setChecked(false);
+        sportsCheckbox.setChecked(false);
+        travelCheckbox.setChecked(false);
     }
 
     private void setupSearchView() {

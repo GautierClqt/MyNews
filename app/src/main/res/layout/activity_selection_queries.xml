@@ -9,22 +9,22 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/cardview_light_background">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/activity_search_articles_terms_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
-            android:clickable="true"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:hint="@string/searching_terms" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="@string/begin_date" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -59,7 +59,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/cardview_light_background"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatCheckBox
@@ -85,7 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/cardview_light_background"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatCheckBox
@@ -111,9 +109,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@color/cardview_light_background">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" >
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/activity_search_articles_search_button"
@@ -130,7 +127,6 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
             android:paddingVertical="20dp">
 
             <TextView
