@@ -63,8 +63,6 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
-        boolean stopRequest = articlesElements.getStopRequest();
-
         initRecyclerView();
 
         executeHttpRequestWithRetrofit();
@@ -89,6 +87,7 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         adapter.setOnBottomReachedListener(new OnBottomReachedListener() {
             @Override
             public void onBottomReached(int position) {
+                //the request will be send only if the last reached item is not the last article from the previous request result
                 stopRequest = articlesElements.getStopRequest();
                 if(!stopRequest) {
                     articlesElements.setCurrentPage(articlesElements.getCurrentPage() + 1);

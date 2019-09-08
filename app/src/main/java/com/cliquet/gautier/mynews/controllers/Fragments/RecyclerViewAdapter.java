@@ -3,11 +3,9 @@ package com.cliquet.gautier.mynews.controllers.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +39,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Gson gson = new Gson();
     private String jsonId;
     private SharedPreferences preferences;
-    private int currentPage = 0;
 
     private Utils util = new Utils();
     private ArticlesElements articlesElements = new ArticlesElements();
@@ -140,27 +137,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        int maxPage = articles.get(i).getMaxPage();
-        boolean stopRequest = articlesElements.getStopRequest();
-        if(!stopRequest && i == articles.size()-1) {
-            currentPage = currentPage++;
+        //check if the user reach the last Recycler item
+        if(i == articles.size()-1) {
             onBottomReachedListener.onBottomReached(i);
-        }
-        else if(stopRequest) {
-            currentPage = 0;
         }
     }
 
     public void setArticles(ArrayList<Articles> articles) {
         this.articles = articles;
-        notifyDataSetChanged(); //indique à l'adapter que les données ont été modifiées.
+        notifyDataSetChanged(); //notify the adapter that there is some datas change
     }
 
     @Override
     public int getItemCount() {
         return articles.size();
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

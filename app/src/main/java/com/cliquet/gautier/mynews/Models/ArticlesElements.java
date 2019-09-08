@@ -56,7 +56,7 @@ public class ArticlesElements {
         //mHits represents the number of Articles in the response, if mHits is less than 10 then mMaxPage will equals to -1
         int mMaxPage = (mHits / 10);
 
-        //mMaxPage could be less than 0 if there is less than 10 articles in the response
+        //
         if(stopRequest || currentPage <= mMaxPage || mHits <= 10) {
             for(i = 0; i <= response.getDocs().size()-1; i++) {
                 String mTitle = response.getDocs().get(i).getHeadline().getMain();
@@ -79,19 +79,10 @@ public class ArticlesElements {
                 articlesSearchList.add(articles);
                 if(articlesSearchList.size() == mHits-1) {
                     stopRequest = true;
-                    int test = 1232135456;
                 }
             }
         }
-//        else {
-//            currentPage = mMaxPage;
-//            stopRequest = true;
-//            //articlesSearchList.clear();
-//        }
-//        if(articlesSearchList.size() == mHits) {
-//            stopRequest = true;
-//            int test = 1232135456;
-//        }
+
         return articlesSearchList;
     }
 
