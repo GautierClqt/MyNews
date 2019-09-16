@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
@@ -100,7 +101,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //check if article has been read to change its background color
         for(int j = 0; j <= clickedIdList.size()-1; j++){
             if(articles.get(i).getId().equals(clickedIdList.get(j))) {
-                viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.readArticles));
+                viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.readArticles));
             }
         }
 
@@ -115,13 +116,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 int j = 0;
                 if(idListSize == 0) {
                     clickedIdList.add(articles.get(i).getId());
-                    viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.readArticles));
+                    viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.readArticles));
                 }
                 else {
                     while(j <= idListSize) {
                         if(j == idListSize) {
                             clickedIdList.add(articles.get(i).getId());
-                            viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.readArticles));
+                            viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.readArticles));
                             break;
                         }
                         else if(articles.get(i).getId().equals(clickedIdList.get(j))) {

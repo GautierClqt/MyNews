@@ -27,9 +27,9 @@ public class Utils {
     public String simplifyDateFormat(String rawDate) throws ParseException {
         Date simpleDate;
         if(rawDate != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
+            SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
             SimpleDateFormat sdfOut = new SimpleDateFormat("dd-MM-yyyy");
-            simpleDate = sdf.parse(rawDate);
+            simpleDate = sdfIn.parse(rawDate);
             rawDate = sdfOut.format(simpleDate);
         }
         return rawDate;
@@ -38,21 +38,21 @@ public class Utils {
     public String dateStringLayoutFormat(int year, int month, int dayOfMonth) {
         String dateLayoutFormat;
 
-        dateLayoutFormat = (year+"");
+        if(dayOfMonth < 10) {
+            dateLayoutFormat = ("0"+dayOfMonth);
+        }
+        else {
+            dateLayoutFormat = (""+dayOfMonth);
+        }
 
-        if(month < 10) {
+        if(month < 9) {
             dateLayoutFormat = (dateLayoutFormat+"/0"+(month+1));
         }
         else {
             dateLayoutFormat = (dateLayoutFormat+"/"+(month+1));
         }
 
-        if(dayOfMonth < 10) {
-            dateLayoutFormat = (dateLayoutFormat+"/0"+dayOfMonth);
-        }
-        else {
-            dateLayoutFormat = (dateLayoutFormat+"/"+dayOfMonth);
-        }
+        dateLayoutFormat = dateLayoutFormat+("/"+year);
 
         return dateLayoutFormat;
     }
@@ -62,7 +62,7 @@ public class Utils {
 
         dateLayoutFormat = (year+"");
 
-        if(month < 10) {
+        if(month < 9) {
             dateLayoutFormat = (dateLayoutFormat+"0"+(month+1));
         }
         else {
@@ -108,7 +108,7 @@ public class Utils {
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        date = this.dateStringFormat(year, month+1, dayOfMonth);
+        date = this.dateStringFormat(year, month, dayOfMonth);
 
         return date;
     }
@@ -174,7 +174,7 @@ public class Utils {
 //        alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
     }
 
-    String hashMapPagination(String jsonQueries) {
+    public String hashMapPagination(String jsonQueries) {
         Gson gson = new Gson();
         HashMap<String, String> searchQueries;
 

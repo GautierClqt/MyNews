@@ -35,7 +35,7 @@ public class NotifTest {
         String notifString;
 
         notifString = notif.dailyUse(0);
-        assertEquals("There is no new articl, maybe later.", notifString);
+        assertEquals("There is no new article, maybe later.", notifString);
 
         notifString = notif.dailyUse(1);
         assertEquals("There is 1 new article, check it!", notifString);

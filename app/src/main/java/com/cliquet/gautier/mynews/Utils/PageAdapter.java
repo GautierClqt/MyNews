@@ -1,5 +1,6 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,7 +11,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     //2 - Default Constructor
     public PageAdapter(FragmentManager fragmentManager) {
-        super(fragmentManager);
+        super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @Override

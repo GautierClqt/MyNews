@@ -24,6 +24,7 @@ import com.cliquet.gautier.mynews.Utils.AlarmReceiver;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +71,9 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
     Bundle bundle = new Bundle();
     int calledActivity;
+    HashMap<String, String> queriesHM;
+    HashMap<String, String> viewsStateHM;
+    String jsonQueriesHM;
 
     SharedPreferences preferences;
 
@@ -98,10 +102,11 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             //set up views as per selected activity
             switch (calledActivity) {
                 case 0:
-                    this.setupSearchView();
+                    setupSearchView();
                     break;
                 case 1:
-                    this.setupNotificationsViews();
+                    setupNotificationsViews();
+                    //getNotificationPreferences();
                     break;
                 default:
                     break;
@@ -197,8 +202,10 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void verifyCheckboxState(boolean booleanCheckbox, String strCheck) {
         if (booleanCheckbox) {
             addCheckedCheckbox(strCheck);
+            viewsStateHM.put(strCheck, "1");
         } else {
             removeUncheckedCheckbox(strCheck);
+            viewsStateHM.remove(strCheck);
         }
     }
 
@@ -220,10 +227,10 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
-        HashMap<String, String> queriesHM;
+
         queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), beginDate, endDate, queryParamCheckboxes, articlesElements.getCurrentPage());
 
-        String jsonQueriesHM = gson.toJson(queriesHM);
+        jsonQueriesHM = gson.toJson(queriesHM);
 
         switch(calledActivity) {
             case 0:
@@ -298,6 +305,11 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             }
         }
     }
+
+//    private void getNotificationPreferences() {
+//        jsonQueriesHM = preferences.getString("notifications", "");
+//        queriesHM = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
+//    }
 
     private void initViews() {
         //bindview: terms edittext
