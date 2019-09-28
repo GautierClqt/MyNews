@@ -72,8 +72,9 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     Bundle bundle = new Bundle();
     int calledActivity;
     HashMap<String, String> queriesHM;
-    HashMap<String, String> viewsStateHM;
+    HashMap<String, String> viewsStateHM = new HashMap<>();
     String jsonQueriesHM;
+    boolean boolSwitch;
 
     SharedPreferences preferences;
 
@@ -93,7 +94,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         preferences = getSharedPreferences("MyNewsPreferences", MODE_PRIVATE);
 
         initViews();
-        emptyViews();
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -102,11 +102,19 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             //set up views as per selected activity
             switch (calledActivity) {
                 case 0:
+                    emptyViews();
                     setupSearchView();
                     break;
                 case 1:
                     setupNotificationsViews();
                     //getNotificationPreferences();
+
+                    boolSwitch = switchView.isChecked();
+                    if (boolSwitch) {
+                        trueBoolSwitch();
+                    } else {
+                        falseBoolSwitch();
+                    }
                     break;
                 default:
                     break;
@@ -267,7 +275,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 validateSearchPreferences();
             }
             else if (idView == switchView.getId()) {
-                boolean boolSwitch = switchView.isChecked();
+                boolSwitch = switchView.isChecked();
 
                 AlarmManager alarmManager;
                 alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -290,7 +298,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
                     calendar.add(Calendar.SECOND, 20);
 
-                    alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60, pendingIntent); //TEST
+                    //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60, pendingIntent); //TEST
 
                     validateSearchPreferences();
 
