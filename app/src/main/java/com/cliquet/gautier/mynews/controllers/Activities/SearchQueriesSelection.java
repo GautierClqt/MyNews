@@ -109,10 +109,12 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                     setupNotificationsViews();
                     //getNotificationPreferences();
 
-                    boolSwitch = switchView.isChecked();
+                    boolSwitch = preferences.getBoolean("boolSwitch", false);
                     if (boolSwitch) {
+                        switchView.setChecked(true);
                         trueBoolSwitch();
                     } else {
+                        switchView.setChecked(false);
                         falseBoolSwitch();
                     }
                     break;
@@ -276,6 +278,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             }
             else if (idView == switchView.getId()) {
                 boolSwitch = switchView.isChecked();
+                preferences.edit().putBoolean("boolSwitch", boolSwitch).apply();
 
                 AlarmManager alarmManager;
                 alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);

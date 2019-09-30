@@ -139,7 +139,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
         //check if the user reach the last Recycler item
-        if(i == articles.size()-1) {
+        if(i == articles.size()) {
             onBottomReachedListener.onBottomReached(i);
         }
     }
