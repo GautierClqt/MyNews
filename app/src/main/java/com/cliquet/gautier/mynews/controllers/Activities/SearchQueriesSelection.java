@@ -7,13 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -42,6 +46,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     DatePickerDialog datePicker;
 
     //view: checkboxes
+    LinearLayoutCompat checkboxesLayout;
+
     CheckBox artsCheckbox;
     CheckBox businessCheckbox;
     CheckBox entrepreneursCheckbox;
@@ -57,9 +63,9 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     Switch switchView;
 
     //variables for query parameters
-    String queryParamTerms;
     String beginDate = "";
     String endDate = "";
+
     ArrayList<String> queryParamCheckboxes = new ArrayList<>();
 
     String checkboxText;
@@ -72,8 +78,10 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     Bundle bundle = new Bundle();
     int calledActivity;
     HashMap<String, String> queriesHM;
-    HashMap<String, String> viewsStateHM = new HashMap<>();
     String jsonQueriesHM;
+    String jsonCheckboxState;
+    String jsonBeginDate;
+    String jsonEndDate;
     boolean boolSwitch;
 
     SharedPreferences preferences;
@@ -107,7 +115,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                     break;
                 case 1:
                     setupNotificationsViews();
-                    //getNotificationPreferences();
+                    getLastNotificationChoices();
 
                     boolSwitch = preferences.getBoolean("boolSwitch", false);
                     if (boolSwitch) {
@@ -122,7 +130,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                     break;
             }
         }
-
         findViewById();
     }
 
@@ -212,10 +219,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void verifyCheckboxState(boolean booleanCheckbox, String strCheck) {
         if (booleanCheckbox) {
             addCheckedCheckbox(strCheck);
-            viewsStateHM.put(strCheck, "1");
         } else {
             removeUncheckedCheckbox(strCheck);
-            viewsStateHM.remove(strCheck);
         }
     }
 
@@ -237,10 +242,12 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
-
         queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), beginDate, endDate, queryParamCheckboxes, articlesElements.getCurrentPage());
 
         jsonQueriesHM = gson.toJson(queriesHM);
+        jsonCheckboxState = gson.toJson(queryParamCheckboxes);
+        jsonBeginDate = gson.toJson(beginDate);
+        jsonEndDate = gson.toJson(endDate);
 
         switch(calledActivity) {
             case 0:
@@ -250,9 +257,38 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 break;
             case 1:
                 preferences.edit().putString("notifications", jsonQueriesHM).apply();
+                preferences.edit().putString("checkboxes_state", jsonCheckboxState).apply();
+                preferences.edit().putString("search_terms", termsEdittext.getText().toString()).apply();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void getLastNotificationChoices() {
+        termsEdittext.setText(preferences.getString("search_terms", ""));
+
+        jsonCheckboxState = preferences.getString("checkboxes_state", "");
+        if(!jsonCheckboxState.equals("")) {
+            queryParamCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<String>>(){}.getType());
+        }
+
+        for(int i = 0; i < checkboxesLayout.getChildCount(); i++) {
+            final View child = checkboxesLayout.getChildAt(i);
+
+            if (child instanceof LinearLayoutCompat) {
+                for(int j = 0; j < ((LinearLayoutCompat) child).getChildCount(); j++) {
+                    final View grandChild = ((LinearLayoutCompat) child).getChildAt(j);
+
+                    CheckBox checkBox = (CheckBox)grandChild;
+                    for(int k = 0; k < queryParamCheckboxes.size(); k++) {
+
+                        if(queryParamCheckboxes.get(k).equals(checkBox.getText().toString())) {
+                            checkBox.setChecked(true);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -331,6 +367,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         endDateEdittext = findViewById(R.id.activity_search_articles_enddate_edittext);
 
         //bindview: checkboxes
+        checkboxesLayout = findViewById(R.id.activity_search_articles_checkboxeslayout_LinearLayout);
+
         artsCheckbox = findViewById(R.id.activity_search_articles_arts_checkbox);
         businessCheckbox = findViewById(R.id.activity_search_articles_business_checkbox);
         entrepreneursCheckbox = findViewById(R.id.activity_search_articles_entrepreneurs_checkbox);

@@ -20,7 +20,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginEnd="20dp"
-            android:hint="@string/begin_date" />
+            android:hint="@string/searching_terms" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -51,6 +51,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/activity_search_articles_checkboxeslayout_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
