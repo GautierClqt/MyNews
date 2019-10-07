@@ -40,7 +40,10 @@ public class NotifTest {
         notifString = notif.dailyUse(1);
         assertEquals("There is 1 new article, check it!", notifString);
 
-        notifString = notif.dailyUse(16);
+//        notifString = notif.dailyUse(16);
+//        assertEquals("There are 16 new articles, check them!", notifString);
+
+        notifString = notif.dailyUse(17);
         assertEquals("There are 16 new articles, check them!", notifString);
     }
 
