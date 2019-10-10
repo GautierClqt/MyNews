@@ -77,7 +77,6 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
             case 0: NYtimesCalls.fetchArticles(this, "home",  fragmentPageNumber);
             break;
             case 1: NYtimesCalls.fetchArticles(this, "", fragmentPageNumber);
-            //case 1: NYtimesCalls.fetchArticles(this, "business", fragmentPageNumber);
             break;
             case 2: NYtimesCalls.fetchArticles(this, "sports", fragmentPageNumber);
             break;

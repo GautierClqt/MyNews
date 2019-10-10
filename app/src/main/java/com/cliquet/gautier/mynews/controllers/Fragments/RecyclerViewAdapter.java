@@ -42,7 +42,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private SharedPreferences preferences;
 
     private Utils util = new Utils();
-    private ArticlesElements articlesElements = new ArticlesElements();
 
     private OnBottomReachedListener onBottomReachedListener;
 
@@ -73,6 +72,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
+        //initialiaze all items with the "unread articles" color
+        viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.unreadArticles));
         viewHolder.title.setText(articles.get(i).getTitle());
 
         String mSection = articles.get(i).getSection();
