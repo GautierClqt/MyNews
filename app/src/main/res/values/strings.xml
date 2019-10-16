@@ -3,12 +3,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="logo_description">New York Times logo</string>
+    <string name="menu_description">More options</string>
+
+    <string name="logo_description" translatable="false">New York Times logo</string>
 
     <!-- items strings -->
-    <string name="item_title">title</string>
-    <string name="item_date">date</string>
-    <string name="item_section">section</string>
+    <string name="item_title" translatable="false">title</string>
+    <string name="item_date" translatable="false">date</string>
+    <string name="item_section" translatable="false">section</string>
 
     <!-- Queries selection activity strings -->
     <string name="searching_terms">Searching terms</string>
@@ -31,14 +33,14 @@
     <string name="help">Help</string>
     <string name="about">About</string>
 
-    <string name="top_stories">Top Stories</string>
-    <string name="most_popular">Most Popular</string>
-    <string name="favorites">Sports</string>
-    <string name="search_articles">Search</string>
+    <string name="top_stories" translatable="false">Top Stories</string>
+    <string name="most_popular" translatable="false">Most Popular</string>
+    <string name="favorites" translatable="false">Sports</string>
+    <string name="search_articles" translatable="false">Search</string>
 
     <!-- Navigation drawer -->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <!-- Request status messages -->
     <string name="waiting_request">Ongoing Request, please wait…</string>

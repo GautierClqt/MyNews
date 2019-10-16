@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyNews</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="menu_description">Options supplémentaires</string>
+
+    <!-- Queries selection activity strings -->
+    <string name="searching_terms">Mot-clé</string>
+
+    <string name="begin_date">Du</string>
+    <string name="end_date">au</string>
+
+    <string name="checkbox_politics">Politique</string>
+    <string name="checkbox_sports">Sports</string>
+    <string name="checkbox_arts">Arts</string>
+    <string name="checkbox_travel">Voyage</string>
+    <string name="checkbox_business">Business</string>
+    <string name="checkbox_entrepreneurs">Entrepreneurs</string>
+
+    <string name="search_button">RECHERCHE</string>
+    <string name="search_switch_text">Autoriser les notifications(une par jour)</string>
+
+    <!-- popup menu string name and navigation drawer -->
+    <string name="notifications">Notifications</string>
+    <string name="help">Aide</string>
+    <string name="about">A propos</string>
+
+    <!-- Request status messages -->
+    <string name="waiting_request">Requête en cours, patientez…</string>
+    <string name="error_no_article">Il n\'y pas de nouveaux articles pour le moment</string>
+    <string name="error_failure">Oups! Il y a eu une eurreur, réessayer plus tard.</string>
+    <string name="error_bad_request">La requête n\'a pas abouti, réessayez plus tard.</string>
+</resources>

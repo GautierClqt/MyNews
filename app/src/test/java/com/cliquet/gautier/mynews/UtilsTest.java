@@ -6,12 +6,10 @@ import com.google.gson.Gson;
 import org.junit.Test;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.*;
 
@@ -115,14 +113,14 @@ public class UtilsTest {
     @Test
     public void hasmMapConstruction() {
         Utils utils = new Utils();
-
         HashMap<String, String> HashMap;
         List<String> list = new ArrayList<>();
+        HashMap<String, String> testHashMap = new HashMap<>();
+
         list.add("arts");
         list.add("politics");
         list.add("business");
 
-        HashMap<String, String> testHashMap = new HashMap<>();
         testHashMap.put("q", "hello");
         testHashMap.put("begin_date", "20190512");
         testHashMap.put("end_date", "20191002");

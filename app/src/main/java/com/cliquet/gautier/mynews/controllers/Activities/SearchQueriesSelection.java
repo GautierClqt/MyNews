@@ -254,9 +254,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 startActivity(searchArticleIntent);
                 break;
             case 1:
-                preferences.edit().putString("notifications", jsonQueriesHM).apply();
-                preferences.edit().putString("checkboxes_state", jsonCheckboxState).apply();
                 preferences.edit().putString("search_terms", termsEdittext.getText().toString()).apply();
+                preferences.edit().putString("checkboxes_state", jsonCheckboxState).apply();
                 break;
             default:
                 break;
@@ -350,11 +349,6 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
             }
         }
     }
-
-//    private void getNotificationPreferences() {
-//        jsonQueriesHM = preferences.getString("notifications", "");
-//        queriesHM = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
-//    }
 
     private void initViews() {
         //bindview: terms edittext
