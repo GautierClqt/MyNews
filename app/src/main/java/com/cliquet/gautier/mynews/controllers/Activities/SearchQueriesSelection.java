@@ -64,9 +64,9 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     String beginDate = "";
     String endDate = "";
 
-    ArrayList<String> queryParamCheckboxes = new ArrayList<>();
+    ArrayList<Integer> queryParamCheckboxes = new ArrayList<>();
 
-    String checkboxText;
+    int checkboxId;
 
     Utils utils = new Utils();
     private Gson gson = new Gson();
@@ -214,21 +214,21 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
     }
 
     //verify if a checkbox is check or uncheck
-    private void verifyCheckboxState(boolean booleanCheckbox, String strCheck) {
+    private void verifyCheckboxState(boolean booleanCheckbox, int intCheck) {
         if (booleanCheckbox) {
-            addCheckedCheckbox(strCheck);
+            addCheckedCheckbox(intCheck);
         } else {
-            removeUncheckedCheckbox(strCheck);
+            removeUncheckedCheckbox(intCheck);
         }
     }
 
     //add the term associated with the checked checkbox in the arraylist
-    private void addCheckedCheckbox (String strCheck) {
+    private void addCheckedCheckbox (int strCheck) {
         queryParamCheckboxes.add(strCheck);
     }
 
     //remove the term of the unchecked checkbox of the arraylist
-    private void removeUncheckedCheckbox(String strCheck) {
+    private void removeUncheckedCheckbox(int strCheck) {
         for(int i = 0; i <= queryParamCheckboxes.size(); i++) {
             if (queryParamCheckboxes.get(i).equals(strCheck)) {
                 queryParamCheckboxes.remove(i);
@@ -267,25 +267,12 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
         jsonCheckboxState = preferences.getString("checkboxes_state", "");
         if(!jsonCheckboxState.equals("")) {
-            queryParamCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<String>>(){}.getType());
+            queryParamCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<Integer>>(){}.getType());
         }
 
-        for(int i = 0; i < checkboxesLayout.getChildCount(); i++) {
-            final View child = checkboxesLayout.getChildAt(i);
-
-            if (child instanceof LinearLayoutCompat) {
-                for(int j = 0; j < ((LinearLayoutCompat) child).getChildCount(); j++) {
-                    final View grandChild = ((LinearLayoutCompat) child).getChildAt(j);
-
-                    CheckBox checkBox = (CheckBox)grandChild;
-                    for(int k = 0; k < queryParamCheckboxes.size(); k++) {
-
-                        if(queryParamCheckboxes.get(k).equals(checkBox.getText().toString())) {
-                            checkBox.setChecked(true);
-                        }
-                    }
-                }
-            }
+        for(int i = 0; i < queryParamCheckboxes.size(); i++) {
+            CheckBox checkBox = findViewById(queryParamCheckboxes.get(i));
+            checkBox.setChecked(true);
         }
     }
 
@@ -299,8 +286,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
 
             CheckBox mCheckBox = findViewById(idView);
             boolean booleanCheckbox = mCheckBox.isChecked();
-            checkboxText = mCheckBox.getText().toString();
-            verifyCheckboxState(booleanCheckbox, checkboxText);
+            checkboxId = mCheckBox.getId();
+            verifyCheckboxState(booleanCheckbox, checkboxId);
         }
         else if(v instanceof EditText && !(idView == termsEdittext.getId())) {
             setDateInEdittext(v);

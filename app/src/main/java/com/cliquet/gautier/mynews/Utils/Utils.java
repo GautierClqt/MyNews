@@ -113,7 +113,7 @@ public class Utils {
         return date;
     }
 
-    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<String> queryParamCheckboxes, int page) {
+    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<Integer> queryParamCheckboxes, int page) {
         HashMap<String, String> queriesHashMap = new HashMap<>();
 
         //put each setted queries in queriesHM.
