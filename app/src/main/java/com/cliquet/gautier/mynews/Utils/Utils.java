@@ -1,12 +1,21 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.controllers.Activities.SearchQueriesSelection;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -113,7 +122,7 @@ public class Utils {
         return date;
     }
 
-    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<Integer> queryParamCheckboxes, int page) {
+    public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<String> queryParamCheckboxes, int page) {
         HashMap<String, String> queriesHashMap = new HashMap<>();
 
         //put each setted queries in queriesHM.
@@ -190,4 +199,17 @@ public class Utils {
         return jsonQueries;
     }
 
+    public void setupSearchView(Activity activity) {
+        TextView switchTextView = activity.findViewById(R.id.activity_search_articles_switch_textview);
+        switchTextView.setVisibility(View.GONE);
+        Switch switchView = activity.findViewById(R.id.activity_search_articles_switch);
+        switchView.setVisibility(View.GONE);
+        Button searchButton = activity.findViewById(R.id.activity_search_articles_search_button);
+        searchButton.setVisibility(View.VISIBLE);
+        EditText beginDateEdittext = activity.findViewById(R.id.activity_search_articles_begindate_edittext);
+        beginDateEdittext.setVisibility(View.VISIBLE);
+        EditText endDateEdittext = activity.findViewById(R.id.activity_search_articles_enddate_edittext);
+        endDateEdittext.setVisibility(View.VISIBLE);
+
+    }
 }
