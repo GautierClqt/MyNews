@@ -49,7 +49,7 @@ public class NotificationActivityTest {
     public void setUp() {
         Context targetContext = getInstrumentation().getTargetContext();
 
-        Intent mIntent = new Intent(targetContext, SearchQueriesSelection.class);
+        Intent mIntent = new Intent(targetContext, SearchQueriesSelectionActivity.class);
         mIntent.putExtra("actitivy_called", 1);
     }
 

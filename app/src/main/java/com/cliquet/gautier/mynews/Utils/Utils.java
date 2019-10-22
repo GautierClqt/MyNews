@@ -1,35 +1,23 @@
 package com.cliquet.gautier.mynews.Utils;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.DatePickerDialog;
-import android.app.PendingIntent;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.cliquet.gautier.mynews.R;
-import com.cliquet.gautier.mynews.controllers.Activities.SearchQueriesSelection;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 
 public class Utils {
 
@@ -167,7 +155,7 @@ public class Utils {
     }
 
     private void startAlarm(Calendar calendar) {
-        //Toast.makeText(SearchQueriesSelection.class, "Salut", Toast.LENGTH_LONG).show();
+        //Toast.makeText(SearchQueriesSelectionActivity.class, "Salut", Toast.LENGTH_LONG).show();
 
 //        AlarmManager alarmManager;
 //        PendingIntent alarmIntent;
@@ -210,6 +198,5 @@ public class Utils {
         beginDateEdittext.setVisibility(View.VISIBLE);
         EditText endDateEdittext = activity.findViewById(R.id.activity_search_articles_enddate_edittext);
         endDateEdittext.setVisibility(View.VISIBLE);
-
     }
 }

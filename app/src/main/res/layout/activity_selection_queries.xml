@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkSecondaryColor"
-    tools:context=".controllers.Activities.SearchQueriesSelection">
+    tools:context=".controllers.Activities.SearchQueriesSelectionActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

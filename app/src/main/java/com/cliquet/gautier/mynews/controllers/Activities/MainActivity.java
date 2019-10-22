@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     }
 
     private void launchActivity(int activitynbr) {
-        Intent intent = new Intent(this, SearchQueriesSelection.class);
+        Intent intent = new Intent(this, SearchQueriesSelectionActivity.class);
         intent.putExtra("actitivy_called", activitynbr);
         startActivity(intent);
     }

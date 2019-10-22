@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class SearchQueriesSelection extends AppCompatActivity implements View.OnClickListener, NYtimesCalls.Callbacks {
+public class SearchQueriesSelectionActivity extends AppCompatActivity implements View.OnClickListener, NYtimesCalls.Callbacks {
 
     //view: terms edditexts
     EditText termsEdittext;
@@ -110,7 +110,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
                 case 0:
                     emptyViews();
                     //setupSearchView();
-                    utils.setupSearchView(SearchQueriesSelection.this);
+                    utils.setupSearchView(SearchQueriesSelectionActivity.this);
                     break;
                 case 1:
                     setupNotificationsViews();
@@ -170,7 +170,7 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         //select begin and end dates
-        datePicker = new DatePickerDialog(SearchQueriesSelection.this, new DatePickerDialog.OnDateSetListener() {
+        datePicker = new DatePickerDialog(SearchQueriesSelectionActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String strDateConcatenation;
@@ -271,7 +271,8 @@ public class SearchQueriesSelection extends AppCompatActivity implements View.On
         termsEdittext.setText(preferences.getString("search_terms", ""));
 
         jsonCheckboxState = preferences.getString("checkboxes_state", "");
-        if(!jsonCheckboxState.equals("")) {
+
+        if(!(jsonCheckboxState == null) && !jsonCheckboxState.equals("")) {
             listIdCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<Integer>>(){}.getType());
         }
 

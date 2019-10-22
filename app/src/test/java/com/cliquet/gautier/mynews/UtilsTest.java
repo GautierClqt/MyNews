@@ -1,9 +1,6 @@
 package com.cliquet.gautier.mynews;
 
-import android.content.Context;
-
 import com.cliquet.gautier.mynews.Utils.Utils;
-import com.cliquet.gautier.mynews.controllers.Activities.SearchQueriesSelection;
 import com.google.gson.Gson;
 
 import org.junit.Test;
