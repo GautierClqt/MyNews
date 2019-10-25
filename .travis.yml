@@ -65,7 +65,7 @@ script:
     - ./gradlew clean
     - adb shell input keyevent 82
     - ./gradlew test --stacktrace
-    - ./gradlew connectedCheck --stacktrace
+    - ./gradlew build connectedCheck --stacktrace
     - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
 
 after_success:
