@@ -61,12 +61,11 @@ before_script:
     - emulator -avd test -no-window &
     - android-wait-for-emulator
 
-
 script:
     - ./gradlew clean
     - adb shell input keyevent 82
     - ./gradlew test --stacktrace
-    - ./gradlew jacocoTestReport
+    - ./gradlew connectedCheck --stacktrace
     - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
 
 after_success:
