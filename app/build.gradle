@@ -1,4 +1,3 @@
-apply plugin: 'com.gradle.build-scan'
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 
