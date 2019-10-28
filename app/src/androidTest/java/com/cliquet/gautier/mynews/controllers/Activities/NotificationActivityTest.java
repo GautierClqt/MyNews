@@ -57,6 +57,7 @@ public class NotificationActivityTest {
         onView(allOf(withContentDescription(R.string.menu_description))).perform(click());
 
         onView(allOf(withId(R.id.title), withText("Notifications"))).perform(click());
+        //onView(allOf(withId(R.id.menu_notifications_menu))).perform(click());
     }
 
     private void clickOnCheckbox(int checkboxId) {
