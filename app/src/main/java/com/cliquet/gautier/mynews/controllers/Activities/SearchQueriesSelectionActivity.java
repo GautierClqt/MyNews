@@ -269,7 +269,6 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
     private void getLastNotificationChoices() {
         termsEdittext.setText(preferences.getString("search_terms", ""));
-
         jsonCheckboxState = preferences.getString("checkboxes_state", "");
 
         if(!(jsonCheckboxState == null) && !jsonCheckboxState.equals("")) {

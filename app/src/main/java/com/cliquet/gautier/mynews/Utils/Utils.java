@@ -21,6 +21,8 @@ import java.util.Locale;
 
 public class Utils {
 
+    private static HashMap<String, String> mHashMap;
+
     public String simplifyDateFormat(String rawDate) throws ParseException {
         Date simpleDate;
         if(rawDate != null) {
@@ -111,6 +113,7 @@ public class Utils {
     }
 
     public HashMap<String, String> creatHashMapQueries (String termsEdittext, String beginDate, String endDate, List<String> queryParamCheckboxes, int page) {
+
         HashMap<String, String> queriesHashMap = new HashMap<>();
 
         //put each setted queries in queriesHM.
@@ -139,7 +142,18 @@ public class Utils {
 
         queriesHashMap.put("page", String.valueOf(page));
 
+        setHashMap(queriesHashMap);
+
         return queriesHashMap;
+    }
+
+    public void setHashMap(HashMap<String, String> queriesHashMap) {
+        mHashMap = new HashMap<>();
+        this.mHashMap = queriesHashMap;
+    }
+
+    public HashMap<String, String> getHashMap() {
+        return this.mHashMap;
     }
 
 

@@ -3,15 +3,21 @@ package com.cliquet.gautier.mynews.controllers.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
+
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.Utils.Utils;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.test.espresso.Espresso.onView;
@@ -26,6 +32,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
@@ -141,5 +148,23 @@ public class NotificationActivityTest {
         onView(withId(R.id.activity_search_articles_begindate_edittext)).check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_search_articles_enddate_edittext)).check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_search_articles_search_button)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void testCorrespondanceBetweenNotificationSelectionAndCreatedHasmap() {
+        Utils utils = new Utils();
+        HashMap<String, String> madeUpHashMap = new HashMap<>();
+
+        openNotificationActivity();
+        clickOnCheckbox(R.id.activity_search_articles_business_checkbox);
+        clickOnCheckbox(R.id.activity_search_articles_travel_checkbox);
+        clickOnSwitch(R.id.activity_search_articles_switch);
+
+        madeUpHashMap.put("end_date", "20191029");
+        madeUpHashMap.put("begin_date", "20191028");
+        madeUpHashMap.put("fq", "news_desk:(\"Business\" \"Travel\")");
+        madeUpHashMap.put("page", "0");
+
+        assertEquals(madeUpHashMap, utils.getHashMap());
     }
 }
