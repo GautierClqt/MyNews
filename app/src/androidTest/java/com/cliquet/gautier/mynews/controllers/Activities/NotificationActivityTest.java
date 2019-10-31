@@ -3,11 +3,20 @@ package com.cliquet.gautier.mynews.controllers.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+
 import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 import com.cliquet.gautier.mynews.R;
+
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,7 +65,15 @@ public class NotificationActivityTest {
     private void openNotificationActivity() {
         onView(allOf(withContentDescription(R.string.menu_description))).perform(click());
 
-        onView(allOf(withId(R.id.title), withText("Notifications"))).perform(click());
+        ViewInteraction appCompatTextView = onView(
+                allOf(withId(R.id.title), withText("Notifications"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatTextView.perform(click());
     }
 
     private void clickOnCheckbox(int checkboxId) {
@@ -140,5 +157,24 @@ public class NotificationActivityTest {
         onView(withId(R.id.activity_search_articles_begindate_edittext)).check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_search_articles_enddate_edittext)).check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_search_articles_search_button)).check(matches(not(isDisplayed())));
+    }
+
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
+
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
     }
 }
