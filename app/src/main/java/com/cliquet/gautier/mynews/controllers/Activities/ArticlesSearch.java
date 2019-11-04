@@ -58,7 +58,6 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         Intent intent = getIntent();
 
         failTextView = findViewById(R.id.activity_articles_search_failEditText);
-        logoImageView = findViewById(R.id.activity_articles_search_imagelogo);
 
         jsonQueriesHM = intent.getStringExtra("hashmap");
         searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());

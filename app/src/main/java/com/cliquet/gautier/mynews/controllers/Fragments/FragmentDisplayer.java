@@ -6,12 +6,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cliquet.gautier.mynews.Models.Articles;
@@ -26,6 +25,7 @@ import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 import java.util.List;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
@@ -37,8 +37,7 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
 
     private RecyclerView recyclerView;
     private TextView failTextView;
-    private ImageView logoImageView;
-    private ViewPager viewPager;
+    private Button refreshButton;
 
     public static FragmentDisplayer newInstance(int fragmentPageNumber) {
         FragmentDisplayer mFragmentDisplayer = new FragmentDisplayer();
@@ -60,10 +59,9 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_recycler, container, false);
 
-        recyclerView = view.findViewById(R.id.fragment_top_stories_recyclerview);
-        failTextView = view.findViewById(R.id.fragment_top_stories_failEditText);
-        logoImageView = view.findViewById(R.id.activity_articles_search_imagelogo);
-        viewPager = view.findViewById(R.id.activity_main_viewpager);
+        recyclerView = view.findViewById(R.id.fragment_recycler_recyclerview);
+        failTextView = view.findViewById(R.id.fragment_recycler_failEditText);
+        refreshButton = view.findViewById(R.id.fragment_recycler_refreshButton);
 
         this.executeHttpRequestWithRetrofit();
         return view;
@@ -88,6 +86,7 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     @Override
     public void onResponse(@Nullable PojoMaster mPojoMaster) {
 
+        recyclerView.setVisibility(VISIBLE);
 
         //getting all elements from the request and setting Elements object for further use
         int size = 0;
@@ -131,10 +130,16 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     }
 
     private void updateUiWhenStopingHttpRequest(String message){
-        logoImageView.setVisibility(GONE);
         recyclerView.setVisibility(GONE);
-        failTextView.setVisibility(View.VISIBLE);
+        failTextView.setVisibility(VISIBLE);
         failTextView.setText(message);
+        refreshButton.setVisibility(VISIBLE);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeHttpRequestWithRetrofit();
+            }
+        });
     }
 
     @Override

@@ -17,15 +17,6 @@
         android:scrollbars="vertical"
         tools:visibility="gone"/>
 
-    <ImageView
-        android:id="@+id/activity_articles_search_imagelogo"
-        android:layout_width="354dp"
-        android:layout_height="576dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ic_nytlogo"
-        tools:ignore="ContentDescription" />
-
     <TextView
         android:id="@+id/activity_articles_search_failEditText"
         android:layout_width="wrap_content"
@@ -34,5 +25,13 @@
         android:layout_centerVertical="true"
         android:textSize="18sp"
         tools:text="@string/error_failure" />
+
+    <Button
+        android:id="@+id/activity_articles_search_refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/activity_articles_search_failEditText"
+        android:text="@string/refresh_request_button" />
 
 </RelativeLayout>

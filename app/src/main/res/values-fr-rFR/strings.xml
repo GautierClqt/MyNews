@@ -30,6 +30,7 @@
     <!-- Request status messages -->
     <string name="waiting_request">Requête en cours, patientez…</string>
     <string name="error_no_article">Il n\'y pas de nouveaux articles pour le moment</string>
-    <string name="error_failure">Oups! Il y a eu une eurreur, réessayer plus tard.</string>
+    <string name="error_failure">Oups, Il y a eu un problème! Vérififier la connexion internet\nde votre appareil ou réessayer plus tard.</string>
     <string name="error_bad_request">La requête n\'a pas abouti, réessayez plus tard.</string>
+    <string name="refresh_request_button">REFRAICHIR</string>
 </resources>

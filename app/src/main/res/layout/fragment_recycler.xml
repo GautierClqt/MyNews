@@ -11,17 +11,24 @@
     android:background="@color/darkSecondaryColor">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_top_stories_recyclerview"
+        android:id="@+id/fragment_recycler_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        tools:visibility="gone"/>
 
     <TextView
-        android:id="@+id/fragment_top_stories_failEditText"
+        android:id="@+id/fragment_recycler_failEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="visible"
         tools:text="@string/error_failure" />
+
+    <Button
+        android:id="@+id/fragment_recycler_refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh_request_button" />
 
 </LinearLayout>

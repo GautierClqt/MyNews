@@ -42,10 +42,11 @@
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-    <!-- Request status messages -->
+    <!-- Request status messages and related -->
     <string name="waiting_request">Ongoing Request, please wait…</string>
     <string name="error_no_article">There is no article to display at the moment</string>
-    <string name="error_failure">Oops, something went wrong! Try again later…</string>
+    <string name="error_failure">Oops, something went wrong! Check your device\'s internet\nconnection or try again later.</string>
     <string name="error_bad_request">The request return no article, check again later.</string>
+    <string name="refresh_request_button">REFRESH</string>
 
 </resources>
