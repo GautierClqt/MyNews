@@ -1,4 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.4"
+    // Custom reports directory can be specfied like this:
+    // reportsDir = file("$buildDir/customJacocoReportDir")
+}
 
 android {
     compileSdkVersion 28
@@ -14,6 +21,41 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testCoverageEnabled true
+        }
+        debug {
+            testCoverageEnabled true
+        }
+    }
+    // jacoco
+    task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+        reports {
+            xml.enabled = true
+            html.enabled = true
+            html.destination file("${buildDir}/jacocoHtml")
+        }
+
+        def mainSrc = "${project.projectDir}/src/main/java"
+        def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+        def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+
+        // Source sets that coverage should be reported for.
+        sourceDirectories = files([mainSrc])
+        // Source sets that coverage should be reported for.
+        classDirectories = files([debugTree])
+        // Collection of execution data files to analyze.
+        executionData = fileTree(dir: "$buildDir", includes: [
+                "jacoco/testDebugUnitTest.exec",
+                "outputs/code-coverage/connected/*coverage.ec"
+        ])
+    }
+}
+
+android.testOptions {
+    unitTests.all {
+        jacoco {
+            includeNoLocationClasses = true
         }
     }
 }
