@@ -16,7 +16,6 @@ env:
         - ANDROID_TARGET=android-22
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_TAG=google_apis
-        - CODECOV_TOKEN="32125af3-58af-4e94-8649-ead8c6bb4620"
 
 android:
     components:
