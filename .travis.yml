@@ -50,7 +50,7 @@ before_install:
     - ./gradlew dependencies || true
 
 before_script:
-    - android list targets
+    - chmod +x gradlew
     - echo no | android create avd --force -n test -t "android-"$EMULATOR_API_LEVEL --abi $ANDROID_ABI --tag $ANDROID_TAG
     - emulator -avd test -no-audio -no-window &
     - android-wait-for-emulator
