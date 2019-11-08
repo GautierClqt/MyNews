@@ -61,13 +61,12 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     Switch switchView;
 
     //variables for query parameters
-    String beginDate = "";
-    String endDate = "";
+    String mBeginDate = "";
+    String mEndDate = "";
 
-    ArrayList<Integer> listIdCheckboxes = new ArrayList<>();
-    ArrayList<String> listTextCheckboxes = new ArrayList<>();
-
-    int checkboxId;
+    ArrayList<Integer> mListIdCheckboxes = new ArrayList<>();
+    ArrayList<String> mListTextCheckboxes = new ArrayList<>();
+    int mCheckboxId;
 
     Utils utils = new Utils();
     private Gson gson = new Gson();
@@ -85,12 +84,12 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
     SharedPreferences preferences;
 
-    int minYear;
-    int minMonth;
-    int minDay;
-    int maxYear;
-    int maxMonth;
-    int maxDay;
+    int mMinYear;
+    int mMinMonth;
+    int mMinDay;
+    int mMaxYear;
+    int mMaxMonth;
+    int mMaxDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,28 +172,26 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 String strDateConcatenation;
                 strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
                 if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
-                    beginDate = utils.dateStringFormat(year, month, dayOfMonth);
+                    mBeginDate = utils.dateStringFormat(year, month, dayOfMonth);
                     saveMinDate(year, month, dayOfMonth);
                 }
                 else {
-                    endDate = utils.dateStringFormat(year, month, dayOfMonth);
+                    mEndDate = utils.dateStringFormat(year, month, dayOfMonth);
                     saveMaxDate(year, month, dayOfMonth);
                 }
                 dateEditText.setText(strDateConcatenation);
             }
         }, maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
 
-        //Conditions that prevent users to select a begin date higher than ending date and vice versa
-        if(!beginDate.equals("") && v == findViewById(R.id.activity_search_articles_enddate_edittext)) {
-            minCalendar = utils.setMinMaxDate(minYear, minMonth, minDay);
+        //prevent the user to set the begin date lower than the end date end vice-versa
+        if(v == findViewById(R.id.activity_search_articles_enddate_edittext)) {
+            if(!mBeginDate.equals("")) {
+                minCalendar = utils.setMinMaxDate(mMinYear, mMinMonth, mMinDay);
+            }
             maxCalendar = utils.setMinMaxDate(maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
         }
-        else if (beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
-            maxCalendar = utils.setMinMaxDate(maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
-        }
-
-        if(!endDate.equals("") && !(v == findViewById(R.id.activity_search_articles_enddate_edittext))) {
-            maxCalendar = utils.setMinMaxDate(maxYear, maxMonth, maxDay);
+        else if(v == findViewById(R.id.activity_search_articles_begindate_edittext) && !mEndDate.equals("")) {
+            maxCalendar = utils.setMinMaxDate(mMaxYear, mMaxMonth, mMaxDay);
         }
 
         if(minCalendar != null) {
@@ -215,14 +212,14 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
     //add the term associated with the checked checkbox in the arraylist
     private void addCheckedCheckbox (int intCheck) {
-        listIdCheckboxes.add(intCheck);
+        mListIdCheckboxes.add(intCheck);
     }
 
-    //remove the term of the unchecked checkbox of the arraylist
+    //remove the term of the unchecked checkbox in the arraylist
     private void removeUncheckedCheckbox(int intCheck) {
-        for(int i = 0; i <= listIdCheckboxes.size(); i++) {
-            if (listIdCheckboxes.get(i).equals(intCheck)) {
-                listIdCheckboxes.remove(i);
+        for(int i = 0; i <= mListIdCheckboxes.size(); i++) {
+            if (mListIdCheckboxes.get(i).equals(intCheck)) {
+                mListIdCheckboxes.remove(i);
                 break;
             }
         }
@@ -231,17 +228,17 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     private void validateSearchPreferences() {
         articlesElements.setCurrentPage(0);
 
-        for(int i = 0; i < listIdCheckboxes.size(); i++) {
-                CheckBox idCheckBox = findViewById(listIdCheckboxes.get(i));
-                listTextCheckboxes.add(idCheckBox.getText().toString());
+        for(int i = 0; i < mListIdCheckboxes.size(); i++) {
+                CheckBox idCheckBox = findViewById(mListIdCheckboxes.get(i));
+                mListTextCheckboxes.add(idCheckBox.getText().toString());
             }
 
-        queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), beginDate, endDate, listTextCheckboxes, articlesElements.getCurrentPage());
+        queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), mBeginDate, mEndDate, mListTextCheckboxes, articlesElements.getCurrentPage());
 
         jsonQueriesHM = gson.toJson(queriesHM);
-        jsonCheckboxState = gson.toJson(listIdCheckboxes);
-        jsonBeginDate = gson.toJson(beginDate);
-        jsonEndDate = gson.toJson(endDate);
+        jsonCheckboxState = gson.toJson(mListIdCheckboxes);
+        jsonBeginDate = gson.toJson(mBeginDate);
+        jsonEndDate = gson.toJson(mEndDate);
 
         switch(calledActivity) {
             case 0:
@@ -264,25 +261,25 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         jsonCheckboxState = preferences.getString("checkboxes_state", "");
 
         if(!(jsonCheckboxState == null) && !jsonCheckboxState.equals("")) {
-            listIdCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<Integer>>(){}.getType());
+            mListIdCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<Integer>>(){}.getType());
         }
 
-        for(int i = 0; i < listIdCheckboxes.size(); i++) {
-            CheckBox checkBox = findViewById(listIdCheckboxes.get(i));
+        for(int i = 0; i < mListIdCheckboxes.size(); i++) {
+            CheckBox checkBox = findViewById(mListIdCheckboxes.get(i));
             checkBox.setChecked(true);
         }
     }
 
     private void saveMinDate(int year, int month, int dayOfMonth) {
-        minDay = dayOfMonth;
-        minMonth = month;
-        minYear = year;
+        mMinDay = dayOfMonth;
+        mMinMonth = month;
+        mMinYear = year;
     }
 
     private void saveMaxDate(int year, int month, int dayOfMonth) {
-        maxDay = dayOfMonth;
-        maxMonth = month;
-        maxYear = year;
+        mMaxDay = dayOfMonth;
+        mMaxMonth = month;
+        mMaxYear = year;
     }
 
     //get the id of the clicked checkbox
@@ -294,8 +291,8 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         if (v instanceof CheckBox) {
             CheckBox mCheckBox = findViewById(idView);
             boolean booleanCheckbox = mCheckBox.isChecked();
-            checkboxId = mCheckBox.getId();
-            verifyCheckboxState(booleanCheckbox, checkboxId);
+            mCheckboxId = mCheckBox.getId();
+            verifyCheckboxState(booleanCheckbox, mCheckboxId);
         }
         else if(v instanceof EditText && !(idView == termsEdittext.getId())) {
             setDateInEdittext(v);
@@ -318,9 +315,9 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
                     Calendar calendar = Calendar.getInstance();
 //
-                    endDate = utils.createNotificationDate(calendar);
+                    mEndDate = utils.createNotificationDate(calendar);
                     calendar.add(Calendar.DATE, -1);
-                    beginDate = utils.createNotificationDate(calendar);
+                    mBeginDate = utils.createNotificationDate(calendar);
 
                     calendar.setTimeInMillis(System.currentTimeMillis());
 
