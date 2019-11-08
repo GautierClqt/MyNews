@@ -19,6 +19,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         return 3; //3 - Number of page to show
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         return FragmentDisplayer.newInstance(position);

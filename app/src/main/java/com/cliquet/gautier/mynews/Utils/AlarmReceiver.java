@@ -24,7 +24,6 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
 
     Context context;
 
-    ArticlesElements articlesElements = new ArticlesElements();
     Response response = new Response();
 
     String jsonQueriesHM;
@@ -35,17 +34,11 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         this.context = context;
-
         setPreferences();
-
         jsonQueriesHM = preferences.getString("notifications", "");
-
         notificationManager = NotificationManagerCompat.from(context);
-
         this.executeHttpRequestWithRetrofit();
-
         Log.d("OnReceive", "TEST");
         Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
     }
@@ -95,7 +88,6 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
             //once the searching is done this will prepare the notif text
             notif.dailyUse(newArticles);
         }
-
         sendingNotification();
     }
 

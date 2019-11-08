@@ -186,17 +186,4 @@ public class Utils {
 
         return jsonQueries;
     }
-
-    public void setupSearchView(Activity activity) {
-        TextView switchTextView = activity.findViewById(R.id.activity_search_articles_switch_textview);
-        switchTextView.setVisibility(View.GONE);
-        Switch switchView = activity.findViewById(R.id.activity_search_articles_switch);
-        switchView.setVisibility(View.GONE);
-        Button searchButton = activity.findViewById(R.id.activity_search_articles_search_button);
-        searchButton.setVisibility(View.VISIBLE);
-        EditText beginDateEdittext = activity.findViewById(R.id.activity_search_articles_begindate_edittext);
-        beginDateEdittext.setVisibility(View.VISIBLE);
-        EditText endDateEdittext = activity.findViewById(R.id.activity_search_articles_enddate_edittext);
-        endDateEdittext.setVisibility(View.VISIBLE);
-    }
 }

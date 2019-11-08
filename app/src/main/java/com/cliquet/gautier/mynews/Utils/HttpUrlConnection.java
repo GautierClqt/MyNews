@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MyHttpURLConnection {
+public class HttpUrlConnection {
 
     public static String startHttpRequest(String urlString) {
 
@@ -17,11 +17,11 @@ public class MyHttpURLConnection {
         try {
             //Decalre an URL Connection
             URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             //Open IputStream to Connection
-            conn.connect();
-            InputStream in = conn.getInputStream();
+            connection.connect();
+            InputStream in = connection.getInputStream();
 
             //Downland and decode the string response
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -37,7 +37,6 @@ public class MyHttpURLConnection {
         } catch (Exception e) {
 
         }
-
         return stringBuilder.toString();
     }
 }

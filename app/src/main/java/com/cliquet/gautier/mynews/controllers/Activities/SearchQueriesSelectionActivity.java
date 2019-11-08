@@ -109,8 +109,7 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
             switch (calledActivity) {
                 case 0:
                     emptyViews();
-                    //setupSearchView();
-                    utils.setupSearchView(SearchQueriesSelectionActivity.this);
+                    setupSearchView();
                     break;
                 case 1:
                     setupNotificationsViews();
@@ -164,10 +163,8 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         //get the correct Edittext
         int idEdittext = v.getId();
         final EditText dateEditText = findViewById(idEdittext);
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar minCalendar = null;
+        Calendar maxCalendar = Calendar.getInstance();
 
         //select begin and end dates
         datePicker = new DatePickerDialog(SearchQueriesSelectionActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -177,39 +174,33 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
                 if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
                     beginDate = utils.dateStringFormat(year, month, dayOfMonth);
-                    minYear = year;
-                    minMonth = month;
-                    minDay = dayOfMonth;
+                    saveMinDate(year, month, dayOfMonth);
                 }
                 else {
                     endDate = utils.dateStringFormat(year, month, dayOfMonth);
-                    maxYear = year;
-                    maxMonth = month;
-                    maxDay = dayOfMonth;
+                    saveMaxDate(year, month, dayOfMonth);
                 }
                 dateEditText.setText(strDateConcatenation);
             }
-        }, year, month, dayOfMonth);
+        }, maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
 
-        //Conditions that prevent users to select a begin date higher than end date and vice versa
-        if(!beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
-            calendar = utils.setMinMaxDate(minYear, minMonth, minDay);
-            datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
-            calendar = Calendar.getInstance();
-            calendar = utils.setMinMaxDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        //Conditions that prevent users to select a begin date higher than ending date and vice versa
+        if(!beginDate.equals("") && v == findViewById(R.id.activity_search_articles_enddate_edittext)) {
+            minCalendar = utils.setMinMaxDate(minYear, minMonth, minDay);
+            maxCalendar = utils.setMinMaxDate(maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
         }
         else if (beginDate.equals("") && !(v == findViewById(R.id.activity_search_articles_begindate_edittext))) {
-            Calendar.getInstance();
-            calendar = utils.setMinMaxDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            maxCalendar = utils.setMinMaxDate(maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
         }
 
         if(!endDate.equals("") && !(v == findViewById(R.id.activity_search_articles_enddate_edittext))) {
-            calendar = utils.setMinMaxDate(maxYear, maxMonth, maxDay);
-            datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            maxCalendar = utils.setMinMaxDate(maxYear, maxMonth, maxDay);
         }
-        datePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        if(minCalendar != null) {
+            datePicker.getDatePicker().setMinDate(minCalendar.getTimeInMillis());
+        }
+        datePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
         datePicker.show();
     }
 
@@ -280,6 +271,18 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
             CheckBox checkBox = findViewById(listIdCheckboxes.get(i));
             checkBox.setChecked(true);
         }
+    }
+
+    private void saveMinDate(int year, int month, int dayOfMonth) {
+        minDay = dayOfMonth;
+        minMonth = month;
+        minYear = year;
+    }
+
+    private void saveMaxDate(int year, int month, int dayOfMonth) {
+        maxDay = dayOfMonth;
+        maxMonth = month;
+        maxYear = year;
     }
 
     //get the id of the clicked checkbox
