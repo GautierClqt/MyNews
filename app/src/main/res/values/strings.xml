@@ -49,4 +49,8 @@
     <string name="error_bad_request">The request return no article, check again later.</string>
     <string name="refresh_request_button">REFRESH</string>
 
+    <!-- About_activity text -->
+    <string name="about_text">This application has been developed by Gautier Cliquet as part of the Openclassrooms Android Developer course. See <b>openclassrooms.com</b> for further informations.</string>
+
+    <string name="article_image" translatable="false">article_image</string>
 </resources>

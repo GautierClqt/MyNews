@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/cardview_light_background">
+        android:background="@color/cardview_light_background"
+        tools:ignore="PrivateResource">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/activity_search_articles_terms_edittext"
@@ -36,7 +37,8 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="@string/begin_date" />
+                android:hint="@string/begin_date"
+                tools:ignore="KeyboardInaccessibleWidget" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/activity_search_articles_enddate_edittext"
@@ -47,7 +49,8 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="@string/end_date" />
+                android:hint="@string/end_date"
+                tools:ignore="KeyboardInaccessibleWidget" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -128,7 +131,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="20dp">
+            android:paddingVertical="20dp"
+            tools:targetApi="o">
 
             <TextView
                 android:id="@+id/activity_search_articles_switch_textview"
@@ -136,7 +140,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:text="@string/search_switch_text" />
+                android:text="@string/search_switch_text"
+                tools:ignore="RelativeOverlap" />
 
             <Switch
                 android:id="@+id/activity_search_articles_switch"

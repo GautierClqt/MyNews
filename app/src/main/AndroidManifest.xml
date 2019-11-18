@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cliquet.gautier.mynews">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".MyNewsNotificationChannel"
         android:allowBackup="true"
@@ -14,9 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".controllers.Activities.ArticlesSearch"></activity>
+        <activity android:name=".controllers.Activities.AboutActivity"></activity>
+        <activity android:name=".controllers.Activities.ArticlesSearch" />
         <activity android:name=".controllers.Activities.SearchQueriesSelectionActivity" />
-        <activity android:name=".controllers.Activities.MainActivity"
+        <activity
+            android:name=".controllers.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,8 @@
                 <action android:name="android.intent.action.NOTIFY" />
             </intent-filter>
         </receiver>
-
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

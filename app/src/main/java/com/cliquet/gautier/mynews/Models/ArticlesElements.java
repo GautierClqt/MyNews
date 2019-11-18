@@ -56,7 +56,6 @@ public class ArticlesElements {
         //mHits represents the number of Articles in the response, if mHits is less than 10 then mMaxPage will equals to -1
         int mMaxPage = (mHits / 10);
 
-        //
         if(stopRequest || currentPage <= mMaxPage || mHits <= 10) {
             for(i = 0; i <= response.getDocs().size()-1; i++) {
                 String mTitle = response.getDocs().get(i).getHeadline().getMain();

@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cliquet.gautier.mynews.Models.Articles;
-import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.OnBottomReachedListener;
 import com.cliquet.gautier.mynews.Utils.Utils;
@@ -36,12 +35,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
 
     private List<Articles> articles;
-    private ArrayList<String> clickedIdList;
+    private ArrayList<String> mClickedIdList;
     private Gson gson = new Gson();
-    private String jsonId;
-    private SharedPreferences preferences;
+    private String mJsonId;
+    private SharedPreferences mPreferences;
 
-    private Utils util = new Utils();
+    private Utils utils = new Utils();
 
     private OnBottomReachedListener onBottomReachedListener;
 
@@ -58,12 +57,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_recycler_item, viewGroup, false);
-        preferences = mContext.getSharedPreferences("already_read_articles", 0);
-        jsonId = preferences.getString("clickedIdList", null);
+        mPreferences = mContext.getSharedPreferences("already_read_articles", 0);
+        mJsonId = mPreferences.getString("mClickedIdList", null);
 
-        clickedIdList = gson.fromJson(jsonId, new TypeToken<ArrayList<String>>(){}.getType());
-        if(clickedIdList == null) {
-            clickedIdList = new ArrayList<>();
+        mClickedIdList = gson.fromJson(mJsonId, new TypeToken<ArrayList<String>>(){}.getType());
+        if(mClickedIdList == null) {
+            mClickedIdList = new ArrayList<>();
         }
 
         return new ViewHolder(view);
@@ -81,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         String mDate = articles.get(i).getDate();
         try {
-            mDate = util.simplifyDateFormat(mDate);
+            mDate = utils.simplifyDateFormat(mDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -100,8 +99,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         //check if article has been read to change its background color
-        for(int j = 0; j <= clickedIdList.size()-1; j++){
-            if(articles.get(i).getId().equals(clickedIdList.get(j))) {
+        for(int j = 0; j <= mClickedIdList.size()-1; j++){
+            if(articles.get(i).getId().equals(mClickedIdList.get(j))) {
                 viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.readArticles));
             }
         }
@@ -113,27 +112,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 articleDisplayIntent.putExtra("Url_Article", urlArticle);
 
                 //here id of clicked article is put in a list if not already, this list will be used to change layout color of previously read articles
-                int idListSize = clickedIdList.size();
+                int idListSize = mClickedIdList.size();
                 int j = 0;
                 if(idListSize == 0) {
-                    clickedIdList.add(articles.get(i).getId());
+                    mClickedIdList.add(articles.get(i).getId());
                     viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.readArticles));
                 }
                 else {
                     while(j <= idListSize) {
                         if(j == idListSize) {
-                            clickedIdList.add(articles.get(i).getId());
+                            mClickedIdList.add(articles.get(i).getId());
                             viewHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.readArticles));
                             break;
                         }
-                        else if(articles.get(i).getId().equals(clickedIdList.get(j))) {
+                        else if(articles.get(i).getId().equals(mClickedIdList.get(j))) {
                             break;
                         }
                         j++;
                     }
                 }
-                jsonId = gson.toJson(clickedIdList);
-                preferences.edit().putString("clickedIdList", jsonId).apply();
+                mJsonId = gson.toJson(mClickedIdList);
+                mPreferences.edit().putString("mClickedIdList", mJsonId).apply();
 
                 mContext.startActivity(articleDisplayIntent);
             }
@@ -147,7 +146,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void setArticles(ArrayList<Articles> articles) {
         this.articles = articles;
-        notifyDataSetChanged(); //notify the adapter that there is some datas change
+        //notify the adapter that there is some datas change
+        notifyDataSetChanged();
     }
 
     @Override

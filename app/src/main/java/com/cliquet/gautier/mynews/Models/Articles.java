@@ -10,7 +10,7 @@ public class Articles {
     private String mId;
     private int mMaxPage;
 
-    public Articles(String title, String section, String date, String urlArticle, String urlImage, String id, int maxPage) {
+    Articles(String title, String section, String date, String urlArticle, String urlImage, String id, int maxPage) {
         this.mTitle = title;
         this.mSection = section;
         this.mDate = date;

@@ -37,9 +37,7 @@ public class NYtimesCalls {
             //case 1: call = nYTimesService.getMostPopular();
             case 1: call = nYTimesService.getMostPopular();
             break;
-            case 2: call = nYTimesService.getTopStories(queryParamaters);
-            break;
-            case 3: Gson json = new Gson();
+            case 2: Gson json = new Gson();
                 HashMap<String, String> mapQueryParamaters = json.fromJson(queryParamaters, new TypeToken<HashMap<String, String>>(){}.getType());
                 call = nYTimesService.getArticleSearch(mapQueryParamaters);
             default:

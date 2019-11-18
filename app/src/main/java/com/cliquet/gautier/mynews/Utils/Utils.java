@@ -1,13 +1,19 @@
 package com.cliquet.gautier.mynews.Utils;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cliquet.gautier.mynews.R;
+import com.cliquet.gautier.mynews.controllers.Activities.SearchQueriesSelectionActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -79,6 +85,7 @@ public class Utils {
     public String notificationBeginDate() {
         String beginDate;
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
 
         beginDate = createNotificationDate(calendar);
 
@@ -88,7 +95,6 @@ public class Utils {
     public String notificationEndDate() {
         String endDate;
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
 
         endDate = createNotificationDate(calendar);
 
@@ -152,23 +158,6 @@ public class Utils {
         calendar.getTimeInMillis();
 
         return calendar;
-    }
-
-    private void startAlarm(Calendar calendar) {
-        //Toast.makeText(SearchQueriesSelectionActivity.class, "Salut", Toast.LENGTH_LONG).show();
-
-//        AlarmManager alarmManager;
-//        PendingIntent alarmIntent;
-//
-//        calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.set(Calendar.HOUR_OF_DAY, 18);
-//
-//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-//
-//        startAlarm(calendar);
-//
-//        alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
     }
 
     public String hashMapPagination(String jsonQueries) {

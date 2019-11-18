@@ -24,10 +24,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private ViewPager pager;
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawerLayout;
+    private ViewPager mPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +54,18 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.menu_searchicon_item: launchActivity(0);
+            case R.id.menu_searchicon_item: launchSearchOrNotificationActivity(0);
                 return true;
-            case R.id.menu_notifications_menu: launchActivity(1);
+            case R.id.menu_notifications_item: launchSearchOrNotificationActivity(1);
                 return true;
+            case R.id.menu_about_item: Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void launchActivity(int activitynbr) {
+    private void launchSearchOrNotificationActivity(int activitynbr) {
         Intent intent = new Intent(this, SearchQueriesSelectionActivity.class);
         intent.putExtra("actitivy_called", activitynbr);
         startActivity(intent);
@@ -72,41 +73,20 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
 
     private void configureViewPagerAndTabs() {
-        //1 - Get ViewPager from layout
-        pager = findViewById(R.id.activity_main_viewpager);
-        //2 - Set Adapter PageAdapter and glue it together
-        pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+        mPager = findViewById(R.id.activity_main_viewpager);
+        mPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
 
-        //Get TabLayout form layout
         TabLayout tabs = findViewById(R.id.activity_main_tabs);
-        //Glue TablLayout and ViewPage together
-        tabs.setupWithViewPager(pager);
-        //Design purpose. Tabs have the same width
+        tabs.setupWithViewPager(mPager);
         tabs.setTabMode(TabLayout.MODE_FIXED);
 
-        pager.setCurrentItem(0);
-
-//        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
+        mPager.setCurrentItem(0);
     }
 
     @Override
     public void onBackPressed() {
-        if(this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            this.drawerLayout.closeDrawer(GravityCompat.START);
+        if(this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
             super.onBackPressed();
@@ -118,39 +98,39 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         int id = menuItem.getItemId();
 
         switch(id){
-            case R.id.activity_main_drawer_topstories : pager.setCurrentItem(0);
+            case R.id.activity_main_drawer_topstories : mPager.setCurrentItem(0);
                 break;
-            case R.id.activity_main_drawer_mostpopular : pager.setCurrentItem(1);
+            case R.id.activity_main_drawer_mostpopular : mPager.setCurrentItem(1);
                 break;
-            case R.id.activity_main_drawer_favorite : pager.setCurrentItem(2);
+            case R.id.activity_main_drawer_favorite : mPager.setCurrentItem(2);
                 break;
-            case R.id.activity_main_drawer_articlesearch : launchActivity(0);
+            case R.id.activity_main_drawer_articlesearch : launchSearchOrNotificationActivity(0);
                 break;
-            case R.id.activity_main_drawer_notifications : launchActivity(1);
+            case R.id.activity_main_drawer_notifications : launchSearchOrNotificationActivity(1);
                 break;
         }
 
-        this.drawerLayout.closeDrawer(GravityCompat.START);
+        this.mDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }
 
     private void configureToolbar() {
-        this.toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        this.mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
     }
 
     private void configureDrawerLayout() {
-        this.drawerLayout = findViewById(R.id.activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
+        this.mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
     private void configureNavigationView() {
-        this.navigationView = findViewById(R.id.activity_main_nav_view);
+        NavigationView mNavigationView = findViewById(R.id.activity_main_nav_view);
 
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 }
 

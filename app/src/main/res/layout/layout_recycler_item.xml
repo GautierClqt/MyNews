@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_item_parentLayout_relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,7 +14,8 @@
         android:id="@+id/layout_item_image_imageview"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/article_image" />
 
     <TextView
         android:id="@+id/layout_item_section_textview"
@@ -31,7 +33,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="15dp"
-        android:text="@string/item_date" />
+        android:text="@string/item_date"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/layout_item_title_textview"

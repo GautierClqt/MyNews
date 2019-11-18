@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.Notif;
 import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
@@ -40,11 +39,10 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
         notificationManager = NotificationManagerCompat.from(context);
         this.executeHttpRequestWithRetrofit();
         Log.d("OnReceive", "TEST");
-        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
     }
 
     private void executeHttpRequestWithRetrofit() {
-        NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
+        NYtimesCalls.fetchArticles(this, jsonQueriesHM, 2);
     }
 
     @Override
@@ -105,7 +103,6 @@ public class AlarmReceiver extends BroadcastReceiver implements NYtimesCalls.Cal
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_NEW_ARTICLES)
                 .setSmallIcon(R.drawable.ic_nytlogo)
                 .setContentTitle("MyNews")
-                //.setContentText("There are x new articles, read them!")
                 .setContentText(notifString)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .build();

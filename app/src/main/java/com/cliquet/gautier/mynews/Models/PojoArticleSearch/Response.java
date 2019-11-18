@@ -18,12 +18,9 @@ public class Response {
         return docs;
     }
 
-    public void setDocs(List<Docs> docs) {
-        this.docs = docs;
-    }
-
     public Meta getMeta() { return meta; }
 
-    public void setMeta(Meta meta) { this.meta = meta; }
-
+    public void setMeta(Meta meta) {
+        this.meta = meta;
+    }
 }

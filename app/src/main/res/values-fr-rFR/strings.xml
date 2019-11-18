@@ -33,4 +33,5 @@
     <string name="error_failure">Oups, Il y a eu un problème! Vérififier la connexion internet\nde votre appareil ou réessayer plus tard.</string>
     <string name="error_bad_request">La requête n\'a pas abouti, réessayez plus tard.</string>
     <string name="refresh_request_button">REFRAICHIR</string>
+    <string name="about_text">Cette application a été développée par Gautier Cliquet dans le cadre du parcours Développeur Android dOpenclassrooms. Rendez-vous sur <b>openclassrooms.com</b> pour d\'avantages d\'informations.</string>
 </resources>

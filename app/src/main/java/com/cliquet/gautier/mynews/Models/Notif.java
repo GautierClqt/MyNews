@@ -1,7 +1,5 @@
 package com.cliquet.gautier.mynews.Models;
 
-import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
-
 public class Notif {
 
     private String notifString;

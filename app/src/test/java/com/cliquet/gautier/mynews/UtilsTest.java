@@ -67,8 +67,7 @@ public class UtilsTest {
 
         notificationDate = utils.createNotificationDate(calendar);
         assertEquals("20190303", notificationDate);
-
-
+        
         //test focused on month and day
         calendar.set(Calendar.YEAR, 2019);
         calendar.set(Calendar.MONTH, 9);

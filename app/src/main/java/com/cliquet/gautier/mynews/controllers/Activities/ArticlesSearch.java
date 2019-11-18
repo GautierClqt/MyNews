@@ -5,7 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,28 +27,27 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.view.View.GONE;
-
+import static android.view.View.VISIBLE;
 
 public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
-    ArticlesElements articlesElements = new ArticlesElements();
+    ArticlesElements mArticlesElements = new ArticlesElements();
 
-    Response response = new Response();
-    HashMap<String, String> searchQueries = new HashMap<>();
+    Response mResponse = new Response();
+    HashMap<String, String> mSearchQueries = new HashMap<>();
 
-    private ArrayList<Articles> articles = new ArrayList<>();
+    private ArrayList<Articles> mArticles = new ArrayList<>();
 
-    Gson gson = new Gson();
+    Gson mGson = new Gson();
 
     RecyclerView recyclerView;
     TextView failTextView;
-    ImageView logoImageView;
+    Button refreshButton;
 
-    RecyclerViewAdapter adapter;
-    String jsonQueriesHM;
+    RecyclerViewAdapter mAdapter;
+    String mJsonQueriesHM;
 
-    boolean stopRequest;
+    boolean mStopRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,41 +56,37 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
         Intent intent = getIntent();
 
-        failTextView = findViewById(R.id.activity_articles_search_failEditText);
+        initViews();
 
-        jsonQueriesHM = intent.getStringExtra("hashmap");
-        searchQueries = gson.fromJson(jsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
+        mJsonQueriesHM = intent.getStringExtra("hashmap");
+        mSearchQueries = mGson.fromJson(mJsonQueriesHM, new TypeToken<HashMap<String, String>>(){}.getType());
 
         initRecyclerView();
 
         executeHttpRequestWithRetrofit();
     }
 
-    //Actions
     private void executeHttpRequestWithRetrofit() {
-        if(articlesElements.getCurrentPage() == 0) {
+        if(mArticlesElements.getCurrentPage() == 0) {
             updateUiWhenStartingHttpRequest();
         }
-        NYtimesCalls.fetchArticles(this, jsonQueriesHM, 3);
+        NYtimesCalls.fetchArticles(this, mJsonQueriesHM, 2);
     }
 
     private void initRecyclerView() {
-        recyclerView = findViewById(R.id.activity_articles_search_recycler);
-        adapter = new RecyclerViewAdapter(this, articles);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new RecyclerViewAdapter(this, mArticles);
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
-        adapter.setOnBottomReachedListener(new OnBottomReachedListener() {
+        mAdapter.setOnBottomReachedListener(new OnBottomReachedListener() {
             @Override
             public void onBottomReached(int position) {
                 //the request will be send only if the last reached item is not the last article from the previous request result
-                stopRequest = articlesElements.getStopRequest();
-                if(!stopRequest) {
-                    articlesElements.setCurrentPage(articlesElements.getCurrentPage() + 1);
-                    searchQueries.put("page", String.valueOf(articlesElements.getCurrentPage()));
-                    jsonQueriesHM = gson.toJson(searchQueries);
+                mStopRequest = mArticlesElements.getStopRequest();
+                if(!mStopRequest) {
+                    mArticlesElements.setCurrentPage(mArticlesElements.getCurrentPage() + 1);
+                    mSearchQueries.put("page", String.valueOf(mArticlesElements.getCurrentPage()));
+                    mJsonQueriesHM = mGson.toJson(mSearchQueries);
                     executeHttpRequestWithRetrofit();
                 }
             }
@@ -103,22 +98,28 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
         failTextView.setText(R.string.waiting_request);
     }
 
+    private void initViews() {
+        recyclerView = findViewById(R.id.activity_articles_search_recycler);
+        failTextView = findViewById(R.id.activity_articles_search_failEditText);
+        refreshButton = findViewById(R.id.activity_articles_search_refreshButton);
+    }
+
     @Override
     public void onResponse(PojoMaster pojoMaster) {
 
         if (pojoMaster != null) {
-            response = pojoMaster.getResponse();
+            mResponse = pojoMaster.getResponse();
         }
-        if(response.getDocs().size() == 0){
+        if(mResponse.getDocs().size() == 0){
             this.updateUiWhenStopingHttpRequest(getString(R.string.error_bad_request));
 
         }
         else {
-            articles = articlesElements.settingListsPojoArticleSearch(response);
+            mArticles = mArticlesElements.settingListsPojoArticleSearch(mResponse);
             recyclerView.setVisibility(View.VISIBLE);
-            logoImageView.setVisibility(View.GONE);
             failTextView.setVisibility(View.GONE);
-            adapter.setArticles(articles);
+            refreshButton.setVisibility(View.GONE);
+            mAdapter.setArticles(mArticles);
         }
     }
 
@@ -129,9 +130,15 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
 
     private void updateUiWhenStopingHttpRequest(String message){
         recyclerView.setVisibility(View.GONE);
-        logoImageView.setVisibility(View.VISIBLE);
         failTextView.setVisibility(View.VISIBLE);
         failTextView.setText(message);
+        refreshButton.setVisibility(VISIBLE);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeHttpRequestWithRetrofit();
+            }
+        });
     }
 
     @Override

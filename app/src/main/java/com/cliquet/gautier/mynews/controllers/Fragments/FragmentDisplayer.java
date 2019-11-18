@@ -29,9 +29,9 @@ import static android.view.View.VISIBLE;
 
 public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
 
-    private int fragmentPageNumber;
+    private int mFragmentPageNumber;
 
-    private List<Results> results;
+    private List<Results> mResults;
 
     private ArticlesElements articlesElements = new ArticlesElements();
 
@@ -51,7 +51,7 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragmentPageNumber = getArguments().getInt("fragment_page_number", 0);
+        mFragmentPageNumber = getArguments().getInt("fragment_page_number", 0);
     }
 
     @Override
@@ -59,27 +59,30 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_recycler, container, false);
 
-        recyclerView = view.findViewById(R.id.fragment_recycler_recyclerview);
-        failTextView = view.findViewById(R.id.fragment_recycler_failEditText);
-        refreshButton = view.findViewById(R.id.fragment_recycler_refreshButton);
+        initViews(view);
 
         this.executeHttpRequestWithRetrofit();
         return view;
     }
 
-    //Actions
     private void executeHttpRequestWithRetrofit() {
 
         this.updateUiWhenStartingHttpRequest();
-        switch(fragmentPageNumber) {
-            case 0: NYtimesCalls.fetchArticles(this, "home",  fragmentPageNumber);
+        switch(mFragmentPageNumber) {
+            case 0: NYtimesCalls.fetchArticles(this, "home",  0);
             break;
-            case 1: NYtimesCalls.fetchArticles(this, "", fragmentPageNumber);
+            case 1: NYtimesCalls.fetchArticles(this, "", 1);
             break;
-            case 2: NYtimesCalls.fetchArticles(this, "sports", fragmentPageNumber);
+            case 2: NYtimesCalls.fetchArticles(this, "sports", 0);
             break;
             default: break;
         }
+    }
+
+    private void initViews(View view) {
+        recyclerView = view.findViewById(R.id.fragment_recycler_recyclerview);
+        failTextView = view.findViewById(R.id.fragment_recycler_failEditText);
+        refreshButton = view.findViewById(R.id.fragment_recycler_refreshButton);
     }
 
 
@@ -91,8 +94,8 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
         //getting all elements from the request and setting Elements object for further use
         int size = 0;
         if (mPojoMaster != null) {
-            results = mPojoMaster.getResults();
-            size = results.size();
+            mResults = mPojoMaster.getResults();
+            size = mResults.size();
         }
 
         if(size == 0) {
@@ -100,15 +103,15 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
         }
 
         List<Articles> mArticles = null;
-        switch (fragmentPageNumber) {
+        switch (mFragmentPageNumber) {
             case 0:
-                mArticles = articlesElements.settingListsPojoTopStories(results);
+                mArticles = articlesElements.settingListsPojoTopStories(mResults);
                 break;
             case 1:
-                mArticles = articlesElements.settingListsMostPopular(results);
+                mArticles = articlesElements.settingListsMostPopular(mResults);
                 break;
             case 2:
-                mArticles = articlesElements.settingListsPojoTopStories(results);
+                mArticles = articlesElements.settingListsPojoTopStories(mResults);
                 break;
             default:
                 break;

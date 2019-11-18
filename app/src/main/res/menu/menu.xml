@@ -11,14 +11,13 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_notifications_menu"
+        android:id="@+id/menu_notifications_item"
         android:actionLayout="@layout/toolbar"
         android:title="@string/notifications" />
-    <item
-        android:id="@+id/menu_help_item"
-        android:title="@string/help"/>
+
     <item
         android:id="@+id/menu_about_item"
+        android:actionLayout="@layout/toolbar"
         android:title="@string/about"/>
 
 </menu>

@@ -1,9 +1,6 @@
 package com.cliquet.gautier.mynews.controllers.Activities;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +19,7 @@ import android.widget.TextView;
 import com.cliquet.gautier.mynews.Models.ArticlesElements;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.R;
-import com.cliquet.gautier.mynews.Utils.AlarmReceiver;
+import com.cliquet.gautier.mynews.Utils.AlarmStartStop;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
 import com.cliquet.gautier.mynews.Utils.Utils;
 import com.google.gson.Gson;
@@ -41,7 +38,7 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     EditText beginDateEdittext;
     EditText endDateEdittext;
 
-    DatePickerDialog datePicker;
+    DatePickerDialog mDatePicker;
 
     //view: checkboxes
     LinearLayoutCompat checkboxesLayout;
@@ -73,14 +70,14 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
     private ArticlesElements articlesElements = new ArticlesElements();
 
-    Bundle bundle = new Bundle();
-    int calledActivity;
-    HashMap<String, String> queriesHM;
-    String jsonQueriesHM;
-    String jsonCheckboxState;
-    String jsonBeginDate;
-    String jsonEndDate;
-    boolean boolSwitch;
+    Bundle mBundle = new Bundle();
+    int mCalledActivity;
+    HashMap<String, String> mQueriesHM;
+    String mJsonQueriesHM;
+    String mJsonCheckboxState;
+    String mJsonBeginDate;
+    String mJsonEndDate;
+    boolean mBoolSwitch;
 
     SharedPreferences preferences;
 
@@ -100,12 +97,12 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
         initViews();
 
-        bundle = getIntent().getExtras();
-        if (bundle != null) {
-            calledActivity = bundle.getInt("actitivy_called");
+        mBundle = getIntent().getExtras();
+        if (mBundle != null) {
+            mCalledActivity = mBundle.getInt("actitivy_called");
 
             //set up views as per selected activity
-            switch (calledActivity) {
+            switch (mCalledActivity) {
                 case 0:
                     emptyViews();
                     setupSearchView();
@@ -114,8 +111,8 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                     setupNotificationsViews();
                     getLastNotificationChoices();
 
-                    boolSwitch = preferences.getBoolean("boolSwitch", false);
-                    if (boolSwitch) {
+                    mBoolSwitch = preferences.getBoolean("mBoolSwitch", false);
+                    if (mBoolSwitch) {
                         switchView.setChecked(true);
                         trueBoolSwitch();
                     } else {
@@ -130,32 +127,6 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         findViewById();
     }
 
-    private void findViewById() {
-        //Search edittext
-        termsEdittext.setOnClickListener(this);
-
-        //Dates
-        beginDateEdittext.setOnClickListener(this);
-        endDateEdittext.setOnClickListener(this);
-        beginDateEdittext.setInputType(InputType.TYPE_NULL);
-        endDateEdittext.setInputType(InputType.TYPE_NULL);
-
-        //checkboxes
-        artsCheckbox.setOnClickListener(this);
-        businessCheckbox.setOnClickListener(this);
-        entrepreneursCheckbox.setOnClickListener(this);
-        politicsCheckbox.setOnClickListener(this);
-        sportsCheckbox.setOnClickListener(this);
-        travelCheckbox.setOnClickListener(this);
-
-        //Button
-        searchButton.setOnClickListener(this);
-
-        //switch views
-        switchView.setOnClickListener(this);
-    }
-
-
     //choose dates in Edittexts via DatePickers
     private void setDateInEdittext(final View v) {
 
@@ -166,7 +137,7 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         Calendar maxCalendar = Calendar.getInstance();
 
         //select begin and end dates
-        datePicker = new DatePickerDialog(SearchQueriesSelectionActivity.this, new DatePickerDialog.OnDateSetListener() {
+        mDatePicker = new DatePickerDialog(SearchQueriesSelectionActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String strDateConcatenation;
@@ -195,10 +166,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         }
 
         if(minCalendar != null) {
-            datePicker.getDatePicker().setMinDate(minCalendar.getTimeInMillis());
+            mDatePicker.getDatePicker().setMinDate(minCalendar.getTimeInMillis());
         }
-        datePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
-        datePicker.show();
+        mDatePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
+        mDatePicker.show();
     }
 
     //verify if a checkbox is check or uncheck
@@ -233,22 +204,22 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 mListTextCheckboxes.add(idCheckBox.getText().toString());
             }
 
-        queriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), mBeginDate, mEndDate, mListTextCheckboxes, articlesElements.getCurrentPage());
+        mQueriesHM = utils.creatHashMapQueries(String.valueOf(termsEdittext.getText()), mBeginDate, mEndDate, mListTextCheckboxes, articlesElements.getCurrentPage());
 
-        jsonQueriesHM = gson.toJson(queriesHM);
-        jsonCheckboxState = gson.toJson(mListIdCheckboxes);
-        jsonBeginDate = gson.toJson(mBeginDate);
-        jsonEndDate = gson.toJson(mEndDate);
+        mJsonQueriesHM = gson.toJson(mQueriesHM);
+        mJsonCheckboxState = gson.toJson(mListIdCheckboxes);
+        mJsonBeginDate = gson.toJson(mBeginDate);
+        mJsonEndDate = gson.toJson(mEndDate);
 
-        switch(calledActivity) {
+        switch(mCalledActivity) {
             case 0:
                 Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
-                        .putExtra("hashmap", jsonQueriesHM);
+                        .putExtra("hashmap", mJsonQueriesHM);
                 startActivity(searchArticleIntent);
                 break;
             case 1:
                 preferences.edit().putString("search_terms", termsEdittext.getText().toString()).apply();
-                preferences.edit().putString("checkboxes_state", jsonCheckboxState).apply();
+                preferences.edit().putString("checkboxes_state", mJsonCheckboxState).apply();
                 break;
             default:
                 break;
@@ -258,10 +229,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     private void getLastNotificationChoices() {
         termsEdittext.setText(preferences.getString("search_terms", ""));
 
-        jsonCheckboxState = preferences.getString("checkboxes_state", "");
+        mJsonCheckboxState = preferences.getString("checkboxes_state", "");
 
-        if(!(jsonCheckboxState == null) && !jsonCheckboxState.equals("")) {
-            mListIdCheckboxes = gson.fromJson(jsonCheckboxState, new TypeToken<ArrayList<Integer>>(){}.getType());
+        if(!(mJsonCheckboxState == null) && !mJsonCheckboxState.equals("")) {
+            mListIdCheckboxes = gson.fromJson(mJsonCheckboxState, new TypeToken<ArrayList<Integer>>(){}.getType());
         }
 
         for(int i = 0; i < mListIdCheckboxes.size(); i++) {
@@ -287,7 +258,7 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     public void onClick(View v) {
         int idView = v.getId();
 
-        //differentiate type of view to work accordingly with what is clicked on
+        //differentiate type of view to react accordingly with what is clicked on
         if (v instanceof CheckBox) {
             CheckBox mCheckBox = findViewById(idView);
             boolean booleanCheckbox = mCheckBox.isChecked();
@@ -298,45 +269,26 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
             setDateInEdittext(v);
         }
         else if (v instanceof Button) {
+            if(mBeginDate.equals("") && mEndDate.equals("")) {
+                mBeginDate = utils.notificationBeginDate();
+                mEndDate = utils.notificationEndDate();
+            }
             if (idView == searchButton.getId()) {
                 validateSearchPreferences();
             }
             else if (idView == switchView.getId()) {
-                boolSwitch = switchView.isChecked();
-                preferences.edit().putBoolean("boolSwitch", boolSwitch).apply();
+                AlarmStartStop alarm = new AlarmStartStop();
+                mBoolSwitch = switchView.isChecked();
+                preferences.edit().putBoolean("mBoolSwitch", mBoolSwitch).apply();
 
-                AlarmManager alarmManager;
-                alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                Intent intent = new Intent(this, AlarmReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); //TEST
-
-                if(boolSwitch) {
+                if(mBoolSwitch) {
                     trueBoolSwitch();
-
-                    Calendar calendar = Calendar.getInstance();
-//
-                    mEndDate = utils.createNotificationDate(calendar);
-                    calendar.add(Calendar.DATE, -1);
-                    mBeginDate = utils.createNotificationDate(calendar);
-
-                    calendar.setTimeInMillis(System.currentTimeMillis());
-
-                    //calendar.set(Calendar.HOUR_OF_DAY, 18);
-                    //calendar.set(Calendar.HOUR_OF_DAY, 19);
-
-                    calendar.add(Calendar.SECOND, 20);
-
-                    //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60, pendingIntent); //TEST
-
+                    alarm.startAlarm(this);
                     validateSearchPreferences();
-
-                    //alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-                    //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
                 }
                 else {
                     falseBoolSwitch();
-                    alarmManager.cancel(pendingIntent);
+                    alarm.stopAlarm(this);
                 }
             }
         }
@@ -366,6 +318,31 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         //bindview: switch
         switchView = findViewById(R.id.activity_search_articles_switch);
         switchTextView = findViewById(R.id.activity_search_articles_switch_textview);
+    }
+
+    private void findViewById() {
+        //Search edittext
+        termsEdittext.setOnClickListener(this);
+
+        //Dates
+        beginDateEdittext.setOnClickListener(this);
+        endDateEdittext.setOnClickListener(this);
+        beginDateEdittext.setInputType(InputType.TYPE_NULL);
+        endDateEdittext.setInputType(InputType.TYPE_NULL);
+
+        //checkboxes
+        artsCheckbox.setOnClickListener(this);
+        businessCheckbox.setOnClickListener(this);
+        entrepreneursCheckbox.setOnClickListener(this);
+        politicsCheckbox.setOnClickListener(this);
+        sportsCheckbox.setOnClickListener(this);
+        travelCheckbox.setOnClickListener(this);
+
+        //Button
+        searchButton.setOnClickListener(this);
+
+        //switch views
+        switchView.setOnClickListener(this);
     }
 
     //empty all views to wipe previews search
