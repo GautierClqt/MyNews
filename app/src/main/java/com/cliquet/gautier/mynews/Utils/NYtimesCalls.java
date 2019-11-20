@@ -1,5 +1,7 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import androidx.annotation.NonNull;
+
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -45,14 +47,15 @@ public class NYtimesCalls {
         }
 
         //start the call
+        assert call != null;
         call.enqueue(new Callback<PojoMaster>() {
             @Override
-            public void onResponse(Call<PojoMaster> call, Response<PojoMaster> response) {
+            public void onResponse(@NonNull Call<PojoMaster> call, @NonNull Response<PojoMaster> response) {
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<PojoMaster> call, Throwable t) {
+            public void onFailure(@NonNull Call<PojoMaster> call, @NonNull Throwable t) {
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
                 t.printStackTrace();
             }

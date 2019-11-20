@@ -13,7 +13,7 @@
     <string name="item_section" translatable="false">section</string>
 
     <!-- Queries selection activity strings -->
-    <string name="searching_terms">Searching terms</string>
+    <string name="searching_terms">keywords (mandatory)</string>
 
     <string name="begin_date">Begin Date</string>
     <string name="end_date">End Date</string>
@@ -36,7 +36,6 @@
     <string name="top_stories" translatable="false">Top Stories</string>
     <string name="most_popular" translatable="false">Most Popular</string>
     <string name="favorites" translatable="false">Sports</string>
-    <string name="search_articles" translatable="false">Search</string>
 
     <!-- Navigation drawer -->
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
@@ -49,8 +48,17 @@
     <string name="error_bad_request">The request return no article, check again later.</string>
     <string name="refresh_request_button">REFRESH</string>
 
-    <!-- About_activity text -->
+    <!-- About_activity texts -->
     <string name="about_text">This application has been developed by Gautier Cliquet as part of the Openclassrooms Android Developer course. See <b>openclassrooms.com</b> for further informations.</string>
 
+    <!-- Menu texts -->
     <string name="article_image" translatable="false">article_image</string>
+    <string name="search_articles">Search</string>
+
+    <!-- Notif.java texts -->
+    <string name="no_new_article">There is no new article, maybe later!</string>
+    <string name="new_articles">There is new articles, check them out!</string>
+    <string name="one_new_article">There is 1 new article, check it!</string>
+    <string name="x_new_articles">There are " %1$d " new articles, check them!</string>
+
 </resources>

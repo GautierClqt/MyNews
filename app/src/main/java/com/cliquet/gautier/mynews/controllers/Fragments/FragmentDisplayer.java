@@ -20,14 +20,13 @@ import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.Models.PojoCommon.Results;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
-import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 
 import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
+public class FragmentDisplayer extends Fragment implements NYtimesCalls.Callbacks {
 
     private int mFragmentPageNumber;
 
@@ -51,6 +50,7 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        assert getArguments() != null;
         mFragmentPageNumber = getArguments().getInt("fragment_page_number", 0);
     }
 
@@ -143,18 +143,5 @@ public class FragmentDisplayer extends Fragment implements NetworkAsyncTask.List
                 executeHttpRequestWithRetrofit();
             }
         });
-    }
-
-    @Override
-    public void onPreExecute() {
-        failTextView.setText(R.string.waiting_request);
-    }
-
-    @Override
-    public void doInBackground() {
-    }
-
-    @Override
-    public void onPostExecute(String succes) {
     }
 }

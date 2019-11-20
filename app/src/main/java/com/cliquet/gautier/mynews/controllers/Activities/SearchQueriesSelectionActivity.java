@@ -211,6 +211,8 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         mJsonBeginDate = gson.toJson(mBeginDate);
         mJsonEndDate = gson.toJson(mEndDate);
 
+        int TEST = 0;
+
         switch(mCalledActivity) {
             case 0:
                 Intent searchArticleIntent = new Intent(this, ArticlesSearch.class)
@@ -255,20 +257,20 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
 
     //get the id of the clicked checkbox
     @Override
-    public void onClick(View v) {
-        int idView = v.getId();
+    public void onClick(View view) {
+        int idView = view.getId();
 
         //differentiate type of view to react accordingly with what is clicked on
-        if (v instanceof CheckBox) {
+        if (view instanceof CheckBox) {
             CheckBox mCheckBox = findViewById(idView);
             boolean booleanCheckbox = mCheckBox.isChecked();
             mCheckboxId = mCheckBox.getId();
             verifyCheckboxState(booleanCheckbox, mCheckboxId);
         }
-        else if(v instanceof EditText && !(idView == termsEdittext.getId())) {
-            setDateInEdittext(v);
+        else if(view instanceof EditText && !(idView == termsEdittext.getId())) {
+            setDateInEdittext(view);
         }
-        else if (v instanceof Button) {
+        else if (view instanceof Button) {
             if(mBeginDate.equals("") && mEndDate.equals("")) {
                 mBeginDate = utils.notificationBeginDate();
                 mEndDate = utils.notificationEndDate();

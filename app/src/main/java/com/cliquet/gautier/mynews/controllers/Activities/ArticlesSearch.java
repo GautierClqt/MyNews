@@ -18,7 +18,6 @@ import com.cliquet.gautier.mynews.Models.PojoArticleSearch.Response;
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 import com.cliquet.gautier.mynews.R;
 import com.cliquet.gautier.mynews.Utils.NYtimesCalls;
-import com.cliquet.gautier.mynews.Utils.NetworkAsyncTask;
 import com.cliquet.gautier.mynews.Utils.OnBottomReachedListener;
 import com.cliquet.gautier.mynews.controllers.Fragments.RecyclerViewAdapter;
 import com.google.gson.Gson;
@@ -29,7 +28,7 @@ import java.util.HashMap;
 
 import static android.view.View.VISIBLE;
 
-public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTask.Listeners, NYtimesCalls.Callbacks {
+public class ArticlesSearch extends AppCompatActivity implements NYtimesCalls.Callbacks {
 
     ArticlesElements mArticlesElements = new ArticlesElements();
 
@@ -139,20 +138,5 @@ public class ArticlesSearch extends AppCompatActivity implements NetworkAsyncTas
                 executeHttpRequestWithRetrofit();
             }
         });
-    }
-
-    @Override
-    public void onPreExecute() {
-
-    }
-
-    @Override
-    public void doInBackground() {
-
-    }
-
-    @Override
-    public void onPostExecute(String succes) {
-
     }
 }

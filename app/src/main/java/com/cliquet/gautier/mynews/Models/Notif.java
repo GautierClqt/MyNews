@@ -1,42 +1,36 @@
 package com.cliquet.gautier.mynews.Models;
 
-public class Notif {
+import android.content.res.Resources;
+import com.cliquet.gautier.mynews.R;
+
+public class Notif{
 
     private String notifString;
-    private int nbrArticles;
-
 
     public String firstTimeUse(int responseSize) {
+
         if(responseSize == 0) {
-            notifString = "There is no new article, maybe later!";
+            notifString = Resources.getSystem().getString(R.string.no_new_article);
         }
         else if(responseSize > 0) {
-            notifString = "There is new articles, check them out!";
+            notifString = Resources.getSystem().getString(R.string.new_articles);
         }
 
         return notifString;
     }
 
     public String dailyUse(int nbrArticles) {
-        this.nbrArticles = nbrArticles;
 
         if(nbrArticles == 0){
-            notifString = "There is no new article, maybe later.";
+            notifString = Resources.getSystem().getString(R.string.no_new_article);
         }
         else if(nbrArticles == 1) {
-            notifString = "There is 1 new article, check it!";
+            notifString = Resources.getSystem().getString(R.string.one_new_article);
         }
         else if(nbrArticles > 1) {
-            notifString = "There are " + nbrArticles + " new articles, check them!";
+            notifString = Resources.getSystem().getString(R.string.x_new_articles, nbrArticles);
         }
 
         return notifString;
-    }
-
-    //determine how much new articles taking account of pagination
-    public int countingNewArticles(int i, int pageNbr) {
-        nbrArticles = pageNbr*10 + i;
-
-        return nbrArticles;
     }
 }

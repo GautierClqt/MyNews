@@ -1,5 +1,7 @@
 package com.cliquet.gautier.mynews.Utils;
 
+import androidx.annotation.NonNull;
+
 import com.cliquet.gautier.mynews.Models.PojoCommon.PojoMaster;
 
 import java.io.IOException;
@@ -24,8 +26,9 @@ public interface NYtimesService {
     //add api-key to every url
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .addInterceptor(new Interceptor() {
+                @NonNull
                 @Override
-                public Response intercept(Chain chain) throws IOException {
+                public Response intercept(@NonNull Chain chain) throws IOException {
                     Request original = chain.request();
                     HttpUrl httpUrl = original.url();
 
