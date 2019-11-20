@@ -39,4 +39,6 @@
     <string name="no_new_article">Il n\'y a pas de nouveaux articles, peut-être plus tard.</string>
     <string name="one_new_article">Il y a un nouvel article, lisez le!</string>
     <string name="x_new_articles">Il y a  %1$d  nouveaux articles, lisez-les!</string>
+    <string name="no_category">Au moin un mot-clé doit être écrit</string>
+    <string name="no_keyword">Au moins une catégorie doit être cochée</string>
 </resources>

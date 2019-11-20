@@ -176,29 +176,19 @@ public class Utils {
         return jsonQueries;
     }
 
-//    public boolean checkKeywordAndCategory() {
-//        boolean boolKeyword;
-//        boolean boolCategory;
-//
-//        if (termsEdittext.getText().toString().equals("")) {
-//            mandatoryKeywordTextview.setVisibility(View.VISIBLE);
-//            boolKeyword = false;
-//        } else {
-//            boolKeyword = true;
-//        }
-//        if (mListIdCheckboxes.size() == 0) {
-//            mandatoryCategoryTextview.setVisibility(View.VISIBLE);
-//            boolCategory = false;
-//        } else {
-//            boolCategory = true;
-//        }
-//
-//        if (boolKeyword && boolCategory) {
-//            mBoolKeywordCategory = true;
-//        } else {
-//            mBoolKeywordCategory = false;
-//        }
-//
-//        return boolean;
-//    }
+    public boolean checkKeywordAndCategory(String keyword, int category) {
+        boolean mBoolKeywordCategory;
+
+        mBoolKeywordCategory = !keyword.equals("") && category != 0;
+
+        return mBoolKeywordCategory;
+    }
+
+    public boolean checkKeyword(String keyword) {
+        return !keyword.equals("");
+    }
+
+    public boolean checkCategory(int category) {
+        return category != 0;
+    }
 }

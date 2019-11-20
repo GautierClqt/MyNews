@@ -61,4 +61,8 @@
     <string name="one_new_article">There is 1 new article, check it!</string>
     <string name="x_new_articles">There are " %1$d " new articles, check them!</string>
 
+    <!-- mandatory keyword and category texts -->
+    <string name="no_keyword">At least one keyword must be entered</string>
+    <string name="no_category">At least one category must be checked</string>
+
 </resources>

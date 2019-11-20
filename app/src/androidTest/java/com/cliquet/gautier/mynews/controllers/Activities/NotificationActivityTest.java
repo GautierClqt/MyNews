@@ -26,6 +26,8 @@ import static android.content.Context.MODE_PRIVATE;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -104,7 +106,7 @@ public class NotificationActivityTest {
 
     //
     @Test
-    public void testCheckboxNotCheckedIfSwitchIsFalse() throws Exception {
+    public void testCheckboxNotCheckedIfSwitchIsFalse() {
         int id = R.id.activity_search_articles_arts_checkbox;
 
         openNotificationActivity();
@@ -116,20 +118,25 @@ public class NotificationActivityTest {
         onView(withId(id)).check(matches(isNotChecked()));
     }
 
-    //once the switch is on true position, all other views become unable
     @Test
-    public void testViewsNotEnabledWhenSwitchIsTrue() throws Exception {
+    public void testClickOnSwitchWithoutValidateKeywordAndCategory() {
         openNotificationActivity();
         clickOnSwitch(R.id.activity_search_articles_switch);
 
-        onView(withId(R.id.activity_search_articles_switch)).check(matches(isChecked()));
-        onView(withId(R.id.activity_search_articles_arts_checkbox)).check(matches(not(isEnabled())));
-        onView(withId(R.id.activity_search_articles_terms_edittext)).check(matches(not(isEnabled())));
+        onView(withId(R.id.activity_search_articles_switch)).check(matches(not(isChecked())));
+        onView(withId(R.id.activity_search_articles_arts_checkbox)).check(matches(isEnabled()));
+        onView(withId(R.id.activity_search_articles_terms_edittext)).check(matches(isEnabled()));
+        onView(withId(R.id.activity_activity_selection_query_mandatory_checkbox_textview)).check(matches(isDisplayed()));
+        onView(withId(R.id.activity_activity_selection_query_mandatory_keyword_textview)).check(matches(isDisplayed()));
     }
+
+
 
     @Test
     public void testViewsStateAreSavedWhenSwitchIsTrue() {
         openNotificationActivity();
+
+        onView(allOf(withId(R.id.activity_search_articles_terms_edittext))).perform(replaceText("test"), closeSoftKeyboard());
 
         clickOnCheckbox(R.id.activity_search_articles_business_checkbox);
         clickOnCheckbox(R.id.activity_search_articles_travel_checkbox);

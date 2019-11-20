@@ -279,23 +279,17 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 mEndDate = utils.notificationEndDate();
             }
             if (idView == searchButton.getId()) {
-                checkKeywordAndCategory();
-                if(mBoolKeywordCategory) {
-                    validateSearchPreferences();
-                }
+                checkAndValidateSearchPreferences();
             }
             else if (idView == switchView.getId()) {
                 AlarmStartStop alarm = new AlarmStartStop();
+                checkAndValidateSearchPreferences();
                 mBoolSwitch = switchView.isChecked();
                 preferences.edit().putBoolean("mBoolSwitch", mBoolSwitch).apply();
 
                 if(mBoolSwitch) {
                     trueBoolSwitch();
                     alarm.startAlarm(this);
-                    checkKeywordAndCategory();
-                    if(mBoolKeywordCategory) {
-                        validateSearchPreferences();
-                    }
                 }
                 else {
                     falseBoolSwitch();
@@ -305,32 +299,29 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         }
     }
 
-    private void checkKeywordAndCategory() {
-        boolean boolKeyword;
-        boolean boolCategory;
-
-        if (termsEdittext.getText().toString().equals("")) {
-            mandatoryKeywordTextview.setVisibility(View.VISIBLE);
-            boolKeyword = false;
-        }
-        else{
-            boolKeyword = true;
-        }
-        if(mListIdCheckboxes.size() == 0) {
-            mandatoryCategoryTextview.setVisibility(View.VISIBLE);
-            boolCategory = false;
-        }
-        else{
-            boolCategory = true;
-        }
-
-        if(boolKeyword && boolCategory){
-            mBoolKeywordCategory = true;
+    //check if at least one keyword is entered and one checkbox is check then proceed
+    private void checkAndValidateSearchPreferences() {
+        if(!utils.checkKeyword(termsEdittext.getText().toString()) || !utils.checkCategory(mListIdCheckboxes.size())) {
+            if (!utils.checkKeyword(termsEdittext.getText().toString())) {
+                mandatoryKeywordTextview.setVisibility(View.VISIBLE);
+                switchView.setChecked(false);
+            }
+            else {
+                mandatoryKeywordTextview.setVisibility(View.GONE);
+            }
+            if (!utils.checkCategory(mListIdCheckboxes.size())) {
+                mandatoryCategoryTextview.setVisibility(View.VISIBLE);
+                switchView.setChecked(false);
+            }
+            else{
+                mandatoryCategoryTextview.setVisibility(View.GONE);
+            }
         }
         else {
-            mBoolKeywordCategory = false;
+            mandatoryKeywordTextview.setVisibility(View.GONE);
+            mandatoryCategoryTextview.setVisibility(View.GONE);
+            validateSearchPreferences();
         }
-
     }
 
     private void initViews() {
