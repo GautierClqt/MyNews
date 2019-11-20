@@ -1,8 +1,5 @@
 package com.cliquet.gautier.mynews.Models;
 
-import android.content.res.Resources;
-import com.cliquet.gautier.mynews.R;
-
 public class Notif{
 
     private String notifString;
@@ -10,10 +7,10 @@ public class Notif{
     public String firstTimeUse(int responseSize) {
 
         if(responseSize == 0) {
-            notifString = Resources.getSystem().getString(R.string.no_new_article);
+            notifString = "There is no new article, maybe later!";
         }
         else if(responseSize > 0) {
-            notifString = Resources.getSystem().getString(R.string.new_articles);
+            notifString = "There is new articles, check them out!";
         }
 
         return notifString;
@@ -22,13 +19,13 @@ public class Notif{
     public String dailyUse(int nbrArticles) {
 
         if(nbrArticles == 0){
-            notifString = Resources.getSystem().getString(R.string.no_new_article);
+            notifString = "There is no new article, maybe later!";
         }
         else if(nbrArticles == 1) {
-            notifString = Resources.getSystem().getString(R.string.one_new_article);
+            notifString = "There is 1 new article, check it!";
         }
         else if(nbrArticles > 1) {
-            notifString = Resources.getSystem().getString(R.string.x_new_articles, nbrArticles);
+            notifString = "There are "+ nbrArticles +" new articles, check them!";
         }
 
         return notifString;

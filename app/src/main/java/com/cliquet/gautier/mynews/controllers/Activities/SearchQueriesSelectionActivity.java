@@ -57,6 +57,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     TextView switchTextView;
     Switch switchView;
 
+    //view: textviews for mandatory keyword and checkbox
+    TextView mandatoryKeywordTextview;
+    TextView mandatoryCategoryTextview;
+
     //variables for query parameters
     String mBeginDate = "";
     String mEndDate = "";
@@ -78,6 +82,7 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     String mJsonBeginDate;
     String mJsonEndDate;
     boolean mBoolSwitch;
+    boolean mBoolKeywordCategory;
 
     SharedPreferences preferences;
 
@@ -128,10 +133,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     }
 
     //choose dates in Edittexts via DatePickers
-    private void setDateInEdittext(final View v) {
+    private void setDateInEdittext(final View view) {
 
         //get the correct Edittext
-        int idEdittext = v.getId();
+        int idEdittext = view.getId();
         final EditText dateEditText = findViewById(idEdittext);
         Calendar minCalendar = null;
         Calendar maxCalendar = Calendar.getInstance();
@@ -139,29 +144,29 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         //select begin and end dates
         mDatePicker = new DatePickerDialog(SearchQueriesSelectionActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int month, int day) {
                 String strDateConcatenation;
-                strDateConcatenation = utils.dateStringLayoutFormat(year, month, dayOfMonth);
-                if(v == findViewById(R.id.activity_search_articles_begindate_edittext)) {
-                    mBeginDate = utils.dateStringFormat(year, month, dayOfMonth);
-                    saveMinDate(year, month, dayOfMonth);
+                strDateConcatenation = utils.dateStringLayoutFormat(year, month, day);
+                if(view == findViewById(R.id.activity_search_articles_begindate_edittext)) {
+                    mBeginDate = utils.dateStringFormat(year, month, day);
+                    saveMinDate(year, month, day);
                 }
                 else {
-                    mEndDate = utils.dateStringFormat(year, month, dayOfMonth);
-                    saveMaxDate(year, month, dayOfMonth);
+                    mEndDate = utils.dateStringFormat(year, month, day);
+                    saveMaxDate(year, month, day);
                 }
                 dateEditText.setText(strDateConcatenation);
             }
         }, maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
 
         //prevent the user to set the begin date lower than the end date end vice-versa
-        if(v == findViewById(R.id.activity_search_articles_enddate_edittext)) {
+        if(view == findViewById(R.id.activity_search_articles_enddate_edittext)) {
             if(!mBeginDate.equals("")) {
                 minCalendar = utils.setMinMaxDate(mMinYear, mMinMonth, mMinDay);
             }
             maxCalendar = utils.setMinMaxDate(maxCalendar.get(Calendar.YEAR), maxCalendar.get(Calendar.MONTH), maxCalendar.get(Calendar.DAY_OF_MONTH));
         }
-        else if(v == findViewById(R.id.activity_search_articles_begindate_edittext) && !mEndDate.equals("")) {
+        else if(view == findViewById(R.id.activity_search_articles_begindate_edittext) && !mEndDate.equals("")) {
             maxCalendar = utils.setMinMaxDate(mMaxYear, mMaxMonth, mMaxDay);
         }
 
@@ -210,8 +215,6 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         mJsonCheckboxState = gson.toJson(mListIdCheckboxes);
         mJsonBeginDate = gson.toJson(mBeginDate);
         mJsonEndDate = gson.toJson(mEndDate);
-
-        int TEST = 0;
 
         switch(mCalledActivity) {
             case 0:
@@ -276,7 +279,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 mEndDate = utils.notificationEndDate();
             }
             if (idView == searchButton.getId()) {
-                validateSearchPreferences();
+                checkKeywordAndCategory();
+                if(mBoolKeywordCategory) {
+                    validateSearchPreferences();
+                }
             }
             else if (idView == switchView.getId()) {
                 AlarmStartStop alarm = new AlarmStartStop();
@@ -286,7 +292,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 if(mBoolSwitch) {
                     trueBoolSwitch();
                     alarm.startAlarm(this);
-                    validateSearchPreferences();
+                    checkKeywordAndCategory();
+                    if(mBoolKeywordCategory) {
+                        validateSearchPreferences();
+                    }
                 }
                 else {
                     falseBoolSwitch();
@@ -294,6 +303,34 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
                 }
             }
         }
+    }
+
+    private void checkKeywordAndCategory() {
+        boolean boolKeyword;
+        boolean boolCategory;
+
+        if (termsEdittext.getText().toString().equals("")) {
+            mandatoryKeywordTextview.setVisibility(View.VISIBLE);
+            boolKeyword = false;
+        }
+        else{
+            boolKeyword = true;
+        }
+        if(mListIdCheckboxes.size() == 0) {
+            mandatoryCategoryTextview.setVisibility(View.VISIBLE);
+            boolCategory = false;
+        }
+        else{
+            boolCategory = true;
+        }
+
+        if(boolKeyword && boolCategory){
+            mBoolKeywordCategory = true;
+        }
+        else {
+            mBoolKeywordCategory = false;
+        }
+
     }
 
     private void initViews() {
@@ -320,6 +357,10 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
         //bindview: switch
         switchView = findViewById(R.id.activity_search_articles_switch);
         switchTextView = findViewById(R.id.activity_search_articles_switch_textview);
+
+        //bindview: mandatory textview
+        mandatoryKeywordTextview = findViewById(R.id.activity_activity_selection_query_mandatory_keyword_textview);
+        mandatoryCategoryTextview = findViewById(R.id.activity_activity_selection_query_mandatory_checkbox_textview);
     }
 
     private void findViewById() {
@@ -361,6 +402,8 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     }
 
     private void setupSearchView() {
+        mandatoryCategoryTextview.setVisibility(View.GONE);
+        mandatoryKeywordTextview.setVisibility(View.GONE);
         switchTextView.setVisibility(View.GONE);
         switchView.setVisibility(View.GONE);
         searchButton.setVisibility(View.VISIBLE);
@@ -369,6 +412,8 @@ public class SearchQueriesSelectionActivity extends AppCompatActivity implements
     }
 
     private void setupNotificationsViews() {
+        mandatoryCategoryTextview.setVisibility(View.GONE);
+        mandatoryKeywordTextview.setVisibility(View.GONE);
         switchTextView.setVisibility(View.VISIBLE);
         switchView.setVisibility(View.VISIBLE);
         searchButton.setVisibility(View.GONE);

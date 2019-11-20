@@ -23,6 +23,13 @@
             android:layout_marginEnd="20dp"
             android:hint="@string/searching_terms" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/activity_activity_selection_query_mandatory_keyword_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="At least one keyword must be entered"/>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,6 +116,13 @@
                     android:text="@string/checkbox_travel" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/activity_activity_selection_query_mandatory_checkbox_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="At least one category must be checked"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -175,4 +175,30 @@ public class Utils {
 
         return jsonQueries;
     }
+
+//    public boolean checkKeywordAndCategory() {
+//        boolean boolKeyword;
+//        boolean boolCategory;
+//
+//        if (termsEdittext.getText().toString().equals("")) {
+//            mandatoryKeywordTextview.setVisibility(View.VISIBLE);
+//            boolKeyword = false;
+//        } else {
+//            boolKeyword = true;
+//        }
+//        if (mListIdCheckboxes.size() == 0) {
+//            mandatoryCategoryTextview.setVisibility(View.VISIBLE);
+//            boolCategory = false;
+//        } else {
+//            boolCategory = true;
+//        }
+//
+//        if (boolKeyword && boolCategory) {
+//            mBoolKeywordCategory = true;
+//        } else {
+//            mBoolKeywordCategory = false;
+//        }
+//
+//        return boolean;
+//    }
 }
